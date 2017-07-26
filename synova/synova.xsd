@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.0">
+	<xs:element name="Module" type="Module"/>
+	<xs:complexType name="Module">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:element name="StrategicPlan" type="StrategicPlan"/>
+	<xs:complexType name="StrategicPlan">
+		<xs:complexContent>
+			<xs:extension base="Plan">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Plan" type="Plan"/>
+	<xs:complexType name="Plan">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:element name="BudgetPlan" type="BudgetPlan"/>
+	<xs:complexType name="BudgetPlan">
+		<xs:complexContent>
+			<xs:extension base="Plan">
+				<xs:sequence>
+					<xs:element name="StrategicObjective" type="StrategicObjective" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="OperationalPlan" type="OperationalPlan"/>
+	<xs:complexType name="OperationalPlan">
+		<xs:complexContent>
+			<xs:extension base="Plan">
+				<xs:sequence>
+					<xs:element name="StrategicObjective" type="StrategicObjective" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="ReportingModel" type="ReportingModel"/>
+	<xs:complexType name="ReportingModel">
+		<xs:complexContent>
+			<xs:extension base="Module">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="PlanningModel" type="PlanningModel"/>
+	<xs:complexType name="PlanningModel">
+		<xs:complexContent>
+			<xs:extension base="Module">
+				<xs:sequence>
+					<xs:element name="Plan" type="Plan" minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="SourceSystem" type="SourceSystem"/>
+	<xs:complexType name="SourceSystem">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="ComplianceModel" type="ComplianceModel"/>
+	<xs:complexType name="ComplianceModel">
+		<xs:complexContent>
+			<xs:extension base="Module">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="PmdModel" type="PmdModel"/>
+	<xs:complexType name="PmdModel">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:element name="PerformanceManagementModel" type="PerformanceManagementModel"/>
+	<xs:complexType name="PerformanceManagementModel">
+		<xs:complexContent>
+			<xs:extension base="Module">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="PerformanceDevelopmentModel" type="PerformanceDevelopmentModel"/>
+	<xs:complexType name="PerformanceDevelopmentModel">
+		<xs:complexContent>
+			<xs:extension base="Module">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="AnnualPerfomancePlan" type="AnnualPerfomancePlan"/>
+	<xs:complexType name="AnnualPerfomancePlan">
+		<xs:complexContent>
+			<xs:extension base="Plan">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="DemandPlan" type="DemandPlan"/>
+	<xs:complexType name="DemandPlan">
+		<xs:complexContent>
+			<xs:extension base="Plan">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="SourceSpecificMasterList" type="SourceSpecificMasterList"/>
+	<xs:complexType name="SourceSpecificMasterList">
+		<xs:sequence>
+			<xs:element name="sourceSystem" type="SourceSystem" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Programme" type="Programme"/>
+	<xs:complexType name="Programme">
+		<xs:sequence>
+			<xs:element name="StrategicObjective" type="StrategicObjective" minOccurs="1" maxOccurs="1"/>
+			<xs:element ref="PerformanceIndicator" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="StrategicObjective" type="StrategicObjective"/>
+	<xs:complexType name="StrategicObjective">
+		<xs:sequence>
+			<xs:element name="Indicator" type="TechnicalIndicator" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element name="Project" type="Project" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="StrategicObjectiveTarget" type="StrategicObjectiveTarget" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="StrategicGoal" type="StrategicGoal"/>
+	<xs:complexType name="StrategicGoal">
+		<xs:sequence>
+			<xs:element name="justification" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="link" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="statement" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="StrategicObjective" type="StrategicObjective" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element name="Indicator" type="TechnicalIndicator" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element name="Department" type="Department" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="TechnicalIndicator" type="TechnicalIndicator"/>
+	<xs:complexType name="TechnicalIndicator">
+		<xs:sequence>
+			<xs:element name="calculationMethod" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="dataLimitations " type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="definition " type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="indicatorResponsibility " type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Purpose" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="source" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="IndicatorEnum" type="IndicatorEnum" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="indicatorType" type="IndicatorEnum" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="calculationType" type="CalculationTypeEnum" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="reportingCycle" type="ReportingCycleEnum" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="newIndicatorEnum" type="NewIndicatorEnum" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="desiredPerformanceEnum" type="DesiredPerformanceEnum" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="TechnicalIndicatorTarget" type="TechnicalIndicatorTarget" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="IndicatorEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="INPUTS"/>
+			<xs:enumeration value="ACTIVITIES"/>
+			<xs:enumeration value="OUTPUTS"/>
+			<xs:enumeration value="OUTCOMES"/>
+			<xs:enumeration value="IMPACT"/>
+			<xs:enumeration value="EFFICIENCY"/>
+			<xs:enumeration value="ECONOMY"/>
+			<xs:enumeration value="EQUITY"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CalculationTypeEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CUMMULATIVE"/>
+			<xs:enumeration value="NON_CUMMULAITIVE"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ReportingCycleEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="QUARTERLY"/>
+			<xs:enumeration value="ANNAUALY"/>
+			<xs:enumeration value="LONGER_TERM"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NewIndicatorEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NEW"/>
+			<xs:enumeration value="CHANGED"/>
+			<xs:enumeration value="CONITNUES"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DesiredPerformanceEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="HIGHER"/>
+			<xs:enumeration value="LOWER"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="ResponsePayload" type="ResponsePayload"/>
+	<xs:complexType name="ResponsePayload">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:element name="Department" type="Department"/>
+	<xs:complexType name="Department">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:simpleType name="PeriodEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MONTHLY"/>
+			<xs:enumeration value="QUARTERLY"/>
+			<xs:enumeration value="YEARLY"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="AuditEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="INTERNAL"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Report" type="Report"/>
+	<xs:complexType name="Report">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:element name="RiskProgressReport" type="RiskProgressReport"/>
+	<xs:complexType name="RiskProgressReport">
+		<xs:complexContent>
+			<xs:extension base="Report">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="PerformanceIndicator" type="xs:string"/>
+	<xs:element name="PerformanceIndicator" type="PerformanceIndicator"/>
+	<xs:complexType name="PerformanceIndicator">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:element name="Target" type="Target"/>
+	<xs:complexType name="Target">
+		<xs:sequence>
+			<xs:element name="audited" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="TargetEnum" type="TargetEnum" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Period" type="Period" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="TargetTense" type="TargetTense" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="TargetEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ANNUAL"/>
+			<xs:enumeration value="LONG_TERM"/>
+			<xs:enumeration value="MEDIUM_TERM"/>
+			<xs:enumeration value="MONTHLY"/>
+			<xs:enumeration value="QUARTERLY"/>
+			<xs:enumeration value="SHORT_TERM"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="QuarterlyEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Q1"/>
+			<xs:enumeration value="Q2"/>
+			<xs:enumeration value="Q3"/>
+			<xs:enumeration value="Q4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="Project" type="Project"/>
+	<xs:complexType name="Project">
+		<xs:sequence>
+			<xs:element name="Activity" type="Activity" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Budget" type="Budget" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Activity" type="Activity"/>
+	<xs:complexType name="Activity">
+		<xs:sequence>
+			<xs:element name="Cost" type="Cost" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="Resource" type="Resource" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Cost" type="Cost"/>
+	<xs:complexType name="Cost">
+		<xs:sequence>
+			<xs:element name="QuarterlyEnum" type="QuarterlyEnum" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="Resource" type="Resource"/>
+	<xs:complexType name="Resource">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:element name="Budget" type="Budget"/>
+	<xs:complexType name="Budget">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:element name="ProcurementPlan" type="ProcurementPlan"/>
+	<xs:complexType name="ProcurementPlan">
+		<xs:complexContent>
+			<xs:extension base="Plan">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="Period" type="Period"/>
+	<xs:complexType name="Period">
+		<xs:sequence>
+			<xs:element name="endDate" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="startDate" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="TargetTense">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FUTURE"/>
+			<xs:enumeration value="PAST"/>
+			<xs:enumeration value="PRESENT"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="StrategicObjectiveTarget" type="StrategicObjectiveTarget"/>
+	<xs:complexType name="StrategicObjectiveTarget">
+		<xs:complexContent>
+			<xs:extension base="Target">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="TechnicalIndicatorTarget" type="TechnicalIndicatorTarget"/>
+	<xs:complexType name="TechnicalIndicatorTarget">
+		<xs:complexContent>
+			<xs:extension base="Target">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>
