@@ -1,0 +1,1 @@
+https://github.com/apache/tomee/tree/trunk/examples/rest-example
