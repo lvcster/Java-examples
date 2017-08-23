@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <groupId>za.co.synova</groupId>
+    <artifactId>pmf</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+    <name>Performance Management Framework</name>
+    <modules>
+        <module>pmf-common</module>        
+        <module>pmf-persistence</module>        
+        <module>pmf-services</module>                        
+        <module>pmf-auth</module>
+        <module>pmf-web</module>        
+        <module>pmf-client</module>
+    </modules>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <distributionManagement>
+        <!--repository>
+            <id>nexus-release</id>
+            <name>Investec Internal Nexus Release Repository</name>
+            <url>dav:http://10.42.80.205:8081/nexus/content/repositories/releases</url>
+            <uniqueVersion>false</uniqueVersion>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshot</id>
+            <name>Investec Internal Nexus Snapshot Repository</name>
+            <url>dav:http://10.42.80.205:8081/nexus/content/repositories/snapshots</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository-->
+    </distributionManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>javaee</groupId>
+                <artifactId>javaee</artifactId>
+                <version>6</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <fork>true</fork>
+                    <meminitial>768m</meminitial>
+                    <maxmem>768m</maxmem>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5</version>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
