@@ -1,2 +1,6 @@
 https://github.com/apache/tomee/tree/trunk/examples/rest-example
 http://www.concretepage.com/angular-2/angular-2-http-post-example#observable
+
+
+XMLHttpRequest cannot load http://localhost:8080/pmf-web/service/message. Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:4200' is therefore not allowed access.
+create-strategy.component.ts:159 ERROR: Response with status: 0  for URL: null
