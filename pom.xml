@@ -8,7 +8,8 @@
     <packaging>pom</packaging>
     <name>Performance Management Framework</name>
     <modules>
-        <module>pmf-common</module>        
+        <module>pmf-common</module>
+        <module>pmf-entity</module>        
         <module>pmf-persistence</module>        
         <module>pmf-services</module>                        
         <module>pmf-auth</module>
