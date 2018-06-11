@@ -1,0 +1,28 @@
+MLADEN THE BEAST
+Volatility Step Channel(And other volatilities - Nice thread afterall)
+https://www.mql5.com/en/forum/173574/page1005
+
+Volatility indicators for MT4 - page 9
+https://www.mql5.com/en/forum/173380/page9
+
+DT Oscillator - indicator for MetaTrader 5
+CHANGE TO MT4 https://www.mql5.com/en/code/16735
+
+
+============REPAINTERS==============================
+Volatility Step Channel - indicator for MetaTrader 4
+https://www.mql5.com/en/code/13820 
+
+Tango Line - indicator for MetaTrader 4
+https://www.mql5.com/en/code/13430 / https://www.mql5.com/en/code/13615
+
+Bounce Strength Indicator 2.0 with Tango Line - indicator for MetaTrader 4
+https://www.mql5.com/en/code/13474
+============REPAINTERs==============================
+
+NEMA
+https://www.mql5.com/en/forum/186064/page44
+https://www.mql5.com/en/forum/186064/page85
+
+Adaptive lookback indicators - page 100
+https://www.mql5.com/en/forum/179723/page100
