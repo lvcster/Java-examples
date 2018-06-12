@@ -1,9 +1,52 @@
+Dynamic zone bb stops line => NB NB NB
+https://www.mql5.com/en/forum/179723/page100
+
+Demarker 0.25 Attractive
+https://www.mql5.com/en/forum/179723/page48
+
+dynamic_zone_jurik-1.mq4
+https://www.mql5.com/en/forum/179876/page7
+
+PolyFit Bands
+https://www.mql5.com/en/forum/179723/page18
+
+Polyfit and Centred TMA
+https://www.mql5.com/en/forum/179723/page38
+
+CTMA Price Zone
+https://www.mql5.com/en/forum/179723/page39
+
+Hull Envelopes
+https://www.mql5.com/en/forum/179723/page29
+
 MLADEN THE BEAST
 Volatility Step Channel(And other volatilities - Nice thread afterall)
 https://www.mql5.com/en/forum/173574/page1005
 
+
 Volatility indicators for MT4 - page 9
 https://www.mql5.com/en/forum/173380/page9
+
+GANN HL
+https://www.mql5.com/en/forum/179723/page37
+
+NEMA
+https://www.mql5.com/en/forum/186064/page44
+https://www.mql5.com/en/forum/186064/page85
+STEPPED https://forex-station.com/viewtopic.php?t=8414844&p=1295375468#p1295375468
+(MT5 Version: https://www.mql5.com/en/forum/180596/page60) 
+
+T3
+https://www.mql5.com/en/forum/179723/page34
+
+Mogale Bands
+https://www.mql5.com/en/forum/179723/page24
+
+TMA Centered
+https://www.mql5.com/en/forum/179723
+https://www.mql5.com/en/forum/179723/page12
+https://www.mql5.com/en/forum/179723/page3
+https://www.mql5.com/en/forum/179723/page5
 
 DT Oscillator - indicator for MetaTrader 5
 CHANGE TO MT4 https://www.mql5.com/en/code/16735
@@ -20,9 +63,7 @@ Bounce Strength Indicator 2.0 with Tango Line - indicator for MetaTrader 4
 https://www.mql5.com/en/code/13474
 ============REPAINTERs==============================
 
-NEMA
-https://www.mql5.com/en/forum/186064/page44
-https://www.mql5.com/en/forum/186064/page85
 
-Adaptive lookback indicators - page 100
-https://www.mql5.com/en/forum/179723/page100
+
+SYSTEM
+https://www.mql5.com/en/forum/176294
