@@ -1,8 +1,44 @@
+Dynamic zone bb stops line => NB NB NB
+https://www.mql5.com/en/forum/179723/page100
+
+SuperTrends
+https://forex-station.com/viewtopic.php?f=578480&t=8426134&start=30 
+https://forex-station.com/viewtopic.php?f=578480&t=8426134
+
+Averages - How is it different to the one w/o averages (Convert from MT5 https://www.mql5.com/en/code/16775)
+https://forex-station.com/viewtopic.php?f=578480&t=8426134&start=10 or https://forex-station.com/viewtopic.php?p=1295362946#p1295362946
+
+Triangular moving average
+https://forex-station.com/viewtopic.php?f=578480&t=8423458&start=210
+
+Adapt_atr_channel_dots_nmc
+https://www.mql5.com/en/forum/175037/page737
+
+System
+http://forex-strategies-revealed.com/mt4/supersar-strategy
+
+Adaptive Gann HL - Attractive
+https://www.mql5.com/en/forum/179723/page121
+https://www.mql5.com/en/forum/179723/page122
+
+GANN HL
+https://www.mql5.com/en/forum/179723/page37
+https://www.mql5.com/en/forum/179723/page124
+
+'Super smoothed average' and 'R-squared' and 'tema rsi adaptive - floating levels.ex4' - Shooting start
+https://www.mql5.com/en/forum/179723/page108 and https://www.mql5.com/en/forum/179723/page111 and https://www.mql5.com/en/forum/179723/page122
+
+TEMA Tpl
+https://www.mql5.com/en/forum/179723/page112
+
+Upgraded MA RSI adaptive
+https://www.mql5.com/en/forum/179723/page110
+
 Another bands - Adxvma bands
 https://forex-station.com/viewtopic.php?f=578480&t=8414844&p=1295353046&hilit=adxvma+bands#p1295353046
 
-Dynamic zone bb stops line => NB NB NB
-https://www.mql5.com/en/forum/179723/page100
+ADXm TPL - Looks interesting
+https://www.mql5.com/en/forum/179723/page68 
 
 Demarker 0.25 Attractive
 https://www.mql5.com/en/forum/179723/page48
@@ -26,12 +62,12 @@ MLADEN THE BEAST
 Volatility Step Channel(And other volatilities - Nice thread afterall)
 https://www.mql5.com/en/forum/173574/page1005
 
+Prise Zone 
+https://www.mql5.com/en/forum/179723/page120
+
 
 Volatility indicators for MT4 - page 9
 https://www.mql5.com/en/forum/173380/page9
-
-GANN HL
-https://www.mql5.com/en/forum/179723/page37
 
 NEMA
 https://www.mql5.com/en/forum/186064/page44
@@ -41,6 +77,9 @@ STEPPED https://forex-station.com/viewtopic.php?t=8414844&p=1295375468#p12953754
 
 T3
 https://www.mql5.com/en/forum/179723/page34
+
+MA Channel Ribbon
+https://forex-station.com/viewtopic.php?t=8418142&start=1280
 
 Mogale Bands
 https://www.mql5.com/en/forum/179723/page24
@@ -70,3 +109,5 @@ https://www.mql5.com/en/code/13474
 
 SYSTEM
 https://www.mql5.com/en/forum/176294
+
+Buffer Explorer -> https://www.mql5.com/en/forum/179723/page117
