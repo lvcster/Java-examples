@@ -1,3 +1,86 @@
+Tango Line
+https://www.mql5.com/en/code/13430
+https://www.mql5.com/en/code/13615
+
+https://forex-station.com/download/file.php?id=3320871
+
+Pchannel.mq4
+https://forex-station.com/app.php/attach/file/3320886
+https://asgharfx.com/pchannel-indicator-mt4/
+PChannel Indicator
+Limited Donchian Channel
+https://www.best-metatrader-indicators.com/tag/channel-indicators/
+SSL Channel Chart Alert Indicator
+https://www.best-metatrader-indicators.com/tag/channel-indicators/pages/6/
+Forex Signals
+https://www.best-metatrader-indicators.com/tag/channel-indicators/pages/6/
+MPC Indicator
+https://www.best-metatrader-indicators.com/tag/channel-indicators/pages/6/
+Turtle Channel Indicator
+https://www.best-metatrader-indicators.com/tag/channel-indicators/pages/6/
+Kanal Ant Indicator
+https://www.best-metatrader-indicators.com/tag/channel-indicators/pages/7/
+Gimmebar Indicator
+https://www.best-metatrader-indicators.com/tag/channel-indicators/pages/7/
+Trade Channel Indicator
+https://www.best-metatrader-indicators.com/tag/channel-indicators/pages/7/
+Envelopes Indicator (Env)
+https://www.best-metatrader-indicators.com/tag/channel-indicators/pages/8/
+Keltner Channel Indicator
+https://www.best-metatrader-indicators.com/tag/channel-indicators/pages/8/
+
+Rj_SlidingRange
+https://www.mql5.com/ru/code/10598
+
+MA_Ishimoku_Convert_Channel
+https://www.mql5.com/ru/code/9929
+
+Darvas Boxes (early version)
+https://www.mql5.com/en/forum/174637
+
+Channel breakout basic
+https://www.mql5.com/en/forum/175876
+
+Channel based on the Fibo levels
+https://www.mql5.com/en/code/7160
+
+Price Channel
+https://www.mql5.com/en/code/8044
+
+ForexOFFTrend
+https://www.mql5.com/en/code/9081
+
+Forex Ripper Trading System
+https://www.forexstrategiesresources.com/metatrader-trading-system-ii/254-forex-ripper/
+
+MPC Indicator
+https://www.best-metatrader-indicators.com/mpc-indicator/
+MA Channels
+https://www.best-metatrader-indicators.com/ma-channels/
+CAP Channel 
+https://www.trendfollowingsystem.com/cap-channel-indicator-mt4/
+Kanal Ant Indicator
+https://www.best-metatrader-indicators.com/kanal-ant-indicator/
+
+
+ZigZagOnParabolicchannel in PhD Invest from https://mtdownloads.com/indicators/zigzagonparabolicchannel
+
+Fractal_Levels.mq5
+https://www.mql5.com/en/code/19437
+//FractalChannel_v1.mq4
+https://www.mql5.com/en/code/8319
+KoliErBands_Indi.mq4
+https://www.mql5.com/en/code/9526
+
+KIJUN-SEN + LEVEL
+http://top-indicators.com/kijun-senlevel
+
+SRM
+http://top-indicators.com/srm
+
+https://www.earnforex.com/metatrader-indicators/Channel-Pattern-Detector/
+====
+
 Dynamic zone bb stops line => NB NB NB
 https://www.mql5.com/en/forum/179723/page100
 
