@@ -1,6 +1,24 @@
-http://forexdl.com/labtrend1-v2/
+http://forexdl.com/support-resistance/
+http://forexdl.com/support-and-resistance-levels/
+http://forexdl.com/highest-lowest/
+http://forexdl.com/true-range-envelopes/
+http://forexdl.com/variation-index/
+http://forexdl.com/minmax-bands/
+http://forexdl.com/fine-fractal-channel/
+http://forexdl.com/fractal-levels/
+http://forexdl.com/zigzaghistory/
+http://forexdl.com/range-v2-2/
+http://forexdl.com/linear-regression-indicator/
+http://forexdl.com/lrma-fast-calculation/
+http://forexdl.com/multistrend/
+http://forexdl.com/grfleadingedge/
+http://forexdl.com/indicator-of-equity-and-balance/
+http://forexdl.com/polarized-fractal-efficiency/
+http://forexdl.com/ang-azad-css-cw/
+
+http://forexdl.com/labtrend1-v2/ Donchian Channel
 http://forexdl.com/kijun-sen-and-envelope/
-http://forexdl.com/working-inside-the-channel/
+http://forexdl.com/working-inside-the-channel/ Donchian Channel
 http://forexdl.com/zigzag-indicator-with-extra-features/
 http://forexdl.com/market-flow-analysis-method-mfam-indicator-for-price-action/
 http://forexdl.com/maenv-02b/
@@ -11,3 +29,4 @@ http://forexdl.com/loc-kijun-sen-channel/
 http://forexdl.com/donforex-donchianfibo/
 http://forexdl.com/toptahlil-bollinger-and-atr-bands/
 http://forexdl.com/firebird-hma-i/
+http://forexdl.com/channels-2/
