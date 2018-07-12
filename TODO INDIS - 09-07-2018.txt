@@ -1,3 +1,7 @@
+--TMA BANDS tpl from MrTools
+https://www.mql5.com/en/forum/179876/page29#comment_4428122
+--TMA BANDS tpl from MrTools
+
 --Start Case study for MT5-> MT4 Conversion, Jurik smoothing, diff between Jurik smoothing and Jurik MA--
 https://www.mql5.com/en/code/21333
 https://www.mql5.com/en/code/20620: NB Channel Candidate
