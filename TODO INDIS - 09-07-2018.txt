@@ -1,3 +1,18 @@
+Polyfit: PA, LB, Normal
+https://www.mql5.com/en/forum/179723/page18
+Polyfit MA, we might have some interesting here: https://www.mql5.com/en/forum/179723/page21
+
+Hull Parabolic pa adaptive using it in envelopes
+https://www.mql5.com/en/forum/179723/page29
+
+T3 Adaptive MA - Might be of interest
+https://www.mql5.com/en/forum/179723/page34
+
+TMA Price Channel
+https://www.mql5.com/en/forum/179723/page23
+Mogale Bands
+https://www.mql5.com/en/forum/179723/page26
+
 OnChart TDI - MLADEN
 https://www.mql5.com/en/forum/179807/page90
 
