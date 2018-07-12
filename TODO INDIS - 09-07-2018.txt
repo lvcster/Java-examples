@@ -1,3 +1,5 @@
+GRAB hl_lr_band.mq4 https://www.mql5.com/en/forum/173347/page3 for quick test
+
 OMA CHANNEL/ENV(Same as one in line 5?)
 https://www.mql5.com/en/forum/179662/page17
 
