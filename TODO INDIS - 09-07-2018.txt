@@ -1,4 +1,4 @@
-OMA CHANNEL(Same as one in line 5?)
+OMA CHANNEL/ENV(Same as one in line 5?)
 https://www.mql5.com/en/forum/179662/page17
 
 OMA/AVERAGE CHANNEL(No SOURCE) - Test
@@ -42,6 +42,12 @@ https://www.mql5.com/en/forum/179723/page26
 
 OnChart TDI - MLADEN
 https://www.mql5.com/en/forum/179807/page90
+
+
+--CASE STUDY NMA APPLICATION
+This e.g. uses RSI, regular vs NMA
+https://www.mql5.com/en/forum/181228
+--CASE STUDY NMA APPLICATION
 
 --TMA BANDS tpl from MrTools
 https://www.mql5.com/en/forum/179876/page29#comment_4428122
