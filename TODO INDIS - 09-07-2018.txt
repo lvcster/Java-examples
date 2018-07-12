@@ -56,11 +56,13 @@ https://www.mql5.com/en/forum/179876/page29#comment_4428122
   https://www.mql5.com/en/forum/180002/page2 - DStoch Channel
 --TMA BANDS tpl from MrTools
 
-https://www.forexfactory.com/showthread.php?t=696822
-http://newdigital-world.com/trading-tools/7539-increase-volume-mt4-candle.html
-https://www.mql5.com/en/forum/180002/page19
-https://www.mql5.com/en/forum/180002/page14
-https://www.forexfactory.com/showthread.php?t=696822
+https://www.forexfactory.com/showthread.php?t=696822 DONE
+http://newdigital-world.com/trading-tools/7539-increase-volume-mt4-candle.html DONE
+
+https://www.mql5.com/en/forum/180002/page19 Downloaded, Dependency
+
+https://www.mql5.com/en/forum/180002/page14 DONE. jma_bands_sw.gif not working, jma_envelopes.mq4 incorporated and Great
+
 https://www.mql5.com/en/forum/180002/page11
 HiLow - 
 Jurik smooth histo mtf.mq4 => https://www.mql5.com/en/forum/181297/page109
