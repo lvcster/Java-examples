@@ -1,3 +1,10 @@
+OMA CHANNEL(Same as one in line 5?)
+https://www.mql5.com/en/forum/179662/page17
+
+OMA/AVERAGE CHANNEL(No SOURCE) - Test
+https://www.mql5.com/en/forum/179662/page25
+
+
 Zero lag tema - version 4
 https://www.mql5.com/en/forum/178615/page9, Latest plus MT Template, Diff TEMAs, + "That is why there are differences. As of price pre-smoothing in averages : that would be doubling the job (since averages are smoothing the values already. I do not plan to add price pre-smoothing to averages (I believe that much better job is done by using double smoothing)" - Theory
 https://www.mql5.com/en/forum/178615/page7
