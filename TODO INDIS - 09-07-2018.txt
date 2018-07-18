@@ -1,3 +1,8 @@
+DZ Jurik
+https://www.mql5.com/en/forum/179876/page35
+DZ PA
+https://www.mql5.com/en/forum/179807/page496
+
 JMA Channel and dfc_next_channel.mq4 
 and https://www.mql5.com/en/forum/179807/page439 
 and www_gruchaaveragev3.mq4 from https://www.mql5.com/en/forum/179807/page445
@@ -14,10 +19,8 @@ https://www.mql5.com/en/forum/180648/page911
 https://www.mql5.com/en/forum/185239
 
 CATERPILLAR BANDS
+https://www.mql5.com/en/forum/179807/page449
 https://www.forexfactory.com/showthread.php?p=4236281
-
-DZ Jurik
-https://www.mql5.com/en/forum/179876/page35
 
 Gann HiLo averages good? If so look for source
 https://www.mql5.com/en/forum/179807/page441
