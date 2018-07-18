@@ -1,8 +1,13 @@
+https://www.mql5.com/en/forum/172923/page20
+https://www.mql5.com/en/forum/172923/page23
+https://www.mql5.com/en/forum/172923/page26
+https://www.mql5.com/en/forum/172923/page29
+Zero Lag HMA 
+https://www.mql5.com/en/forum/175037/page781
+
 https://www.mql5.com/ru/code/10598
 https://www.mql5.com/ru/code/7540
 
-Zero Lag HMA 
-https://www.mql5.com/en/forum/175037/page781
 
 SSA EndPointed?
 https://forex-station.com/app.php/attach/file/3308357
@@ -193,5 +198,8 @@ Digital Filters (basic explanation) - https://www.mql5.com/en/forum/172934/page6
 Digital Filters Indis - https://www.mql5.com/en/forum/172923
 
 ELITE INDIS  -https://www.mql5.com/en/forum/175037
+
+PDF
+https://c.mql5.com/forextsd/forum/209/A%20Simplified%20Approach%20to%20Understanding%20the%20Kalman%20Filter%20Technique.pdf
 
 http://traders.com/Documentation/FEEDbk_docs/TradersTips/TradersTips.html
