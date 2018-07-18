@@ -1,3 +1,6 @@
+T3 high-low activator mtf 1.01 Histo - BANDS?
+https://forex-station.com/viewtopic.php?p=1295375218#p1295375218
+
 GRAB hl_lr_band.mq4 https://www.mql5.com/en/forum/173347/page3 for quick test. Downloaded, Not working - ReDo
 
 OMA CHANNEL/ENV(Same as one in line 5?)
@@ -44,6 +47,10 @@ https://www.mql5.com/en/forum/179723/page26
 OnChart TDI - MLADEN
 https://www.mql5.com/en/forum/179807/page90
 
+--CASE STUDY: ONCHART TO HISTO--
+USES 'T3 high-low activator mtf 1.01 Histo.mq4'
+https://forex-station.com/viewtopic.php?p=1295375218#p1295375218
+--CASE STUDY: ONCHART TO HISTO--
 
 --CASE STUDY NMA APPLICATION
 This e.g. uses RSI, regular vs NMA
