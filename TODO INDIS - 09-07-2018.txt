@@ -190,6 +190,7 @@ http://forexdl.com/channels-2/
 
 Resources
 Digital Filters (basic explanation) - https://www.mql5.com/en/forum/172934/page6
+Digital Filters Indis - https://www.mql5.com/en/forum/172923
 
 ELITE INDIS  -https://www.mql5.com/en/forum/175037
 
