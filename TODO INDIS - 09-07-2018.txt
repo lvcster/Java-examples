@@ -189,7 +189,8 @@ http://forexdl.com/firebird-hma-i/
 http://forexdl.com/channels-2/
 
 Resources
-ELITE INDIS
-https://www.mql5.com/en/forum/175037
+Digital Filters (basic explanation) - https://www.mql5.com/en/forum/172934/page6
+
+ELITE INDIS  -https://www.mql5.com/en/forum/175037
 
 http://traders.com/Documentation/FEEDbk_docs/TradersTips/TradersTips.html
