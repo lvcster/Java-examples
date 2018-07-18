@@ -1,3 +1,14 @@
+JMA Channel and dfc_next_channel.mq4 
+and https://www.mql5.com/en/forum/179807/page439 
+and www_gruchaaveragev3.mq4 from https://www.mql5.com/en/forum/179807/page445
+https://www.mql5.com/en/forum/179807/page433
+
+averages_keltner_channels.mq4
+https://www.mql5.com/en/forum/179807/page445 (and Double smooth and price options added here https://www.mql5.com/en/forum/179807/page446): Use as case study to see how changes are applied
+
+Gann HiLo averages good? If so look for source
+https://www.mql5.com/en/forum/179807/page441
+
 --STEP--
 
 STEP CHART
