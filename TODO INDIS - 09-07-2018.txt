@@ -9,6 +9,15 @@ https://www.mql5.com/en/forum/179807/page445 (and Double smooth and price option
 OMA ATR Bands
 https://www.mql5.com/en/forum/179662/page11 and oma_qqe_filtered.mq4 (QQE Filtered, can it be applied to other indis?)
 
+Fiji BB Alert
+https://www.mql5.com/en/forum/180648/page911
+https://www.mql5.com/en/forum/185239
+
+CATERPILLAR BANDS
+https://www.forexfactory.com/showthread.php?p=4236281
+
+DZ Jurik
+https://www.mql5.com/en/forum/179876/page35
 
 Gann HiLo averages good? If so look for source
 https://www.mql5.com/en/forum/179807/page441
