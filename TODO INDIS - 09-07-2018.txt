@@ -216,3 +216,6 @@ http://traders.com/Documentation/FEEDbk_docs/TradersTips/TradersTips.html
 
 REF to HURST(AND OTHER CHANNELS)
 https://www.mql5.com/en/forum/175037/page93
+
+RESEARCH
+http://www.nusinvest.com/research-publications/quantitative-finance/
