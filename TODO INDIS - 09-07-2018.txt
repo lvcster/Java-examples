@@ -36,6 +36,7 @@ https://www.mql5.com/en/forum/179662/page11 and oma_qqe_filtered.mq4 (QQE Filter
 
 AVERAGE CHANNEL AND CONFI BANDS - MOST WANTED
 https://forex-station.com/viewtopic.php?f=578480&t=8414844&start=440
+https://forex-station.com/app.php/attach/file/3313078 - Source for CONFI BANDS v2, compare with v9
 
 Fiji BB Alert
 https://www.mql5.com/en/forum/180648/page911
