@@ -1,3 +1,8 @@
+Quicky
+http://metatraderindicatorsclub.blogspot.com/2010/03/envelope-95-indicator-v13-mt4-indicator.html
+https://www.rgts.in/wp-content/wp-dateuprss.php?pNr=hurst-channel-indicator-mt4
+https://www.mql5.com/en/code/10784
+
 https://www.mql5.com/en/forum/172923/page20
 https://www.mql5.com/en/forum/172923/page23
 https://www.mql5.com/en/forum/172923/page26
@@ -10,6 +15,7 @@ https://www.mql5.com/ru/code/7540
 
 CATERPILLAR BANDS
 https://www.forexfactory.com/showthread.php?p=9954304 CATERPILLAR/HURST BANDS
+https://www.mql5.com/en/forum/174163
 https://www.mql5.com/en/forum/179807/page427
 https://www.mql5.com/en/forum/180729/page31 or (Combined https://www.mql5.com/en/forum/180729/page32 SSA)
 https://www.mql5.com/en/forum/179807/page449
@@ -207,3 +213,6 @@ PDF
 https://c.mql5.com/forextsd/forum/209/A%20Simplified%20Approach%20to%20Understanding%20the%20Kalman%20Filter%20Technique.pdf
 
 http://traders.com/Documentation/FEEDbk_docs/TradersTips/TradersTips.html
+
+REF to HURST(AND OTHER CHANNELS)
+https://www.mql5.com/en/forum/175037/page93
