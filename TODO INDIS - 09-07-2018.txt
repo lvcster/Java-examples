@@ -13,8 +13,8 @@ https://www.mql5.com/en/forum/172923/page29 Kalman Filter, DONE. v2.1 - This we 
 Zero Lag HMA 
 https://www.mql5.com/en/forum/175037/page781 - DONE
 
-https://www.mql5.com/ru/code/10598
-https://www.mql5.com/ru/code/7540
+https://www.mql5.com/ru/code/10598. DONE, INTEGRATED
+https://www.mql5.com/ru/code/7540 Candle stop. REDO. NEED Time to play around
 
 CATERPILLAR BANDS
 
