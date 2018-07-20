@@ -1,7 +1,6 @@
 Quicky
-http://metatraderindicatorsclub.blogspot.com/2010/03/envelope-95-indicator-v13-mt4-indicator.html
-https://www.rgts.in/wp-content/wp-dateuprss.php?pNr=hurst-channel-indicator-mt4
-https://www.mql5.com/en/code/10784
+http://metatraderindicatorsclub.blogspot.com/2010/03/envelope-95-indicator-v13-mt4-indicator.html - DONE
+https://www.mql5.com/en/code/10784, RunMedian - DONE, Looks interesting. Add new technologies
 
 https://www.mql5.com/en/forum/172923/page20
 https://www.mql5.com/en/forum/172923/page23
@@ -22,7 +21,7 @@ https://www.mql5.com/en/forum/179807/page449
 https://www.forexfactory.com/showthread.php?p=4236281
 
 SSA EndPointed?
-https://forex-station.com/app.php/attach/file/3308357
+https://forex-station.com/app.php/attach/file/3308357 - NOT WORKING, REDO
 
 DZ Jurik
 https://www.mql5.com/en/forum/179876/page35
@@ -54,7 +53,7 @@ https://www.mql5.com/en/forum/179807/page441
 --STEP--
 
 STEP CHART
-https://forex-station.com/app.php/attach/file/3317258
+https://forex-station.com/app.php/attach/file/3317258 - DONE, GREAT. Must be Incorporated
 
 http://newdigital-world.com/trading-tools/681-step-charts-2.html#post15594 or http://newdigital-world.com/trading-tools/681-step-charts-2.html
 
