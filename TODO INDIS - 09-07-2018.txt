@@ -2,26 +2,31 @@ Quicky
 http://metatraderindicatorsclub.blogspot.com/2010/03/envelope-95-indicator-v13-mt4-indicator.html - DONE
 https://www.mql5.com/en/code/10784, RunMedian - DONE, Looks interesting. Add new technologies
 
-https://www.mql5.com/en/forum/172923/page20
-https://www.mql5.com/en/forum/172923/page23
-https://www.mql5.com/en/forum/172923/page26
-https://www.mql5.com/en/forum/172923/page29
+https://www.mql5.com/en/forum/172923/page20 DONE - USABLE, A bit like Jurik Filter
+
+--Start Kalman Filters
+https://www.mql5.com/en/forum/172923/page23 Kalman Filter, DONE v1
+https://www.mql5.com/en/forum/172923/page26 Kalman Filter, DONE.v2
+https://www.mql5.com/en/forum/172923/page29 Kalman Filter, DONE. v2.1 - This we can work with(Can be spiked too), Maybe add Dynamic bands
+--End Kalman Filters
+
 Zero Lag HMA 
-https://www.mql5.com/en/forum/175037/page781
+https://www.mql5.com/en/forum/175037/page781 - DONE
 
 https://www.mql5.com/ru/code/10598
 https://www.mql5.com/ru/code/7540
 
 CATERPILLAR BANDS
-https://www.forexfactory.com/showthread.php?p=9954304 CATERPILLAR/HURST BANDS
+
 https://www.mql5.com/en/forum/174163
 https://www.mql5.com/en/forum/179807/page427
 https://www.mql5.com/en/forum/180729/page31 or (Combined https://www.mql5.com/en/forum/180729/page32 SSA)
 https://www.mql5.com/en/forum/179807/page449
-https://www.forexfactory.com/showthread.php?p=4236281
 
 SSA EndPointed?
-https://forex-station.com/app.php/attach/file/3308357 - NOT WORKING, REDO
+https://forex-station.com/app.php/attach/file/3308357 - DONE, NOT WORKING, REDO
+https://www.forexfactory.com/showthread.php?p=4236281 - DONE, NOT WORKING. REDO
+https://www.forexfactory.com/showthread.php?p=9954304 CATERPILLAR/HURST BANDS - DONE, NOT WORKING, REDO
 
 DZ Jurik
 https://www.mql5.com/en/forum/179876/page35
