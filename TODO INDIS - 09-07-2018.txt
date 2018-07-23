@@ -229,6 +229,9 @@ https://c.mql5.com/forextsd/forum/209/A%20Simplified%20Approach%20to%20Understan
 
 http://traders.com/Documentation/FEEDbk_docs/TradersTips/TradersTips.html
 
+STOCH COLLECTION
+https://www.mql5.com/en/forum/177239/page128
+
 REF to HURST(AND OTHER CHANNELS)
 https://www.mql5.com/en/forum/175037/page93
 
