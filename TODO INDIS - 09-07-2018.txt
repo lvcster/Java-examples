@@ -1,7 +1,7 @@
 
-https://apiaryfund.com/forum/hull-moving-average-hma-now-100-more-bollinger-band-lines
-https://traderversity.com/excellent-mt4-ma-bollinger-bands-trading-system.html
-https://www.forexstrategiesresources.com/trading-system-metatrader-4-iii/397-tma-band-true/
+https://apiaryfund.com/forum/hull-moving-average-hma-now-100-more-bollinger-band-lines - DONE, Seems usable
+https://traderversity.com/excellent-mt4-ma-bollinger-bands-trading-system.html - DONE, Good System - CReate EA and give away
+https://www.forexstrategiesresources.com/trading-system-metatrader-4-iii/397-tma-band-true/ - Done, True TMA is usable - Find source
 https://www.earnforex.com/metatrader-indicators/BMA/
 https://www.mql5.com/en/code/16198
 
