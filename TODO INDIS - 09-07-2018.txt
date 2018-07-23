@@ -1,4 +1,7 @@
 
+https://apiaryfund.com/forum/hull-moving-average-hma-now-100-more-bollinger-band-lines
+https://traderversity.com/excellent-mt4-ma-bollinger-bands-trading-system.html
+https://www.forexstrategiesresources.com/trading-system-metatrader-4-iii/397-tma-band-true/
 https://www.earnforex.com/metatrader-indicators/BMA/
 https://www.mql5.com/en/code/16198
 
@@ -10,6 +13,15 @@ https://www.mql5.com/en/forum/177239/page107 Averaged stochastic oscillator, Nic
 https://www.mql5.com/en/forum/177239/page111 mt4-stochasticrsi-oscillator_wtrend, Nice?
 https://www.mql5.com/en/forum/175037/page1341, Average Stoch, Nice?
 https://forex-station.com/app.php/attach/file/3319674 => I have seen this already - Stochastic channel => Just need source and to Incorporate
+
+Bands
+http://forexmt4systems.com/forex-bollinger-bands-sc-mtf-indicator/
+http://forexmt4systems.com/forex-adx-vma-bands-indicator/
+https://www.mql5.com/en/code/10094 Mirror in the Bands 
+https://www.mql5.com/en/code/16198 Sigma Bands
+https://4xone.com/keltner_atr_band-metatrader-mt4-indicator/: Keltner_ATR_Band Metatrader Mt4 Indicator
+https://4xone.com/atr-bands-metatrader-indicator/ ATR Bands Metatrader Indicator
+https://www.forexfactory.com/showthread.php?t=324726&page=2 Band with .8 std dev. for MOBO
 
 Quicky
 http://metatraderindicatorsclub.blogspot.com/2010/03/envelope-95-indicator-v13-mt4-indicator.html - DONE
@@ -28,6 +40,10 @@ https://www.mql5.com/en/forum/175037/page781 - DONE
 
 https://www.mql5.com/ru/code/10598. DONE, INTEGRATED
 https://www.mql5.com/ru/code/7540 Candle stop. REDO. NEED Time to play around
+
+MT5->MT4
+tma centered bands arr
+https://forex-station.com/app.php/attach/file/3313054
 
 CATERPILLAR BANDS
 
@@ -244,6 +260,9 @@ https://www.mql5.com/en/forum/175037/page93
 RESEARCH
 http://www.nusinvest.com/research-publications/quantitative-finance/
 http://traders.com/Documentation/FEEDbk_docs/TradersTips/TradersTips.html
+
+FIBO SOURCE
+https://www.forexfactory.com/showthread.php?t=521044
 
 Helweg/Stendahl value charts
 https://www.mql5.com/en/forum/179806  
