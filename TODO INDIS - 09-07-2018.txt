@@ -1,3 +1,7 @@
+
+https://www.earnforex.com/metatrader-indicators/BMA/
+https://www.mql5.com/en/code/16198
+
 onchart_stochastic_channel
 https://www.mql5.com/en/forum/177239/page93 Start here
 https://www.mql5.com/en/forum/177239/page83, Take it from here 
