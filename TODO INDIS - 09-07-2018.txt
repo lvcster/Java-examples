@@ -242,3 +242,9 @@ http://traders.com/Documentation/FEEDbk_docs/TradersTips/TradersTips.html
 
 Helweg/Stendahl value charts
 https://www.mql5.com/en/forum/179806  
+
+
+BOOKS
+https://federaldata.io/downloads/stochastic-processes-finance-and-control-a-festschrift-in-honor-of-robert-j-elliott-1-advances-in-statistics-probability-and-actuarial-science.pdf
+https://ebooktop.website/download/Stochastic%20Processes%20%20and%20Applications%20to%20Mathematical%20Finance%20Akahori%20Jiro%20Ogawa%20Shigeyoshi%20Watanabe%20Shinzo
+http://www.eighbooks.com/read-now.php?q=stochastic%20processes%20and%20applications%20to%20mathematical%20finance%20proceedings%20of%20the%206th%20international
