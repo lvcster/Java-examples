@@ -81,6 +81,7 @@ GRAB hl_lr_band.mq4 https://www.mql5.com/en/forum/173347/page3 for quick test. D
 
 OMA CHANNEL/ENV(Same as one in line 5?)
 https://www.mql5.com/en/forum/179662/page17 Redo. Lot of combinations
+https://www.mql5.com/en/forum/180596/page44 => This is MT5 version of, compare with MT4 and see if it can be converted
 
 OMA/AVERAGE CHANNEL(No SOURCE) - Test
 https://www.mql5.com/en/forum/179662/page25
