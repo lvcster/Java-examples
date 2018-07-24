@@ -1,7 +1,14 @@
 OnChart Technology
 https://forex-station.com/viewtopic.php?f=578480&t=8413502&start=110
+https://forex-station.com/viewtopic.php?f=578480&t=8413502&start=330
 
-DSS Floating Levels
+T3 Bands
+https://forex-station.com/viewtopic.php?t=8472102&start=80
+
+Interesting Stochastic of T3 (fl+mtf+arrows+alerts) and Stochastic T3 Demarker - I can't find source: Refer to 'https://forex-station.com/viewtopic.php?t=8472102&start=80' to get 'iT3' method.
+https://forex-station.com/viewtopic.php?t=8413502&start=310
+
+Dss + quantile bands
 https://forex-station.com/viewtopic.php?f=578480&t=8413502&start=210
 
 https://forex-station.com/viewtopic.php?f=578480&t=8413502&start=30 - It looks like a wow, let's see.
