@@ -1,9 +1,12 @@
+ALL MQL Functions
+https://www.mql5.com/en/forum/150098
+
 OnChart Technology
-https://forex-station.com/viewtopic.php?f=578480&t=8413502&start=110
-https://forex-station.com/viewtopic.php?f=578480&t=8413502&start=330
+https://forex-station.com/viewtopic.php?f=578480&t=8413502&start=110 DONE
+https://forex-station.com/viewtopic.php?f=578480&t=8413502&start=330 DONE
 
 T3 Bands
-https://forex-station.com/viewtopic.php?t=8472102&start=80
+https://forex-station.com/viewtopic.php?t=8472102&start=80, DONE - Incorporated
 T3 high-low activator 
 https://forex-station.com/viewtopic.php?f=578480&t=8472102&start=10
 T3_Price_Overlay.mq4 (Only) - Other will be done at a later stage later
@@ -14,7 +17,7 @@ Interesting Stochastic of T3 (fl+mtf+arrows+alerts) and Stochastic T3 Demarker -
 https://forex-station.com/viewtopic.php?t=8413502&start=310
 
 Dss + quantile bands
-https://forex-station.com/viewtopic.php?f=578480&t=8413502&start=210
+https://forex-station.com/viewtopic.php?f=578480&t=8413502&start=210, DONE - Incorporated
 
 https://forex-station.com/viewtopic.php?f=578480&t=8413502&start=30 - It looks like a wow, let's see.
 Fractal ZigZag (never repaints)
