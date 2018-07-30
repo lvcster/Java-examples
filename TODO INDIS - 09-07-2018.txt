@@ -20,8 +20,9 @@ Dss + quantile bands
 https://forex-station.com/viewtopic.php?f=578480&t=8413502&start=210, DONE - Incorporated
 
 https://forex-station.com/viewtopic.php?f=578480&t=8413502&start=30 - It looks like a wow, let's see.
-Fractal ZigZag (never repaints)
-https://www.mql5.com/en/code/10647 - HG?
+
+Fractal ZigZag (never repaints) 
+https://www.mql5.com/en/code/10647 - HG?, DONE - Looks great on D1 TF
 
 https://apiaryfund.com/forum/hull-moving-average-hma-now-100-more-bollinger-band-lines - DONE, Seems usable
 https://traderversity.com/excellent-mt4-ma-bollinger-bands-trading-system.html - DONE, GOOD SYSTEM - CREATE EA AND GIVE AWAY
