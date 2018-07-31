@@ -301,6 +301,8 @@ https://www.investopedia.com/articles/trading/08/adaptive-moving-averages.asp
 T3 and T3 based indicators( plus Theorey)
 https://forex-station.com/viewtopic.php?f=578480&t=8472102
 
+Bressert Double Stochastic Collection
+https://www.mql5.com/en/forum/177564
 
 BOOKS
 https://federaldata.io/downloads/stochastic-processes-finance-and-control-a-festschrift-in-honor-of-robert-j-elliott-1-advances-in-statistics-probability-and-actuarial-science.pdf
