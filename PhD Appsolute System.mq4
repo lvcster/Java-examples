@@ -9,19 +9,20 @@
 //|                                                                  |
 //|   Renamed from PhD Sometrig FX - 01/07/2018                      |
 //|                                                                  |
+//|   Notes: Reversal:                                              |
+//|   Compares 2 bars, either (cur + prev) or (prev 1+prev2)         | 
 //|                                                                  |
-//|                                                                  |
+//|   TODO - Should be able test only current, current&prev, prev*2  |
 //+------------------------------------------------------------------+
 #property copyright "Copyright 2016, PhD Systems"
 #property link      "https://www.phdinvest.co.za"
 #property version   "400.00" 
 
 
-
 //TODOS
 //1. Give reasons why trade is opened - high( which indicators triggered)
-//2. Give reasons why trade is closed - high( which indicators triggered)      
-      
+//2. Give reasons why trade is closed - high( which indicators triggered)
+
 #property strict
 
 //+------------------------------------------------------------------+
@@ -116,32 +117,42 @@ static string QEPS             =  "-PhD Qeps";
 static string QEVELO           =  "-PhD QeVelo";                    
 static string DYNAMIC_STEEPPED_STOCH   =  "-PhD DySteppedStoch";            
 static string DYNAMIC_NOLAG_MA         =  "-PhD DiNoLagMa"; //Multi time frame issues 
-static string DYNAMIC_OF_AVAERAGES     =  "-PhD DyZOA";
+static string DYNAMIC_OF_AVERAGES      =  "-PhD DiZOA";
 static string DYNAMIC_MPA              =  "-PhD DiMPA";
 static string DYNAMIC_EFT              =  "-PhD DiEFT";
+static string EFT                      =  "-PhD EFT";
 static string DYNAMIC_WPR_OFF_CHART    =  "-PhD DiWPR offChart";
 static string DYNAMIC_WPR_ON_CHART     =  "-PhD DiWPR onChart";
 static string RSI_FILTER               =  "-rsi-filter";
 
 //START BANDS
+static string DYNAMIC_JURIK            =  "-PhD DiJurik";
+static string MAIN_STOCH               =  "-PhD Main Stochastic";
 static string DYNAMIC_MACD_RSI         =  "-PhD DiMcDRsi";
 static string DYNAMIC_PRICE_ZONE       =  "-PhD DiPriceZone";
 static string STOCHASTIC               =  "-PhD Stochastic v.2";
-static string CBF_CHANNEL              =  "-PhD CBF Channel";
-static string VOLATILITY_BANDS         =  "-PhD Volatility Bands";   
+static string CBF_CHANNEL              =  "-PhD CBF Channel"; //This is somewhat similar to Donchian Channel
+static string VOLATILITY_BANDS         =  "-PhD Volatility Bands 1.01";   
 static string POLYFIT_BANDS            =  "-PhD PolyfitBands";
 static string NON_LAG_ENVELOPES        =  "-PhD NonLag Envelopes";
 static string DONCHIAN_CHANNEL         =  "-PhD Donchian Channel 2.0";
-static string T3_BANDS                 =  "-PhD T3 Bands";
+static string T3_BANDS                 =  "-PhD T3 Bands"; 
+static string T3_BANDS_SQUARED         =  "-PhD T3 Bands Squared";// Smoothed version of T3_BANDS. The seem to give strong signal when they cross each other
 static string BOLLINGER_BANDS          =  "-PhD Bollinger Bands";
 static string FIBO_BANDS               =  "-PhD Fibo Bands";
-static string SE_BANDS                 =  "-PhD SE Bands";
 static string QUANTILE_BANDS           =  "-PhD Quantile Bands";
+static string JMA_BANDS                =  "-PhD JMA Bands";
+static string SR_BANDS                 =  "-PhD SR Bands";
+static string SE_BANDS                 =  "-PhD SE Bands";
+static string MLS_BANDS                =  "-PhD MLS";
+static string NON_LINEAR_KALMAN_BANDS  =  "-PhD NonLinearKalmanBands";
 //END BANDS
 
 //START TRIGGERS
+static string NON_LINEAR_KALMAN        =  "-PhD NonLinearKalman";
 static string LINEAR_MA                =  "-PhD Linear";
 static string HULL_MA                  =  "-PhD HMA";
+static string JURIK_FILTER             =  "-PhD Jurik filter";
 static string NOLAG_MA                 =  "-PhD NonLagMA"; 
 static string SUPERTREND               =  "-PhD SuperTrend";
 static string SMOOTHED_DIGITAL_FILTER  =  "-PhD Smoothed Digital Filters";
@@ -181,23 +192,248 @@ enum Sentiments {
    BEARISH
 };
 
-enum Reversals {
+enum Cross {
+   BULLISH_CROSS,
+   BEARISH_CROSS,
+   NO_CROSS,
+   UNKNOWN_CROSS,
+};
+
+enum Reversal {
    BULLISH_REVERSAL,
    BEARISH_REVERSAL,
-   CONTINUATION
+   CONTINUATION,
+   UNKNOWN
 };
 
 enum Trend {
    BULLISH_TREND,
    BEARISH_TREND,
+   BULLISH_SHORT_TERM_TREND,
+   BEARISH_SHORT_TERM_TREND,
    NO_TREND
 };
+
+enum Slope {
+   BULLISH_SLOPE,
+   BEARISH_SLOPE,
+   UNKNOWN_SLOPE //This should not happen
+};
+
+enum Signal {
+   BUY_SIGNAL,
+   SELL_SIGNAL,
+   NO_SIGNAL
+};
+
+enum Flatter {
+   BULLISH_FLATTER,
+   BEARISH_FLATTER,
+   NO_FLATTER
+};
+
+enum Transition {
+   BULLISH_TO_BEARISH_TRANSITION,
+   BEARISH_TO_BULLISH_TRANSITION,
+   SUDDEN_BULLISH_TO_BEARISH_TRANSITION,
+   SUDDEN_BEARISH_TO_BULLISH_TRANSITION,
+   NO_TRANSITION
+};
+
 /* END local enums */
+
+
+
 
 /*TEMP */
 datetime checkedBar = 0;
 /* TEMP */
 
+
+/* BUFFERS */
+//START DYNAMIC_JURIK
+static int DYNAMIC_JURIK_MAIN_VALUE          =  0; //Signal Line
+static int DYNAMIC_JURIK_SLOPE_VALUE         =  1; //Use to gauge the slope. EMPTY_VALUE = BULLISH, !EMPTY_VALUE = BULLISH
+static int DYNAMIC_JURIK_FIRST_UPPER_VALUE   =  5;
+static int DYNAMIC_JURIK_SECOND_UPPER_VALUE  =  6;
+static int DYNAMIC_JURIK_FIRST_LOWER_VALUE   =  4;
+static int DYNAMIC_JURIK_SECOND_LOWER_VALUE  =  3;
+static int DYNAMIC_JURIK_MIDDLE_VALUE        =  7;
+//END DYNAMIC_JURIK
+
+//START MAIN_STOCH
+static int MAIN_STOCH_MAIN_VALUE          =  0; //2nd Upper
+static int MAIN_STOCH_SECOND_LOWER_VALUE  =  1; 
+static int MAIN_STOCH_FIRST_UPPER_VALUE   =  2;
+static int MAIN_STOCH_FIRST_LOWER_VALUE   =  3;
+static int MAIN_STOCH_SIGNAL              =  4;
+static int MAIN_STOCH_SLOPE_VALUE         =  5;//Use to gauge the slope. EMPTY_VALUE = BULLISH, !EMPTY_VALUE = BULLISH
+static int MAIN_STOCH_SECOND_UPPER_VALUE  =  6;
+//END MAIN_STOCH
+
+//START DONCHIAN_CHANNEL
+static int DONCHIAN_CHANNEL_MAIN         =  0;
+static int DONCHIAN_CHANNEL_UPPER_LEVEL  =  0;
+static int DONCHIAN_CHANNEL_LOWER_LEVEL  =  1;
+static int DONCHIAN_CHANNEL_MIDDLE_LEVEL =  2;
+static int DONCHIAN_CHANNEL_SLOPE_LEVEL  =  4;
+//END DONCHIAN_CHANNEL
+
+//START DYNAMIC_PRICE_ZONE
+static int DYNAMIC_PRICE_ZONE_LOWER_LEVEL  =  0;
+static int DYNAMIC_PRICE_ZONE_UPPER_LEVEL  =  1;
+static int DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL =  2;
+//END DYNAMIC_PRICE_ZONE
+
+//START JURIK_FILTER
+static int JURIK_FILTER_MAIN_VALUE     =  0;
+static int JURIK_FILTER_BULLISH_VALUE  =  0;
+static int JURIK_FILTER_BEARISH_VALUE  =  1;
+static int JURIK_FILTER_SLOPE          =  5;
+//END JURIK_FILTER
+
+//START SOMAT3
+static int SOMAT3_SLOPE          =  0;
+static int SOMAT3_BULLISH_MAIN   =  1;
+static int SOMAT3_BULLISH_VALUE  =  1;
+static int SOMAT3_BEARISH_VALUE  =  2;
+//END SOMAT3
+
+//START HULL_MA
+static int HULL_MA_BULLISH_MAIN   =  0;
+static int HULL_MA_BULLISH_VALUE  =  1;
+static int HULL_MA_BEARISH_VALUE  =  2; 
+//END HULL_MA
+
+//START LINEAR_MA
+static int LINEAR_MA_BULLISH_MAIN   =  0;
+static int LINEAR_MA_BULLISH_VALUE  =  1;
+static int LINEAR_MA_BEARISH_VALUE  =  2; 
+//END LINEAR_MA
+
+//START DYNAMIC_MPA
+static int DYNAMIC_MPA_MAIN   = 0; //UPPER
+static int DYNAMIC_MPA_MIDDLE = 2;
+static int DYNAMIC_MPA_LOWER  = 4;
+static int DYNAMIC_MPA_SIGNAL = 5; 
+//END DYNAMIC_MPA
+
+//START DYNAMIC_OF_AVERAGES
+static int DYNAMIC_OF_AVAERAGES_SIGNAL       = 0;
+static int DYNAMIC_OF_AVAERAGES_SECOND_LOWER = 1;
+static int DYNAMIC_OF_AVAERAGES_FIRST_LOWER  = 2;
+static int DYNAMIC_OF_AVAERAGES_FIRST_UPPER  = 3;
+static int DYNAMIC_OF_AVAERAGES_SECOND_UPPER = 4;
+static int DYNAMIC_OF_AVAERAGES_MIDDLE       = 5;
+//END DYNAMIC_OF_AVERAGES
+
+// START VOLATILITY_BANDS
+static int VOLATILITY_BAND_MAIN  = 0; //MIDDLE
+static int VOLATILITY_BAND_UPPER = 3;
+static int VOLATILITY_BAND_LOWER = 4; // Buffer 4
+static int VOLATILITY_BAND_SLOPE = 5; 
+// END VOLATILITY_BANDS
+
+// START SR_BANDS
+static int SR_BAND_MAIN       = 0; //UPPER BAND
+static int SR_BAND_LOWER      = 1;
+static int SR_BULLISH_SLOPE   = 2;
+static int SR_BEARISH_SLOPE   = 3; 
+// END SR_BANDS
+
+// START MLS_BANDS
+static int MLS_BAND_MAIN      = 0; //UPPER BAND
+static int MLS_BAND_LOWER     = 1;
+// END MLS_BANDS
+
+//START NON_LINEAR_KALMAN
+static int NON_LINEAR_KALMAN_MAIN   = 0; 
+static int NON_LINEAR_KALMAN_SLOPE  = 1; //Use to gauge the slope. EMPTY_VALUE = BULLISH, !EMPTY_VALUE = BULLISH
+//END NON_LINEAR_KALMAN
+
+//START T3_BANDS
+static int T3_BANDS_UPPER_LEVEL  =  0;
+static int T3_BANDS_MIDDLE_LEVEL =  1;
+static int T3_BANDS_LOWER_LEVEL  =  2;
+//END T3_BANDS
+
+//START NON_LINEAR_KALMAN_BANDS
+static int NON_LINEAR_KALMAN_BANDS_UPPER  =  0;
+static int NON_LINEAR_KALMAN_BANDS_MIDDLE =  1;
+static int NON_LINEAR_KALMAN_BANDS_LOWER  =  2;
+//END NON_LINEAR_KALMAN_BANDS
+   
+//START T3_BANDS_SQUARED
+static int T3_BANDS_SQUARED_UPPER_LEVEL  =  0;
+static int T3_BANDS_SQUARED_MIDDLE_LEVEL =  1;
+static int T3_BANDS_SQUARED_LOWER_LEVEL  =  2;
+//END T3_BANDS_SQUARED_SQUARED
+
+//JMA_BANDS
+static int JMA_BANDS_UPPER = 0;
+static int JMA_BANDS_LOWER = 1;
+//JMA_BANDS
+/* BUFFERS */
+
+/* START SESSIONS */
+Slope latestHmaSlope    = UNKNOWN_SLOPE;
+Slope latestJurikSlope  = UNKNOWN_SLOPE;
+Slope latestNonLinearKalmanSlope = UNKNOWN_SLOPE;
+
+//Signals
+Signal latestSignal = NO_SIGNAL;
+Signal latestSrBandsSignal = NO_SIGNAL;
+Signal latestMlsBandsSignal = NO_SIGNAL;
+Signal donchianChannelLatestSignal = NO_SIGNAL;
+Signal latestDynamicOfAveragesCrossSignal = NO_SIGNAL; 
+
+Transition latestTransition = NO_TRANSITION;
+
+//Tracking - Allow only 1 signal per candle
+datetime latestSignalTime                    = 0; 
+datetime latestTransitionTime                = 0; 
+datetime latestMlsBandsSignalTime            = 0; 
+datetime latestSrBandsSignalTime             = 0;
+datetime latestJmaBandsReversalTime          = 0; 
+datetime latestDynamicMpaFlatterTime         = 0;
+datetime latestT3OuterBandsReversalTime      = 0;
+datetime latestMainStochReversalTime         = 0;
+datetime latestDynamicMpaReversalTime        = 0;
+datetime latestDynamicJurikReversalTime      = 0;
+datetime latestDynamicOfAveragesCrossTime    = 0;
+datetime latestT3MiddleBandsReversalTime     = 0;
+datetime latestNonLinearKalmanSlopeTime      = 0;
+datetime latestDynamicOfAveragesReversalTime = 0;
+datetime latestDynamicOfAveragesFlatterTime  = 0;
+datetime latestNonLinearKalmanBandsReversalTime          = 0;
+datetime latestDynamicOfAveragesCrossSignalTime          = 0;
+datetime latestDynamicOfAveragesShortTermTrendTime       = 0;
+datetime latestDynamicPriceZonesandJmaBandsReversalTime  = 0;
+datetime latestDynamicMpaAndNonLinearKalmanBandsCrossTime= 0;
+
+
+//Reversal
+Reversal latestJmaBandsReversal              = UNKNOWN;
+Reversal latestMainStochReversal             = UNKNOWN;
+Reversal latestDynamicMpaReversal            = UNKNOWN;
+Reversal latestT3OuterBandsReversal          = UNKNOWN;
+Reversal latestT3MiddleBandsReversal         = UNKNOWN;
+Reversal latestDynamicOfAveragesReversal     = UNKNOWN;
+Reversal latestNonLinearKalmanBandsReversal  = UNKNOWN;
+Reversal latestDynamicPriceZonesandJmaBandsReversal = UNKNOWN;
+
+Flatter latestDynamicMpaFlatter = NO_FLATTER;
+Flatter latestDynamicOfAveragesFlatter = NO_FLATTER;
+
+//Trends
+Trend latestDynamicOfAveragesShortTermTrend  = NO_TREND;
+
+//Crosses
+Cross latestDynamicOfAveragesCross = UNKNOWN_CROSS;
+
+Cross latestDynamicMpaAndNonLinearKalmanBandsCross = UNKNOWN_CROSS;
+
+/* END SESSIONS */
 
 int OnInit() {
     
@@ -465,7 +701,39 @@ void openTrade() {
    //getNonLagMA(false); 
    //getStochasticSentiments(STOCHASTIC_VALUE, CURRENT_BAR);
    //getNoLagMaReversal();
-   getQuantileBandsReversal();
+   //getQuantileBandsReversal();
+   //getEftSentiments();
+   //getDonchianChannelOverlapTest();
+   //getDynamicPriceZonesAndJurikFilterReversalTest();
+   //getDynamicPriceZonesAndSomat3ReversalTest();
+   //getDynamicPriceZonesAndLinearMaReversalTest();
+   //getDynamicPriceZonesAndHullMaReversalTest();
+   //getDimpaAndSomat3ReversalTest();
+   //getDynamicMpaReversalTest();
+   //getSrBandsSlopeTest();    
+   //getDynamicPriceZonesAndVolitilityBandsReversalTest();
+   //getJurikFilterSlopeTest();
+   //getHullMaSlopeTest();
+   //getDynamicPriceZonesAndSrBandsReversalTest();
+   //getDynamicPriceZonesAndMlsBandsReversal();
+   //getDynamicJuricSlopeTest();
+   //getMainStochReversalTest();
+   //getT3OuterBandsReversalTest();
+   //getT3CrossSignalTest();
+   //getNonLinearKalmanSlopeTest();
+   //getDynamicPriceZonesAndMainStochTrendTest();   
+   //getDynamicOfAveragesShortTermTrendTest();   
+   //getDynamicMpaAndVolitilityBandsReversalTest();
+   //getDynamicPriceZonesAndNonLinearKalmanBandsReversalTest();
+   invalidateDynamicPriceZonesLinkedSignals(20);
+   //getDynamicMpaAndNonLinearKalmanBandsCrossTest();
+   getSomat3AndNonLinearKalmanCrossSlopeTest();
+   //getNonLinearKalmanAndVolitilityBandsSlopeTest();
+   //getSomat3AndVolitilityBandsSlopeTest();
+
+   //getDynamicPriceZonesandJmaBandsReversalTest();
+   //getJmaBandsLevelCrossReversalTest();  
+   //getDynamicOfAveragesReversalTest();   
    return;
    
    //getAveragesBoundries(true);// Dynamic Zone
@@ -484,6 +752,7 @@ void openTrade() {
       Print("We Selling"  );
    }
    */
+
       
    int tradeSetup  =  getTradeSetup(); 
     
@@ -1402,19 +1671,19 @@ int getDySteppedStoch(bool _validatePreviousbar) {
 }
 /*End: DYNAMIC_STEEPPED_STOCH Setup */
 
-/*Start: DYNAMIC_OF_AVAERAGES Setup */ 
+/*Start: DYNAMIC_OF_AVERAGES Setup */ 
 int getDyZOA(bool _validatePreviousbar) {
 
    
    if( _validatePreviousbar == false) {      
 
-      double signalMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 0, CURRENT_BAR), Digits);
+      double signalMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 0, CURRENT_BAR), Digits);
       
       //We need the value to identify the slope
-      double signalMaPrev = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 0, CURRENT_BAR + 1), Digits); 
+      double signalMaPrev = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 0, CURRENT_BAR + 1), Digits); 
       
-      double lowerMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 1, CURRENT_BAR), Digits);
-      double upperMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 4, CURRENT_BAR), Digits);
+      double lowerMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 1, CURRENT_BAR), Digits);
+      double upperMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 4, CURRENT_BAR), Digits);
 
 
       if( (signalMaCurrent > signalMaPrev) && (signalMaCurrent > lowerMaCurrent)) { 
@@ -1430,17 +1699,17 @@ int getDyZOA(bool _validatePreviousbar) {
       
       // Check previous and current candle
 
-      double signalMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 0, CURRENT_BAR), Digits);
+      double signalMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 0, CURRENT_BAR), Digits);
       
       //We need the value to identify the slope
-      double signalMaPrev = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 0, CURRENT_BAR + 1), Digits);
+      double signalMaPrev = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 0, CURRENT_BAR + 1), Digits);
       
       
-      double lowerMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 1, CURRENT_BAR), Digits);
-      double upperMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 4, CURRENT_BAR), Digits);      
+      double lowerMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 1, CURRENT_BAR), Digits);
+      double upperMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 4, CURRENT_BAR), Digits);      
       
-      double lowerMaPrev = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 1, CURRENT_BAR + 1), Digits);
-      double upperMaPrev = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 4, CURRENT_BAR + 1), Digits); 
+      double lowerMaPrev = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 1, CURRENT_BAR + 1), Digits);
+      double upperMaPrev = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 4, CURRENT_BAR + 1), Digits); 
             
       if( (signalMaCurrent > signalMaPrev) && ( (signalMaCurrent > lowerMaCurrent) &&  (signalMaPrev > lowerMaPrev)) ) { 
          
@@ -1454,7 +1723,7 @@ int getDyZOA(bool _validatePreviousbar) {
    
    return -1;
 }
-/*End: DYNAMIC_OF_AVAERAGES Setup */
+/*End: DYNAMIC_OF_AVERAGES Setup */
 
 /*Start: DYNAMIC_EFT Setup */ 
 int getDiEFT(bool _validatePreviousbar) {
@@ -1649,19 +1918,19 @@ int getTrendChangeByDiMPA() {
 }
 /*End: Trend change detection by DYNAMIC_MPA Setup */
 
-/*Start: Trend change detection by DYNAMIC_OF_AVAERAGES Setup */ 
+/*Start: Trend change detection by DYNAMIC_OF_AVERAGES Setup */ 
 int getTrendChangeByDiZOA() {
 
-   double signalMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 0, CURRENT_BAR), Digits);
+   double signalMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 0, CURRENT_BAR), Digits);
    
    //We need the value to identify the slope
-   double signalMaPrev = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 0, CURRENT_BAR + 1), Digits); 
+   double signalMaPrev = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 0, CURRENT_BAR + 1), Digits); 
    
-   double lowerMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 1, CURRENT_BAR), Digits);
-   double upperMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 4, CURRENT_BAR), Digits);
+   double lowerMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 1, CURRENT_BAR), Digits);
+   double upperMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 4, CURRENT_BAR), Digits);
    
-   double lowerMaPrev = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 1, CURRENT_BAR + 1), Digits);
-   double upperMaPrev = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, 20, PRICE_CLOSE, 4, true, 5, 4, CURRENT_BAR + 1), Digits); 
+   double lowerMaPrev = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 1, CURRENT_BAR + 1), Digits);
+   double upperMaPrev = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, 20, PRICE_CLOSE, 4, true, 5, 4, CURRENT_BAR + 1), Digits); 
 
    if( validatePreviousbar == false) {      
 
@@ -1685,7 +1954,7 @@ int getTrendChangeByDiZOA() {
    
    return -1;
 }
-/*End: Trend change detection by DYNAMIC_OF_AVAERAGES Setup */
+/*End: Trend change detection by DYNAMIC_OF_AVERAGES Setup */
 
 /*Start: DYNAMIC_NOLAG_MA Setup */ 
 int getDiNoLagMa(bool _validatePreviousbar) {
@@ -2624,6 +2893,27 @@ double getDynamicPriceZonesStopLossLevel(int lOrderType, int linitialStopPoints,
 }
 /** Start - DYNAMIC_PRICE_ZONE Stop Loss */
 
+/** Start - DYNAMIC_OF_AVERAGES Stop Loss */
+double getDynamicOfAveragesLevelStopLossLevel(int length, int lOrderType, int linitialStopPoints, int band) {
+   
+   double initialStopLossLevel  = 0.0; 
+
+   int barIndex = CURRENT_BAR + 1; //Use the previous bar to get a constant and stable stop level.
+   double dynamicOfAveragesLevel = getDynamicOfAveragesLevel(length, band, barIndex);
+  
+   if (lOrderType == OP_BUY) {
+   
+      initialStopLossLevel    =  NormalizeDouble( dynamicOfAveragesLevel - (linitialStopPoints * getDecimalPip()), Digits );       
+   }
+   else if(lOrderType == OP_SELL) {
+
+      initialStopLossLevel    =  NormalizeDouble( dynamicOfAveragesLevel + (linitialStopPoints * getDecimalPip()), Digits );      
+   }
+ 
+   return initialStopLossLevel;
+}
+/** Start - DYNAMIC_OF_AVERAGES Stop Loss */
+
 /** Start - QUANTILE_BANDS Stop Loss */
 double getQuantileBandsStopLossLevel(int lOrderType, int linitialStopPoints, int band) {
    
@@ -2646,12 +2936,12 @@ double getQuantileBandsStopLossLevel(int lOrderType, int linitialStopPoints, int
 /** Start - QUANTILE_BANDS Stop Loss */
 
 /** Start - VOLATILITY_BANDS Stop Loss */
-double getVolitilityBandsStopLossLevel(int lOrderType, int linitialStopPoints, int band) {
+double getVolitilityBandsStopLossLevel(int length, int lOrderType, int linitialStopPoints, int band) {
    
    double initialStopLossLevel  = 0.0; 
 
    int barIndex = CURRENT_BAR + 1; //Use the previous bar to get a constant and stable stop level. Bands should have changed slope direction
-   double volitilityBandsLevel = getVolitilityBandsLevel(band, barIndex);
+   double volitilityBandsLevel = getVolitilityBandsLevel(length, band, barIndex);
   
    if (lOrderType == OP_BUY) {
    
@@ -2664,7 +2954,7 @@ double getVolitilityBandsStopLossLevel(int lOrderType, int linitialStopPoints, i
  
    return initialStopLossLevel;
 }
-/** Start - VOLATILITY_BANDS Stop Loss */
+/** End - VOLATILITY_BANDS Stop Loss */
 
 /** Start - T3_BANDS Stop Loss */
 double getT3BandsStopLossLevel(int lOrderType, int linitialStopPoints, int band) {
@@ -2687,6 +2977,27 @@ double getT3BandsStopLossLevel(int lOrderType, int linitialStopPoints, int band)
 }
 /** Start - T3_BANDS Stop Loss */
 
+/** Start - T3_BANDS_SQUARED Stop Loss */
+double getT3BandsQuaredStopLossLevel(int lOrderType, int linitialStopPoints, int band) {
+   
+   double initialStopLossLevel  = 0.0; 
+
+   int barIndex = CURRENT_BAR + 1; //Use the previous bar to get a constant and stable stop level. Bands should have changed slope direction
+   double t3BandsSquaredLevel = getT3BandsSquaredLevel(band, barIndex);
+  
+   if (lOrderType == OP_BUY) {
+   
+      initialStopLossLevel    =  NormalizeDouble( t3BandsSquaredLevel - (linitialStopPoints * getDecimalPip()), Digits );       
+   }
+   else if(lOrderType == OP_SELL) {
+
+      initialStopLossLevel    =  NormalizeDouble( t3BandsSquaredLevel + (linitialStopPoints * getDecimalPip()), Digits );      
+   }
+ 
+   return initialStopLossLevel;
+}
+/** Start - T3_BANDS_SQUARED Stop Loss */
+
 /** Start - SMOOTHED_DIGITAL_FILTER Stop Loss */
 double getSmoothedDigitalFilterStopLossLevel(int lOrderType, int linitialStopPoints, int buffer) {
    
@@ -2706,15 +3017,35 @@ double getSmoothedDigitalFilterStopLossLevel(int lOrderType, int linitialStopPoi
  
    return initialStopLossLevel;
 }
-/** Start - LINEAR_MA Stop Loss */
+/** Start - SMOOTHED_DIGITAL_FILTER Stop Loss */
+
+/** Start - JURIK_FILTER Stop Loss */
+double getJurikFilterLevelStopLossLevel(int lOrderType, int linitialStopPoints, int buffer) {
+   
+   double initialStopLossLevel  = 0.0; 
+
+   int barIndex = CURRENT_BAR; //Use current bar as the previous will definately be in the direction of the trade for this indicator. 
+   double jurikFilterLevel = getJurikFilterLevel(buffer, barIndex);
+  
+   if (lOrderType == OP_BUY) {
+   
+      initialStopLossLevel    =  NormalizeDouble( jurikFilterLevel - (linitialStopPoints * getDecimalPip()), Digits );       
+   }
+   else if(lOrderType == OP_SELL) {
+
+      initialStopLossLevel    =  NormalizeDouble( jurikFilterLevel + (linitialStopPoints * getDecimalPip()), Digits );      
+   }
+ 
+   return initialStopLossLevel;
+}
+/** Start - JURIK_FILTER Stop Loss */
 
 /** Start - LINEAR_MA Stop Loss */
 double getLinearMaStopLossLevel(int lOrderType, int linitialStopPoints, int buffer) {
    
    double initialStopLossLevel  = 0.0; 
 
-   int barIndex = CURRENT_BAR; //Use current bar as the previous will definately be in the direction of the trade for this indicator. 
-   //It doesn't not turn immediately, it first spikes to the opposite direction of the trade. 
+   int barIndex = CURRENT_BAR;
    double linearMaLevelLevel = getLinearMaLevel(buffer, barIndex);
   
    if (lOrderType == OP_BUY) {
@@ -2729,6 +3060,27 @@ double getLinearMaStopLossLevel(int lOrderType, int linitialStopPoints, int buff
    return initialStopLossLevel;
 }
 /** Start - LINEAR_MA Stop Loss */
+
+/** Start - HULL_MA Stop Loss */
+double getHullMaStopLossLevel(int length, int lOrderType, int linitialStopPoints, int buffer) {
+   
+   double initialStopLossLevel  = 0.0; 
+
+   int barIndex = CURRENT_BAR;  
+   double hullMaLevel = getHullMaLevel(length, buffer, barIndex);
+  
+   if (lOrderType == OP_BUY) {
+   
+      initialStopLossLevel    =  NormalizeDouble( hullMaLevel - (linitialStopPoints * getDecimalPip()), Digits );       
+   }
+   else if(lOrderType == OP_SELL) {
+
+      initialStopLossLevel    =  NormalizeDouble( hullMaLevel + (linitialStopPoints * getDecimalPip()), Digits );      
+   }
+ 
+   return initialStopLossLevel;
+}
+/** Start - HULL_MA Stop Loss */
 
 /** Start - SUPERTREND Stop Loss */
 double getSuperTrendStopLossLevel(int lOrderType, int linitialStopPoints, int buffer) {
@@ -2818,26 +3170,26 @@ double getSomat3StopLevel(int lOrderType, int linitialStopPoints) {
 }
 /** End - SOMAT3 Stop Loss */
 
-/** Start - DYNAMIC_OF_AVAERAGES Stop Loss */
+/** Start - DYNAMIC_OF_AVERAGES Stop Loss */
 double getDyZOAStopLevel(int lOrderType, int linitialStopPoints) {
    
    double initialStopLossLevel  = 0.0; 
 
    if (lOrderType == OP_BUY) {
    
-      double lowerMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, CURRENT_TIMEFRAME, 1, CURRENT_BAR), Digits);
+      double lowerMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, CURRENT_TIMEFRAME, 1, CURRENT_BAR), Digits);
       initialStopLossLevel    =  NormalizeDouble( lowerMaCurrent - (linitialStopPoints * getDecimalPip()), Digits ); 
       
    }
    else if(lOrderType == OP_SELL) {
 
-      double upperMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVAERAGES, CURRENT_TIMEFRAME, 4, CURRENT_BAR), Digits);
+      double upperMaCurrent = NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, CURRENT_TIMEFRAME, 4, CURRENT_BAR), Digits);
       initialStopLossLevel    =  NormalizeDouble( upperMaCurrent + (linitialStopPoints * getDecimalPip()), Digits );
    }
  
    return initialStopLossLevel;
 }
-/** End - DYNAMIC_OF_AVAERAGES Stop Loss */
+/** End - DYNAMIC_OF_AVERAGES Stop Loss */
 
 /** Start - SADUKI Stop Loss */
 double getInitialStopLevel_v2(int lOrderType, int linitialStopPoints) {
@@ -3972,6 +4324,30 @@ int getStochasticSetup(bool _validatePreviousbar) {
 }
 /*END: STOCHASTIC Setup */ 
 
+/*Start: EFT Sentiments */ 
+Zones getEftSentiments() {
+                  
+   double overBoughtLevel = 6.0;
+   double overSoldLevel = -6.0;               
+   double eftLevel = getEftLevel(0, 0);
+   
+   if (eftLevel > overBoughtLevel) {
+      
+      Print("OVERBOUGHT");
+      return OVERBOUGHT;
+   }
+   else if(eftLevel < overSoldLevel) {
+   
+      Print("OVERSOLD");
+      return OVERSOLD;
+   }
+   else {
+   
+      return NORMAL;
+   }
+}
+/*END: EFT Sentiments */ 
+
 /*Start: STOCHASTIC Sentiments */ 
 Zones getStochasticSentiments(StochasticsValues targetValue, int barIndex) {
 
@@ -4007,9 +4383,78 @@ Zones getStochasticSentiments(StochasticsValues targetValue, int barIndex) {
 }
 /*END: STOCHASTIC Sentiments */ 
 
+/** START INVALIDATE SIGNALS*/
+//DYNAMIC_PRICE_ZONE Linked
+
+void invalidateDynamicPriceZonesLinkedSignals(int length){
+
+   //Need a way to invalidate when invalidate when bands fails to touch DYNAMIC_PRICE_ZONE middle line and quickly turn
+   //The distance between the bands must be decreasing. In bullish, bands must be heading up and YNAMIC_PRICE_ZONE middle line heading down. 
+   //In bearish, bands must be heading down and DYNAMIC_PRICE_ZONE middle line heading up
+   invalidateNonLinearKalmanBandsReversal(15);
+   
+   //RELOOK
+   /*if(latestDynamicOfAveragesReversal == UNKNOWN) {
+   
+      Print("UNKNOWN at " + getCurrentTime() );
+   }
+   
+   if( (latestDynamicOfAveragesReversal == BEARISH_REVERSAL) && (getDynamicOfAveragesShortTermTrend(length) != BULLISH_SHORT_TERM_TREND) ) {
+      
+      int latestDynamicOfAveragesReversalBarShift = iBarShift(Symbol(), Period(), latestDynamicOfAveragesReversalTime);
+      int currentBarShift = iBarShift(Symbol(), Period(), CURRENT_BAR);
+      
+      if(latestDynamicOfAveragesReversalBarShift > 2) {
+         
+         Print("BEARS DEVIATED at " + getCurrentTime() );
+      }
+   } 
+   
+   if( (latestDynamicOfAveragesReversal == BULLISH_REVERSAL) && (getDynamicOfAveragesShortTermTrend(length) != BULLISH_SHORT_TERM_TREND) ) {
+      
+      int latestDynamicOfAveragesReversalBarShift = iBarShift(Symbol(), Period(), latestDynamicOfAveragesReversalTime);
+      int currentBarShift = iBarShift(Symbol(), Period(), CURRENT_BAR);
+      
+      if(latestDynamicOfAveragesReversalBarShift > 2) {
+         
+         Print("BULLS DEVIATED at " + getCurrentTime() );
+      }
+   }*/      
+   return;
+   
+   double zoneUpperLevelCurr = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, CURRENT_BAR);
+   double zoneUpperLevelPrev = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, CURRENT_BAR + 1);
+   
+   double zoneLowerLevelCurr  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, CURRENT_BAR);
+   double zoneLowerLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, CURRENT_BAR + 1);
+   
+   //Invalidate SrBands getSrBandsLevel
+   double srBandUpperLevelCurr = getSrBandsLevel(SR_BAND_MAIN, CURRENT_BAR); 
+   double srBandUpperLevelPrev = getSrBandsLevel(SR_BAND_MAIN, CURRENT_BAR + 1); 
+   
+   double srBandLowerLevelCurr = getSrBandsLevel(SR_BAND_LOWER, CURRENT_BAR);
+   double srBandLowerLevelPrev = getSrBandsLevel(SR_BAND_LOWER, CURRENT_BAR + 1);
+   
+   //Invalidate MlsBands getMlsBandsLevel
+   double mlsBandUpperLevelCurr = getMlsBandsLevel(MLS_BAND_MAIN, CURRENT_BAR); 
+   double mlsBandUpperLevelPrev = getMlsBandsLevel(MLS_BAND_MAIN, CURRENT_BAR + 1); 
+   
+   double mlsBandLowerLevelCurr = getMlsBandsLevel(MLS_BAND_LOWER, CURRENT_BAR);
+   double mlsBandLowerLevelPrev = getMlsBandsLevel(MLS_BAND_LOWER, CURRENT_BAR + 1);
+         
+   //Invalidate Somat3 getSomat3Level
+   double somat3Curr = getSomat3Level(SOMAT3_BULLISH_MAIN, CURRENT_BAR); 
+   double somat3Prev = getSomat3Level(SOMAT3_BULLISH_MAIN, CURRENT_BAR + 1);      
+      
+}
+
+//DYNAMIC_MPA Linked
+
+/** END INVALIDATE SIGNALS*/
+
 /** START REVERSALS DETECTIONS*/
 /** Start - LINEAR_MA Reversal Detection*/
-Reversals getLinearMaReversal() {
+Reversal getLinearMaReversal() {
 
    if(checkedBar == Time[CURRENT_BAR]) {
       
@@ -4033,7 +4478,7 @@ Reversals getLinearMaReversal() {
       if( getLinearMaLevel(upTrendBuffer, CURRENT_BAR) == getLinearMaLevel(upTrendBuffer, CURRENT_BAR + 1)) { //It will start by being equal and change as price moves away, thus confirming the reversal
          
          checkedBar = Time[CURRENT_BAR];
-         Print("BEARISH_REVERSAL Reversal on " + (string)iTime(Symbol(),CURRENT_TIMEFRAME,0) );
+         Print("BEARISH_REVERSAL Reversal on " + (string)iTime(Symbol(),CURRENT_TIMEFRAME, 0) );
          return BEARISH_REVERSAL;
       }        
    }
@@ -4054,7 +4499,7 @@ Reversals getLinearMaReversal() {
 /** Start - LINEAR_MA Reversal Detection*/
 
 /** Start - NOLAG_MA Reversal Detection*/
-Reversals getNoLagMaReversal() {
+Reversal getNoLagMaReversal() {
 
    if(checkedBar == Time[CURRENT_BAR]) {
       
@@ -4098,7 +4543,183 @@ Reversals getNoLagMaReversal() {
 /** End - NOLAG_MA Reversal Detection*/
 
 /** Start - DONCHIAN_CHANNEL Reversal Detection*/
-Reversals getDonchianChannelReversal(bool useClosePrice) {
+Reversal getDonchianChannelOverlap() {
+
+   /** Common */
+   int timeFrame     = Period(); 
+   bool showMiddle   = false;
+   bool useClosePrice= false; 
+   int donchianChannelUpperBuffer = 0;//Upper
+   int donchianChannellowerBuffer = 1;//Lower
+
+   /** Fast DC*/
+   int fastChannelPeriod = 3;
+   int fastHighLowShift  = 1;
+   double fastDonchianChannelUpperLevelCurr = getDonchianChannelLevel(timeFrame, fastChannelPeriod, fastHighLowShift, showMiddle, useClosePrice, donchianChannelUpperBuffer, CURRENT_BAR); 
+   double fastDonchianChannelLowerLevelCurr = getDonchianChannelLevel(timeFrame, fastChannelPeriod, fastHighLowShift, showMiddle, useClosePrice, donchianChannellowerBuffer, CURRENT_BAR); 
+   double fastDonchianChannelUpperLevelPrev = getDonchianChannelLevel(timeFrame, fastChannelPeriod, fastHighLowShift, showMiddle, useClosePrice, donchianChannelUpperBuffer, CURRENT_BAR + 1); 
+   double fastDonchianChannelLowerLevelPrev = getDonchianChannelLevel(timeFrame, fastChannelPeriod, fastHighLowShift, showMiddle, useClosePrice, donchianChannellowerBuffer, CURRENT_BAR + 1); 
+      
+   /** Slow DC */
+   int slowChannelPeriod = 9;       
+   int slowHighLowShift  = 0;
+   double slowDonchianChannelUpperLevelCurr = getDonchianChannelLevel(timeFrame, slowChannelPeriod, slowHighLowShift, showMiddle, useClosePrice, donchianChannelUpperBuffer, CURRENT_BAR); 
+   double slowDonchianChannelLowerLevelCurr = getDonchianChannelLevel(timeFrame, slowChannelPeriod, slowHighLowShift, showMiddle, useClosePrice, donchianChannellowerBuffer, CURRENT_BAR); 
+   double slowDonchianChannelUpperLevelPrev = getDonchianChannelLevel(timeFrame, slowChannelPeriod, slowHighLowShift, showMiddle, useClosePrice, donchianChannelUpperBuffer, CURRENT_BAR + 1); 
+   double slowDonchianChannelLowerLevelPrev = getDonchianChannelLevel(timeFrame, slowChannelPeriod, slowHighLowShift, showMiddle, useClosePrice, donchianChannellowerBuffer, CURRENT_BAR + 1); 
+      
+   //Currently BULLISH_TREND - Scan for reversals
+   if ( getDynamicPriceZonesAndDonchianChannelReversal() == BEARISH_REVERSAL ) {
+   
+      //Dynamic Zones upper levels - curr and prev
+      double zoneLevelCurr  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, CURRENT_BAR);
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, CURRENT_BAR + 1);
+   
+      if( (fastDonchianChannelUpperLevelCurr == slowDonchianChannelUpperLevelCurr) 
+            && (fastDonchianChannelUpperLevelPrev == slowDonchianChannelUpperLevelPrev) 
+            && (zoneLevelCurr == zoneLevelPrev) ) { //When this scenario happens, Dynamic Zones upper levels are normally flat 
+         
+         
+         if(donchianChannelLatestSignal != SELL_SIGNAL) {
+            donchianChannelLatestSignal = SELL_SIGNAL;
+            Print("BEARISH REVERSAL on " + getCurrentTime());
+         }
+      }
+      
+   }
+   
+   //Currently BEARISH_TREND - Scan for reversals
+   if ( getDynamicPriceZonesAndDonchianChannelReversal() == BULLISH_REVERSAL) {
+   
+      //Dynamic Zones lower levels - curr and prev
+      double zoneLevelCurr  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, CURRENT_BAR);
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, CURRENT_BAR + 1);      
+   
+      if( (fastDonchianChannelLowerLevelCurr == slowDonchianChannelLowerLevelCurr) 
+            && (fastDonchianChannelLowerLevelPrev == slowDonchianChannelLowerLevelPrev) 
+            && (zoneLevelCurr == zoneLevelPrev) ) { //When this scenario happens, Dynamic Zones lower levels are normally flat 
+         
+         if(donchianChannelLatestSignal != BUY_SIGNAL) {
+            donchianChannelLatestSignal = BUY_SIGNAL;
+            Print("BULLISH REVERSAL on " + getCurrentTime());
+         }
+      }
+      
+   }   
+   
+   return CONTINUATION;
+}
+/** End - DONCHIAN_CHANNEL Reversal Detection*/
+
+/** Start - DONCHIAN_CHANNEL Reversal Detection*/
+//TODO
+Reversal getDonchianChannelSeBandsReversals() {
+
+   /** Common */
+   int timeFrame     = Period(); 
+   bool showMiddle   = false;
+   bool useClosePrice= false; 
+   int donchianChannelUpperBuffer = 0;//Upper
+   int donchianChannellowerBuffer = 1;//Lower
+
+   /** Fast DC*/
+   int fastChannelPeriod = 3;
+   int fastHighLowShift  = 1;
+   double fastDonchianChannelUpperLevelCurr = getDonchianChannelLevel(timeFrame, fastChannelPeriod, fastHighLowShift, showMiddle, useClosePrice, donchianChannelUpperBuffer, CURRENT_BAR); 
+   double fastDonchianChannelLowerLevelCurr = getDonchianChannelLevel(timeFrame, fastChannelPeriod, fastHighLowShift, showMiddle, useClosePrice, donchianChannellowerBuffer, CURRENT_BAR); 
+   double fastDonchianChannelUpperLevelPrev = getDonchianChannelLevel(timeFrame, fastChannelPeriod, fastHighLowShift, showMiddle, useClosePrice, donchianChannelUpperBuffer, CURRENT_BAR + 1); 
+   double fastDonchianChannelLowerLevelPrev = getDonchianChannelLevel(timeFrame, fastChannelPeriod, fastHighLowShift, showMiddle, useClosePrice, donchianChannellowerBuffer, CURRENT_BAR + 1); 
+      
+   /** Slow DC */
+   int slowChannelPeriod = 9;       
+   int slowHighLowShift  = 0;
+   double slowDonchianChannelUpperLevelCurr = getDonchianChannelLevel(timeFrame, slowChannelPeriod, slowHighLowShift, showMiddle, useClosePrice, donchianChannelUpperBuffer, CURRENT_BAR); 
+   double slowDonchianChannelLowerLevelCurr = getDonchianChannelLevel(timeFrame, slowChannelPeriod, slowHighLowShift, showMiddle, useClosePrice, donchianChannellowerBuffer, CURRENT_BAR); 
+   double slowDonchianChannelUpperLevelPrev = getDonchianChannelLevel(timeFrame, slowChannelPeriod, slowHighLowShift, showMiddle, useClosePrice, donchianChannelUpperBuffer, CURRENT_BAR + 1); 
+   double slowDonchianChannelLowerLevelPrev = getDonchianChannelLevel(timeFrame, slowChannelPeriod, slowHighLowShift, showMiddle, useClosePrice, donchianChannellowerBuffer, CURRENT_BAR + 1); 
+      
+   //Currently BULLISH_TREND - Scan for reversals
+   if ( getDynamicPriceZonesAndDonchianChannelReversal() == BEARISH_REVERSAL ) {
+   
+      //Dynamic Zones upper levels - curr and prev
+      double zoneLevelCurr  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, CURRENT_BAR);
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, CURRENT_BAR + 1);
+   
+      if( (fastDonchianChannelUpperLevelCurr == slowDonchianChannelUpperLevelCurr) 
+            && (fastDonchianChannelUpperLevelPrev == slowDonchianChannelUpperLevelPrev) 
+            && (zoneLevelCurr == zoneLevelPrev) ) { //When this scenario happens, Dynamic Zones upper levels are normally flat 
+         
+         
+         if(donchianChannelLatestSignal != SELL_SIGNAL) {
+            donchianChannelLatestSignal = SELL_SIGNAL;
+            Print("BEARISH REVERSAL on " + getCurrentTime());
+         }
+      }
+      
+   }
+   
+   //Currently BEARISH_TREND - Scan for reversals
+   if ( getDynamicPriceZonesAndDonchianChannelReversal() == BULLISH_REVERSAL) {
+   
+      //Dynamic Zones lower levels - curr and prev
+      double zoneLevelCurr  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, CURRENT_BAR);
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, CURRENT_BAR + 1);      
+   
+      if( (fastDonchianChannelLowerLevelCurr == slowDonchianChannelLowerLevelCurr) 
+            && (fastDonchianChannelLowerLevelPrev == slowDonchianChannelLowerLevelPrev) 
+            && (zoneLevelCurr == zoneLevelPrev) ) { //When this scenario happens, Dynamic Zones lower levels are normally flat 
+         
+         if(donchianChannelLatestSignal != BUY_SIGNAL) {
+            donchianChannelLatestSignal = BUY_SIGNAL;
+            Print("BULLISH REVERSAL on " + getCurrentTime());
+         }
+      }
+      
+   }   
+   
+   return CONTINUATION;
+}
+/** End - DONCHIAN_CHANNEL Reversal Detection*/
+
+/** One touch of the previous bar(CURRENT_BAR + 1) should be enough to warrant a reversal */
+//TODO
+Reversal getDynamicPriceZonesAndHurstChannelReversal() { //Hurst 4, 8, 5, 0, 1
+
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, CURRENT_BAR + 1);
+      
+      //JURIK_FILTER
+      double jurikFilterBullishValuePrev  = getJurikFilterLevel(JURIK_FILTER_BULLISH_VALUE, CURRENT_BAR + 1);
+      
+      if( (jurikFilterBullishValuePrev > zoneLevelPrev)) {
+         
+         return BEARISH_REVERSAL;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, CURRENT_BAR + 1);
+      
+      //JURIK_FILTER
+      double jurikFilterBearishValuePrev  = getJurikFilterLevel(JURIK_FILTER_BEARISH_VALUE, CURRENT_BAR + 1);
+      
+      if( (zoneLevelPrev > jurikFilterBearishValuePrev)) {
+         
+         return BULLISH_REVERSAL;
+      }      
+   }
+   
+   return CONTINUATION;      
+}
+
+
+/** Start - DONCHIAN_CHANNEL Reversal Detection*/
+Reversal getDonchianChannelReversal(bool useClosePrice) {
 
    if(checkedBar == Time[CURRENT_BAR]) {
       
@@ -4108,7 +4729,9 @@ Reversals getDonchianChannelReversal(bool useClosePrice) {
    int upperBuffer   = 0;
    int lowerBuffer   = 1; 
    
-   if( getDonchianChannelLevel(useClosePrice, upperBuffer, CURRENT_BAR) == getDonchianChannelLevel(useClosePrice, upperBuffer, CURRENT_BAR + 1) ) { 
+   
+   
+   /*if( getDonchianChannelLevel(useClosePrice, upperBuffer, CURRENT_BAR) == getDonchianChannelLevel(useClosePrice, upperBuffer, CURRENT_BAR + 1) ) { 
       
       checkedBar = Time[CURRENT_BAR];
       Print("BEARISH_REVERSAL Reversal on " + (string)iTime(Symbol(),CURRENT_TIMEFRAME,0) );
@@ -4119,14 +4742,341 @@ Reversals getDonchianChannelReversal(bool useClosePrice) {
       checkedBar = Time[CURRENT_BAR];
       Print("BULLISH_REVERSAL Reversal on " + (string)iTime(Symbol(),CURRENT_TIMEFRAME,0));
       return BULLISH_REVERSAL;     
-   }
+   }*/
 
    return CONTINUATION;
 }
 /** End - DONCHIAN_CHANNEL Reversal Detection*/
 
+/** 
+  * Start - DYNAMIC_JURIK Reversal Detection - The way this is checked assumes Bullish and Bearish reversal cannot at the same time.
+  */
+Reversal getDynamicJurikReversal(bool checkCurrentBar) {
+
+   //Only check once per bar
+   if(latestDynamicJurikReversalTime == Time[CURRENT_BAR]) {      
+      
+      return CONTINUATION;
+   } 
+
+   int barIndex = 0;
+   if(checkCurrentBar) { // Option to check if current bar must be checked. If checkCurrentBar is true, current and the previous bars will be checked, 
+                         // Otherwise the previous 2 bars will checked without checking the current bar - this is more safe as the reversal is comfirmed - but a bit late! 
+      barIndex = CURRENT_BAR;
+   }
+   else {
+   
+      barIndex = CURRENT_BAR + 1;
+   }
+   int previousBarIndex = getPreviousBarIndex(barIndex);
+   
+   Trend trend = getDynamicJurikTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      if( getDynamicJuricLevel(DYNAMIC_JURIK_SECOND_UPPER_VALUE, previousBarIndex ) == getDynamicJuricLevel(DYNAMIC_JURIK_SECOND_UPPER_VALUE, barIndex) ) { 
+         
+         latestDynamicJurikReversalTime = Time[CURRENT_BAR];
+         return BEARISH_REVERSAL;       
+      }
+   }   
+   else if( trend == BEARISH_TREND ) {   
+      
+      if( getDynamicJuricLevel(DYNAMIC_JURIK_SECOND_LOWER_VALUE, previousBarIndex) == getDynamicJuricLevel(DYNAMIC_JURIK_SECOND_LOWER_VALUE, barIndex) ) { 
+      
+         latestDynamicJurikReversalTime = Time[CURRENT_BAR];
+         return BULLISH_REVERSAL;     
+      }
+   }
+   
+   return CONTINUATION;
+}
+/** End - DYNAMIC_MPA Reversal Detection*/
+
+
+/** 
+ *Start - MAIN_STOCH Reversal Detection - Upper and Lower flat can co-incide, so we will depend on DYNAMIC_PRICE_ZONE to give us the current trend
+ */
+Reversal getMainStochReversal(bool checkCurrentBar) {
+
+   //Only check once per bar
+   if(latestMainStochReversalTime == Time[CURRENT_BAR]) {      
+      
+      return latestMainStochReversal;
+   } 
+
+   int barIndex = 0;
+   if(checkCurrentBar) { // Option to check if current bar must be checked. If checkCurrentBar is true, current and the previous bars will be checked, 
+                         // Otherwise the previous 2 bars will checked without checking the current bar - this is more safe as the reversal is comfirmed - but a bit late! 
+      barIndex = CURRENT_BAR;
+   }
+   else {
+   
+      barIndex = CURRENT_BAR + 1;
+   }
+   int previousBarIndex = getPreviousBarIndex(barIndex);
+   
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      if( getMainStochLevel(MAIN_STOCH_MAIN_VALUE, previousBarIndex ) == getMainStochLevel(MAIN_STOCH_MAIN_VALUE, barIndex) ) { 
+         
+         latestMainStochReversal = BEARISH_REVERSAL;
+         latestMainStochReversalTime = Time[CURRENT_BAR];
+         return BEARISH_REVERSAL;       
+      }
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      if( getMainStochLevel(MAIN_STOCH_SECOND_LOWER_VALUE, previousBarIndex ) == getMainStochLevel(MAIN_STOCH_SECOND_LOWER_VALUE, barIndex) ) { 
+      
+         latestMainStochReversal = BULLISH_REVERSAL;
+         latestMainStochReversalTime = Time[CURRENT_BAR];
+         return BULLISH_REVERSAL;     
+      }
+   }   
+   return CONTINUATION;
+}
+/** End - DYNAMIC_MPA Reversal Detection*/
+
+/** 
+ *Start - DYNAMIC_MPA Flat Detection - The way this is checked assumes Bullish and Bearish reversal cannot be flat at the same time.
+ */
+Flatter getDynamicMpaFlatter(int length, bool checkCurrentBar) {
+
+   if(latestDynamicMpaFlatterTime == Time[CURRENT_BAR]) {
+      
+      return latestDynamicMpaFlatter;
+   } 
+
+   int barIndex = 0;
+   if(checkCurrentBar) { // Option to check if current bar must be checked. If checkCurrentBar is true, current and the previous bars will be checked, 
+                         // Otherwise the previous 2 bars will checked without checking the current bar - this is more safe as the reversal is comfirmed - but a bit late! 
+      barIndex = CURRENT_BAR;
+   }
+   else {
+   
+      barIndex = CURRENT_BAR + 1;
+   }
+   
+    int previousBarIndex = getPreviousBarIndex(barIndex);
+
+   if( (getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, previousBarIndex) == getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex)) ) { 
+      
+      latestDynamicMpaFlatter = BULLISH_FLATTER;      
+      latestDynamicMpaFlatterTime = Time[CURRENT_BAR];
+      return BEARISH_FLATTER;       
+   }
+   else if( (getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, previousBarIndex) == getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, barIndex)) ) {
+      
+      latestDynamicMpaFlatter = BULLISH_FLATTER;
+      latestDynamicMpaFlatterTime = Time[CURRENT_BAR];
+      return BULLISH_FLATTER;     
+   }
+
+   return NO_FLATTER;
+}
+/** End - DYNAMIC_MPA Reversal Detection*/
+
+/** 
+ *Start - DYNAMIC_OF_AVERAGES Flat Detection - The way this is checked assumes Bullish and Bearish reversal cannot at the same time.
+ */
+Flatter getDynamicOfAveragesFlatter(int length, bool checkCurrentBar) {
+
+   if(latestDynamicOfAveragesFlatterTime == Time[CURRENT_BAR]) {
+      
+      return latestDynamicOfAveragesFlatter;
+   } 
+
+   int barIndex = 0;
+   if(checkCurrentBar) { // Option to check if current bar must be checked. If checkCurrentBar is true, current and the previous bars will be checked, 
+                         // Otherwise the previous 2 bars will checked without checking the current bar - this is more safe as the reversal is comfirmed - but a bit late! 
+      barIndex = CURRENT_BAR;
+   }
+   else {
+   
+      barIndex = CURRENT_BAR + 1;
+   }
+   
+   int previousBarIndex = getPreviousBarIndex(CURRENT_BAR);
+   
+   //Signal
+   //double dynamicOfAveragesSignalLevelCurr = getDynamicOfAveragesLevel(length, DYNAMIC_OF_AVAERAGES_SIGNAL, CURRENT_BAR);
+   
+   //Upper 
+   double dynamicOfAveragesUpperLevelCurr  = getDynamicOfAveragesLevel(length, DYNAMIC_OF_AVAERAGES_SECOND_UPPER, barIndex);
+   double dynamicOfAveragesUpperLevelPrev  = getDynamicOfAveragesLevel(length, DYNAMIC_OF_AVAERAGES_SECOND_UPPER, previousBarIndex);
+   
+   //Lower 
+   double dynamicOfAveragesLowerLevelCurr  = getDynamicOfAveragesLevel(length, DYNAMIC_OF_AVAERAGES_SECOND_LOWER, barIndex);
+   double dynamicOfAveragesLowerLevelPrev  = getDynamicOfAveragesLevel(length, DYNAMIC_OF_AVAERAGES_SECOND_LOWER, previousBarIndex);   
+
+   if( (dynamicOfAveragesLowerLevelPrev == dynamicOfAveragesLowerLevelCurr ) 
+         //&& ( (dynamicOfAveragesSignalLevelCurr > dynamicOfAveragesLowerLevelCurr) ) 
+         
+         //This is to make sure DynamicOfAverages is currently BEARISH, as it should be before we can expect any BULLISH_REVERSAL reversals
+         //&& (getDynamicOfAveragesLevel(length, DYNAMIC_OF_AVAERAGES_SIGNAL, CURRENT_BAR ) < getDynamicOfAveragesLevel(length, DYNAMIC_OF_AVAERAGES_MIDDLE, CURRENT_BAR ) )          
+         ) { 
+      latestDynamicOfAveragesFlatter     = BULLISH_FLATTER;   
+      latestDynamicOfAveragesFlatterTime = Time[CURRENT_BAR];
+      return BULLISH_FLATTER;     
+   }   
+   else if( ( dynamicOfAveragesUpperLevelPrev == dynamicOfAveragesUpperLevelCurr) 
+         //&& ( (dynamicOfAveragesSignalLevelCurr < dynamicOfAveragesUpperLevelCurr) )
+         
+         //This is to make sure DynamicOfAverages is currently BULLISH, as it should be before we can expect any BEARISH_REVERSAL reversals 
+         //&& (getDynamicOfAveragesLevel(length, DYNAMIC_OF_AVAERAGES_SIGNAL, CURRENT_BAR ) > getDynamicOfAveragesLevel(length, DYNAMIC_OF_AVAERAGES_MIDDLE, CURRENT_BAR ) )
+         ) { 
+      Print("Test");
+      latestDynamicOfAveragesFlatter     = BEARISH_FLATTER;
+      latestDynamicOfAveragesFlatterTime = Time[CURRENT_BAR];
+      return BEARISH_FLATTER;       
+   }
+
+   return NO_FLATTER;
+}
+/** End - DYNAMIC_MPA Reversal Detection*/
+
+/** 
+ *Start - DYNAMIC_OF_AVERAGES Signal Detection - The way this is checked assumes Bullish and Bearish reversal cannot at the same time.
+ */
+Signal getDynamicOfAveragesCrossSignal(int length, bool checkPreviousBar, bool checkFlatOnFastDynamicOfAverages) {
+
+   int fastDynamicOfAveragesLength = 15;
+   int slowDynamicOfAveragesLength = 20;
+   
+
+   if(latestDynamicOfAveragesCrossSignalTime == Time[CURRENT_BAR]) {
+      
+      return latestDynamicOfAveragesCrossSignalTime;
+   } 
+
+   Cross cross = getDynamicOfAveragesCross(fastDynamicOfAveragesLength, slowDynamicOfAveragesLength, checkPreviousBar);
+
+   if(checkFlatOnFastDynamicOfAverages) { //DYNAMIC_OF_AVERAGES flat must be in place
+      
+      Flatter flatter = getDynamicOfAveragesFlatter(fastDynamicOfAveragesLength, false); //check previos 2 bars - TODO check if current is check(as it must by default)
+      if(flatter == BEARISH_FLATTER) {
+      
+         if(cross == BULLISH_CROSS) {
+
+            latestDynamicOfAveragesCrossSignal = SELL_SIGNAL;
+            latestDynamicOfAveragesCrossSignalTime = Time[CURRENT_BAR];
+         }                   
+      }
+      else if(flatter == BULLISH_FLATTER) {
+      
+         Cross cross = getDynamicOfAveragesCross(fastDynamicOfAveragesLength, slowDynamicOfAveragesLength, checkPreviousBar);
+         if(cross == BEARISH_CROSS) {
+            
+            latestDynamicOfAveragesCrossSignal = SELL_SIGNAL;
+            latestDynamicOfAveragesCrossSignalTime = Time[CURRENT_BAR];
+         } 
+      }       
+        
+   }
+   else { //DYNAMIC_OF_AVERAGES flat can be ignored
+   
+         if(cross == BULLISH_CROSS) {
+
+            latestDynamicOfAveragesCrossSignal = SELL_SIGNAL;
+            latestDynamicOfAveragesCrossSignalTime = Time[CURRENT_BAR];
+         } 
+         else if(cross == BEARISH_CROSS) {
+            
+            latestDynamicOfAveragesCrossSignal = SELL_SIGNAL;
+            latestDynamicOfAveragesCrossSignalTime = Time[CURRENT_BAR];
+         }
+
+   }
+
+   return NO_SIGNAL;
+}
+/** End - DYNAMIC_MPA Reversal Detection*/
+
+/** 
+ *Start - DYNAMIC_OF_AVERAGES Cross Detection
+ */
+Cross getDynamicOfAveragesCross(int fastDynamicOfAveragesLength, int slowDynamicOfAveragesLength, bool checkPreviousBar) {
+
+   if(latestDynamicOfAveragesCrossTime == Time[CURRENT_BAR]) {
+      
+      return latestDynamicOfAveragesCross;
+   } 
+
+   if(checkPreviousBar) {
+   
+      double fastDynamicOfAveragesMiddleLevelCurr = getDynamicOfAveragesLevel(fastDynamicOfAveragesLength, DYNAMIC_OF_AVAERAGES_SIGNAL, CURRENT_BAR );
+      double slowDynamicOfAveragesMiddleLevelCurr = getDynamicOfAveragesLevel(slowDynamicOfAveragesLength, DYNAMIC_OF_AVAERAGES_SIGNAL, CURRENT_BAR );
+      
+      double fastDynamicOfAveragesMiddleLevelPrev = getDynamicOfAveragesLevel(fastDynamicOfAveragesLength, DYNAMIC_OF_AVAERAGES_SIGNAL, getPreviousBarIndex(CURRENT_BAR) );
+      double slowDynamicOfAveragesMiddleLevelPrev = getDynamicOfAveragesLevel(slowDynamicOfAveragesLength, DYNAMIC_OF_AVAERAGES_SIGNAL, getPreviousBarIndex(CURRENT_BAR) );
+      
+      if( (slowDynamicOfAveragesMiddleLevelCurr < fastDynamicOfAveragesMiddleLevelCurr) && (slowDynamicOfAveragesMiddleLevelPrev < fastDynamicOfAveragesMiddleLevelPrev) ) {      
+      
+         latestDynamicOfAveragesCross = BEARISH_CROSS;
+         latestDynamicOfAveragesCrossTime = Time[CURRENT_BAR];
+         return BEARISH_CROSS;
+      }            
+   }
+   else {
+      
+      double fastDynamicOfAveragesMiddleLevelCurr = getDynamicOfAveragesLevel(fastDynamicOfAveragesLength, DYNAMIC_OF_AVAERAGES_SIGNAL, CURRENT_BAR );
+      double slowDynamicOfAveragesMiddleLevelCurr = getDynamicOfAveragesLevel(slowDynamicOfAveragesLength, DYNAMIC_OF_AVAERAGES_SIGNAL, CURRENT_BAR );
+      
+      if( slowDynamicOfAveragesMiddleLevelCurr < fastDynamicOfAveragesMiddleLevelCurr ) {      
+      
+         latestDynamicOfAveragesCross = BULLISH_CROSS;
+         latestDynamicOfAveragesCrossTime = Time[CURRENT_BAR];
+         return BEARISH_CROSS;
+      }            
+   }
+   
+   return NO_CROSS;
+}
+/** End - DYNAMIC_OF_AVERAGES Cross Detection*/
+
+/** 
+ *Start - JMA_BANDS Reversal Detection - Both higher and lower bands cross at the same time, so it is fine to either check JMA_BANDS_UPPER or JMA_BANDS_LOWER
+ */
+Reversal getJmaBandsLevelCrossReversal() { 
+
+   int fasterBandsLength = 13;
+   int slowerBandsLength = 15;
+    
+   double pastTwoJmaBandsLevelFaster = getJmaBandsLevel(fasterBandsLength, JMA_BANDS_UPPER, getPastBars(2));
+   double pastTwoJmaBandsLevelSlower = getJmaBandsLevel(slowerBandsLength, JMA_BANDS_UPPER, getPastBars(2));
+   
+   double pastJmaBandsLevelFaster = getJmaBandsLevel(fasterBandsLength, JMA_BANDS_UPPER, getPastBars(1));
+   double pastJmaBandsLevelSlower = getJmaBandsLevel(slowerBandsLength, JMA_BANDS_UPPER, getPastBars(1));   
+   
+   double currJmaBandsLevelFaster = getJmaBandsLevel(fasterBandsLength, JMA_BANDS_UPPER, CURRENT_BAR);
+   double currJmaBandsLevelSlower = getJmaBandsLevel(slowerBandsLength, JMA_BANDS_UPPER, CURRENT_BAR);
+      
+   if( (pastTwoJmaBandsLevelSlower > pastTwoJmaBandsLevelFaster) //It was Bearish
+         && (pastJmaBandsLevelFaster > pastJmaBandsLevelSlower)  //It turned Bullish on previous
+         && (currJmaBandsLevelFaster > currJmaBandsLevelSlower) ) { //It is currently Bullist
+         
+      latestJmaBandsReversal     = BULLISH_REVERSAL;   
+      latestJmaBandsReversalTime = Time[CURRENT_BAR];
+      return BULLISH_REVERSAL;          
+   }
+   else if( (pastTwoJmaBandsLevelSlower < pastTwoJmaBandsLevelFaster) //It was Bullish
+         && (pastJmaBandsLevelFaster < pastJmaBandsLevelSlower)  //It turned Bearish on previous
+         && (currJmaBandsLevelFaster < currJmaBandsLevelSlower) ) { //It is currently Bearish
+         
+      latestJmaBandsReversal     = BEARISH_REVERSAL;   
+      latestJmaBandsReversalTime = Time[CURRENT_BAR];
+      return BEARISH_REVERSAL;          
+   }
+  
+  
+   return CONTINUATION;
+}
+/** End - JMA_BANDS Reversal Detection*/
+
+
 /** Start - QUANTILE_BANDS Reversal Detection*/
-Reversals getQuantileBandsReversal() {
+Reversal getQuantileBandsReversal() {
 
    if(checkedBar == Time[CURRENT_BAR]) {
       
@@ -4169,19 +5119,40 @@ double getDynamicPriceZonesLevel(int buffer, int barIndex) {
    return NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_PRICE_ZONE, PRICE_CLOSE, buffer, barIndex), Digits);
 }
 
-Trend getDynamicPriceZonesTrend() {
+/** End - DYNAMIC_PRICE_ZONE Level*/
 
-   int midleLevelBuffer = 2;
+/** Start - DYNAMIC_JURIK Level, trend and slope
+ * Retrieve the DYNAMIC_JURIK 
+ *
+ * 0 = Main(Signal), never empty
+ * 1 = Slope, Value=>Bearish, Empty=>Bullish
+ * 3 = 2nd Lower, never empty
+ * 4 = 1st Lower, never empty
+ * 5 = 1st Upper, never empty
+ * 6 = 2nd Upper, never empty
+ * 7 = Middle, never empty
+ */ 
+double getDynamicJuricLevel(int buffer, int barIndex) {
    
-   double priceLevelCurr   = iClose(Symbol(), CURRENT_TIMEFRAME, CURRENT_BAR);
-   double priceLevelPrev  = iClose(Symbol(), CURRENT_TIMEFRAME, CURRENT_BAR + 1);
-   if( (priceLevelCurr > getDynamicPriceZonesLevel(midleLevelBuffer, CURRENT_BAR)) 
-         && (priceLevelPrev > getDynamicPriceZonesLevel(midleLevelBuffer, (CURRENT_BAR + 1)))) {
+   int    length           = 10;
+   int    dzLookBackBars   = 20;
+   bool   showMiddleLine   = false;      
+   return NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_JURIK, length, dzLookBackBars, showMiddleLine, buffer, barIndex), Digits);
+}
+
+Trend getDynamicJurikTrend() {
+   
+   int previousBarIndex    = getPreviousBarIndex(CURRENT_BAR);
+   double priceLevelPrev   = getPreviousPriceClose(previousBarIndex);
+   double priceLevelCurr   = iClose(Symbol(), CURRENT_TIMEFRAME, CURRENT_BAR);   
+      
+   if( (priceLevelCurr > getDynamicJuricLevel(DYNAMIC_JURIK_MIDDLE_VALUE, CURRENT_BAR)) 
+         && (priceLevelPrev > getDynamicJuricLevel(DYNAMIC_JURIK_MIDDLE_VALUE, previousBarIndex))) {
          
          return BULLISH_TREND;
    }
-   else if( (priceLevelCurr < getDynamicPriceZonesLevel(midleLevelBuffer, CURRENT_BAR)) 
-         && (priceLevelPrev < getDynamicPriceZonesLevel(midleLevelBuffer, (CURRENT_BAR + 1)))) {
+   else if( (priceLevelCurr < getDynamicJuricLevel(DYNAMIC_JURIK_MIDDLE_VALUE, CURRENT_BAR)) 
+         && (priceLevelPrev < getDynamicJuricLevel(DYNAMIC_JURIK_MIDDLE_VALUE, previousBarIndex))) {
          
          return BEARISH_TREND;
    }
@@ -4189,7 +5160,133 @@ Trend getDynamicPriceZonesTrend() {
    return NO_TREND;
 }
 
-/** End - DYNAMIC_PRICE_ZONE Level*/
+/**
+ *  Get the DYNAMIC_JURIK_SLOPE, Buffer 1. EMPY_VALUE => Bullish, !EMPY_VALUE=> Bearish
+ */
+Slope getDynamicJuricSlope(int barIndex) {
+
+   double slopeValue = getDynamicJuricLevel(DYNAMIC_JURIK_SLOPE_VALUE, barIndex); 
+   if(slopeValue != EMPTY_VALUE) {
+      
+      return BEARISH_SLOPE;
+   }
+   else {
+      
+      return BULLISH_SLOPE;
+   } 
+}
+/** End - DYNAMIC_JURIK Level, trend and slope*/
+
+/** Start - MAIN_STOCH Level, trend and slope
+ * Retrieve the MAIN_STOCH 
+ *
+ * 0 = Main(2nd Upper), never empty
+ * 1 = 2nd Lower, never empty 
+ * 2 = 1st Upper, never empty
+ * 3 = 1st Lower, never empty
+ * 4 = Signal, never empty
+ * 5 = Slope, Value=>Bearish, Empty=>Bullish
+ */ 
+double getMainStochLevel(int buffer, int barIndex) {
+   
+   int length              = 20;
+   int emaSmoothingPeriod  = 10;
+   int channelPeriod       = 10;      
+   return NormalizeDouble(iCustom(Symbol(), Period(), MAIN_STOCH, length, emaSmoothingPeriod, channelPeriod, buffer, barIndex), Digits);
+}
+
+/**
+ *  Get the MAIN_STOCH, Buffer 1. EMPY_VALUE => Bullish, !EMPY_VALUE=> Bearish
+ */
+Slope getMainStochSlope(int barIndex) {
+
+   double slopeValue = getMainStochLevel(MAIN_STOCH_SLOPE_VALUE, barIndex); 
+   if(slopeValue != EMPTY_VALUE) {
+      
+      return BEARISH_SLOPE;
+   }
+   else {
+      
+      return BULLISH_SLOPE;
+   } 
+}
+/** End - MAIN_STOCH Level, trend and slope*/
+
+/** Start - HULL_MA Level*/
+/**
+ * Retrieve the HULL_MA and slope given length, buffer value and barIndex
+ *
+ * 0 = Main, never empty
+ * 1 = Up, NOT EMPTY_VALUE even when down trend. Note that upTrendBuffer is never empty, so we can only rely on downTrendBuffer being empty when testing for up trend
+ * 2 = Down, EMPTY_VALUE when up trend
+ */
+double getHullMaLevel(int length, int buffer, int barIndex) {
+      
+   double pctFilter  = 1; 
+   int colorBarBack  = 1;   
+   return NormalizeDouble(iCustom(Symbol(), Period(), HULL_MA, length, PRICE_CLOSE, pctFilter, colorBarBack, buffer, barIndex), Digits);
+}
+
+Slope getHullMaSlope(int length, int barIndex) {
+   
+    double hmaMainValuePrev = getHullMaLevel(length, HULL_MA_BULLISH_MAIN, CURRENT_BAR + 1);
+    double hmaMainValuePrevPrev = getHullMaLevel(length, HULL_MA_BULLISH_MAIN, CURRENT_BAR + 1);
+   
+   double hmaBullishValueCurr = getHullMaLevel(length, HULL_MA_BULLISH_VALUE, CURRENT_BAR);
+   double hmaBullishValuePrev = getHullMaLevel(length, HULL_MA_BULLISH_VALUE, CURRENT_BAR + 1);
+      
+   double hmaBearishValueCurr = getHullMaLevel(length, HULL_MA_BEARISH_VALUE, CURRENT_BAR);
+   double hmaBearishValuePrev = getHullMaLevel(length, HULL_MA_BEARISH_VALUE, CURRENT_BAR + 1);
+   
+   if( latestTransitionTime != Time[CURRENT_BAR] ) {
+      
+      if(hmaMainValuePrev == hmaMainValuePrevPrev) {
+         
+         Print("Flat @ " + getCurrentTime() );
+         
+         latestTransitionTime = Time[CURRENT_BAR];
+         if( (hmaBullishValuePrev != EMPTY_VALUE) && (hmaBearishValuePrev == EMPTY_VALUE)) {
+            
+            Print("Slope was Bullish @ " + getTime(CURRENT_BAR + 1) + " and is now... ");
+            if( (hmaBullishValueCurr != EMPTY_VALUE) && (hmaBearishValueCurr == EMPTY_VALUE)) { 
+            
+               Print("...Bullish @ " + getCurrentTime() ); 
+            } 
+            else if( (hmaBearishValueCurr != EMPTY_VALUE) && (hmaBullishValueCurr != EMPTY_VALUE)) { 
+               
+               Print("...Bearish @ " + getCurrentTime() );
+            }            
+         }
+         else if( (hmaBearishValuePrev != EMPTY_VALUE) && (hmaBullishValuePrev == EMPTY_VALUE)) {
+            
+            Print("Slope was Bearish @ " + getTime(CURRENT_BAR + 1) + " and is now... ");
+            if( (hmaBullishValueCurr != EMPTY_VALUE) && (hmaBearishValueCurr == EMPTY_VALUE)) { 
+            
+               Print("...Bullish @ " + getCurrentTime() ); 
+            } 
+            else if( (hmaBearishValueCurr != EMPTY_VALUE) && (hmaBullishValueCurr != EMPTY_VALUE)) { 
+               
+               Print("...Bearish @ " + getCurrentTime() );
+            }            
+         }      
+      }
+   }
+
+   if( (hmaBullishValueCurr != EMPTY_VALUE) && (hmaBullishValuePrev != EMPTY_VALUE)) { 
+   
+      return BULLISH_SLOPE; 
+   } 
+   else if( (hmaBearishValueCurr != EMPTY_VALUE) && (hmaBearishValuePrev != EMPTY_VALUE)) { 
+      
+      return BEARISH_SLOPE; 
+   }
+   else {
+      
+      return UNKNOWN_SLOPE; 
+   }
+
+}
+/** End - HULL_MA Level and slope*/
 
 /** Start - LINEAR_MA Level*/
 /**
@@ -4201,13 +5298,42 @@ Trend getDynamicPriceZonesTrend() {
  */
 double getLinearMaLevel(int buffer, int barIndex) {
    
-   int length        = 10;     
+   int length        = 18;     
    int filterPeriod  = 0; 
    double filter     = 2;  
    double filterOn   = 1.0;   
    return NormalizeDouble(iCustom(Symbol(), Period(), LINEAR_MA, length, PRICE_CLOSE, filterPeriod, filter, filterOn, buffer, barIndex), Digits);
 }
 /** End - LINEAR_MA Level*/
+
+/** Start - NON_LINEAR_KALMAN Level and slope*/
+/**
+ * Retrieve the NON_LINEAR_KALMAN given buffer value and barIndex
+ *
+ * 0 = Main(NON_LINEAR_KALMAN_MAIN), never empty
+ * 1 = Slope(NON_LINEAR_KALMAN_SLOPE), EMPTY_VALUE = BULLISH, !EMPTY_VALUE = BULLISH
+ */
+double getNonLinearKalmanLevel(int length, int buffer, int barIndex) {
+   
+   return NormalizeDouble(iCustom(Symbol(), Period(), NON_LINEAR_KALMAN, length, buffer, barIndex), Digits);
+}
+
+Slope getNonLinearKalmanSlope(int length, int barIndex) {
+   
+   double slope = getNonLinearKalmanLevel(length, NON_LINEAR_KALMAN_SLOPE, barIndex);
+   
+   if( (slope != EMPTY_VALUE)) {
+      
+      return BEARISH_SLOPE;
+   }
+   else {
+      
+      return BULLISH_SLOPE;
+   }
+   
+   return UNKNOWN_SLOPE;
+}
+/** Start - NON_LINEAR_KALMAN Level and slope*/
 
 /** Start - NOLAG_MA Level*/
 /**
@@ -4288,22 +5414,22 @@ double getSmoothedDigitalFilterLevel(int buffer, int barIndex) {
  *
  * 0 = Main(Middle band) - never empty
  * 3 = value of the upper band -  never empty
+ * 4 = value of the lower band -  never empty 
  * 5 = Slope, Upward = 1, Downward = -1 
  */
-double getVolitilityBandsLevel(int band, int barIndex) {
+double getVolitilityBandsLevel(int length, int buffer, int barIndex) {
    
    int timeFrame     = Period();   
-   int  length       = 15;
    double deviation  = 0.5;   
-   return NormalizeDouble(iCustom(Symbol(), Period(), VOLATILITY_BANDS, timeFrame, length, deviation, band, barIndex), Digits);   
+   return NormalizeDouble(iCustom(Symbol(), Period(), VOLATILITY_BANDS, timeFrame, length, deviation, buffer, barIndex), Digits);   
 }
 /**
  *  Get the VolitilityBands Slope(5). Upward = 1, Downward = -1.
  */
-int getVolitilityBandsSlope(int barIndex) {
+int getVolitilityBandsSlope(int length, int barIndex) {
    
    int slopeBuffer   = 5; 
-   return (int)getVolitilityBandsLevel(slopeBuffer, barIndex);// It is safe to implicitly cast to int as the slope is either Upward = 1, or Downward = -1.
+   return (int)getVolitilityBandsLevel(length, slopeBuffer, barIndex);// It is safe to implicitly cast to int as the slope is either Upward = 1, or Downward = -1.
 }
 /** End - VOLATILITY_BANDS Level and Slope*/
 
@@ -4340,20 +5466,54 @@ int getBollingerBandsSlope(int barIndex) {
 /**
  * Retrieve the T3_BANDS given buffer value and barIndex
  *
- * 0 = Main(Upper band) - never empty
- * 1 = value of the middle band -  never empty
- * 2 = value of the lower band -  never empty
+ * 0 = Main(T3_BANDS_UPPER_LEVEL) - never empty
+ * 1 = value of the middle band(T3_BANDS_MIDDLE_LEVEL)-  never empty
+ * 2 = value of the lower band(T3_BANDS_LOWER_LEVEL) -  never empty
  */
 double getT3BandsLevel(int band, int barIndex) {
-   
-   int timeFrame     = Period();   
+    
    int  length       = 6;
    double hot        = 1;
    double deviation  = 1;   
-   bool   original = false;
-   return NormalizeDouble(iCustom(Symbol(), Period(), T3_BANDS, timeFrame, length, deviation, hot, original, band, barIndex), Digits);
+   bool   original   = false;
+   return NormalizeDouble(iCustom(Symbol(), Period(), T3_BANDS, length, deviation, hot, original, band, barIndex), Digits);
 }
 /** End - T3_BANDS Level*/
+
+/** Start - T3_BANDS_SQUARED Level*/
+/**
+ * Retrieve the T3_BANDS_SQUARED given buffer value and barIndex
+ *
+ * 0 = Main(T3_BANDS_UPPER_LEVEL) - never empty
+ * 1 = value of the middle band(T3_BANDS_MIDDLE_LEVEL)-  never empty
+ * 2 = value of the lower band(T3_BANDS_LOWER_LEVEL) -  never empty
+ */
+double getT3BandsSquaredLevel(int band, int barIndex) {
+    
+   int  length       = 10;
+   double hot        = 1;  
+   bool   original   = false;
+   return NormalizeDouble(iCustom(Symbol(), Period(), T3_BANDS_SQUARED, length, hot, original, band, barIndex), Digits);
+}
+/** End - T3_BANDS_SQUARED Level*/
+
+/** Start - NON_LINEAR_KALMAN_BANDS Level*/
+/**
+ * Retrieve the NON_LINEAR_KALMAN_BANDS given buffer value and barIndex
+ *
+ * 0 = NON_LINEAR_KALMAN_BANDS_UPPER;
+ * 1 = NON_LINEAR_KALMAN_BANDS_MIDDLE;
+ * 2 = NON_LINEAR_KALMAN_BANDS_LOWER;
+ */
+double getNonLinearKalmanBandsLevel(int filterLength, int band, int barIndex) {
+
+   int               devLength        = filterLength;
+   int               preSmooth        = 5;
+   int               preSmoothMethod  = 25;
+   double            deviation        = 0.5;
+   return NormalizeDouble(iCustom(Symbol(), Period(), NON_LINEAR_KALMAN_BANDS, filterLength, devLength, preSmooth, preSmoothMethod, deviation, band, barIndex), Digits);
+}
+/** End - NON_LINEAR_KALMAN_BANDS Level*/
 
 /** Start - DONCHIAN_CHANNEL Level and slope*/
 /**
@@ -4364,13 +5524,9 @@ double getT3BandsLevel(int band, int barIndex) {
  * 2 = Middle
  * 4 = Slope
  */
-double getDonchianChannelLevel(bool useClosePrice, int buffer, int barIndex) {
+double getDonchianChannelLevel(int timeFrame, int length, int highLowShift, bool showMiddle, bool useClosePrice, int buffer, int barIndex) {
    
-   int timeFrame        = Period(); 
-   int channelPeriod   = 10;
-   int highLowShift    = 1;
-   bool showMiddle      = false;
-   return NormalizeDouble(iCustom(Symbol(), Period(), DONCHIAN_CHANNEL, timeFrame, channelPeriod, highLowShift, showMiddle, useClosePrice, buffer, barIndex), Digits);
+   return NormalizeDouble(iCustom(Symbol(), Period(), DONCHIAN_CHANNEL, timeFrame, length, highLowShift, showMiddle, useClosePrice, buffer, barIndex), Digits);
 }
 /**
  *  Get the DONCHIAN_CHANNEL Slope(5). Upward = 1, Downward = -1.
@@ -4378,7 +5534,7 @@ double getDonchianChannelLevel(bool useClosePrice, int buffer, int barIndex) {
 int getDonchianChannelSlope(int barIndex) {
    
    int slopeBuffer   = 4; 
-   return (int)getDonchianChannelLevel(slopeBuffer, barIndex);// It is safe to implicitly cast to int as the slope is either Upward = 1, or Downward = -1.
+   return 0;//(int)getDonchianChannelLevel(false, slopeBuffer, barIndex);// It is safe to implicitly cast to int as the slope is either Upward = 1, or Downward = -1.
 }
 /** End - DONCHIAN_CHANNEL Level and slope*/
 
@@ -4414,6 +5570,230 @@ double getQuantileBandsLevel(int buffer, int barIndex) {
 }
 /** End - SE_BANDS Level*/
 
+/** Start - SOMAT3 Level and slope*/
+/**
+ * Retrieve the SOMAT3 given buffer value and barIndex
+ *
+ * 0 = Main(slope), Never empty. 1 = > Bullish, -1 => Bearish.
+ * 1 = Bullish value, Never empty
+ * 2 = Bearish value, empty when in Mullish mode
+ */
+double getSomat3Level(int buffer, int barIndex) {
+   
+   int timeFrame              = Period(); 
+   int length                 = 10;
+   double sensitivityFactor_  = 0.4;
+   return NormalizeDouble(iCustom(Symbol(), Period(), SOMAT3, timeFrame, length, sensitivityFactor_, buffer, CURRENT_BAR), Digits);
+}
+/**
+ *  Get the SOMAT3 Slope(5). Upward = 1, Downward = -1.
+ */
+int getSomat3Slope(int barIndex) {
+   
+   int slopeBuffer   = 0; 
+   return (int)getSomat3Level(slopeBuffer, barIndex);// It is safe to implicitly cast to int as the slope is either Upward = 1, or Downward = -1.
+}
+/** End - SOMAT3 Level and slope*/
+
+/** Start - DYNAMIC_OF_AVERAGES Level */
+/**
+ * Retrieve the DYNAMIC_OF_AVERAGES given buffer value and barIndex
+ *
+ * 0 = Main(DYNAMIC_OF_AVAERAGES_SIGNAL)
+ * 1 = DYNAMIC_OF_AVAERAGES_SECOND_LOWER 
+ * 2 = DYNAMIC_OF_AVAERAGES_FIRST_LOWER  
+ * 3 = DYNAMIC_OF_AVAERAGES_FIRST_UPPER  
+ * 4 = DYNAMIC_OF_AVAERAGES_SECOND_UPPER
+ * 5 = DYNAMIC_OF_AVAERAGES_MIDDLE
+ */
+double getDynamicOfAveragesLevel(int length, int buffer, int barIndex) {
+
+   //Only check once per bar
+   if(latestDynamicOfAveragesShortTermTrendTime == Time[CURRENT_BAR]) {      
+      
+      return latestDynamicOfAveragesShortTermTrend;
+   } 
+             
+   int method     =  8; 
+   int dzLookBack =  12;
+   ENUM_APPLIED_PRICE price = PRICE_CLOSE;
+   return NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_OF_AVERAGES, length, method, dzLookBack, buffer, barIndex), Digits);
+}
+
+Trend getDynamicOfAveragesShortTermTrend(int length) {//IDEA: Invalidate trends, closing trades
+
+   double midLevelCurr = getDynamicOfAveragesLevel(length, DYNAMIC_OF_AVAERAGES_MIDDLE, CURRENT_BAR);
+   double midLevelPrev = getDynamicOfAveragesLevel(length, DYNAMIC_OF_AVAERAGES_MIDDLE, getPreviousBarIndex(CURRENT_BAR));
+   
+   double signalCurr = getDynamicOfAveragesLevel(length, DYNAMIC_OF_AVAERAGES_SIGNAL, CURRENT_BAR);
+   double signalPrev = getDynamicOfAveragesLevel(length, DYNAMIC_OF_AVAERAGES_SIGNAL, getPreviousBarIndex(CURRENT_BAR));      
+
+   if( ((latestDynamicOfAveragesShortTermTrend != BULLISH_SHORT_TERM_TREND) 
+         && (signalCurr > midLevelCurr ) && (signalCurr > midLevelPrev)) ) {
+   
+      latestDynamicOfAveragesShortTermTrend = BULLISH_SHORT_TERM_TREND;
+      latestDynamicOfAveragesShortTermTrendTime = Time[CURRENT_BAR];    
+      return BULLISH_SHORT_TERM_TREND;
+   }
+   else if( (latestDynamicOfAveragesShortTermTrend != BEARISH_SHORT_TERM_TREND) 
+         && ((signalCurr < midLevelCurr ) && (signalCurr < midLevelPrev)) ) {
+      
+      latestDynamicOfAveragesShortTermTrend = BEARISH_SHORT_TERM_TREND;
+      latestDynamicOfAveragesShortTermTrendTime = Time[CURRENT_BAR];       
+      return BEARISH_SHORT_TERM_TREND;
+   }
+   
+   return NO_TREND;
+}
+/** End - DYNAMIC_OF_AVERAGES Level*/
+
+/** Start - DYNAMIC_MPA Level */
+/**
+ * Retrieve the DYNAMIC_MPA given buffer value and barIndex
+ *
+ * 0 = Main(Upper line)
+ * 2 = Middle line
+ * 4 = Lower line
+ * 5 = Signal line
+ */
+double getDynamicMpaLevel(int length, int buffer, int barIndex) {
+   
+   int method     =  10; 
+   int dzLookBack =  5;
+   ENUM_APPLIED_PRICE price = PRICE_CLOSE;
+   return NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_MPA, length, price, method, dzLookBack, buffer, barIndex), Digits);
+}
+/** End - DYNAMIC_MPA Level*/
+
+/** Start - JURIK_FILTER Level and slope*/
+/**
+ * Retrieve the JURIK_FILTER given buffer value and barIndex
+ *
+ * 0 = Main(Bullish), Never empty.
+ * 1 = Bearish value, Empty when Bullish
+ * 5 = Slope. Upward = 1, Downward = -1.
+ */
+double getJurikFilterLevel(int buffer, int barIndex) {
+   
+   int timeFrame  =  Period(); 
+   int length     =  15;
+   double phase   =  100;             
+   int price      =  21; //Zero based, pr_hatbiased2;    
+   double filter  =  1; 
+   int filterType =  2; //Apply filter to all
+   
+   return NormalizeDouble(iCustom(Symbol(), Period(), JURIK_FILTER, timeFrame, length, phase, price, filter, filterType, buffer, barIndex), Digits);
+}
+/**
+ *  Get the JURIK_FILTER Slope(5). Upward = 1, Downward = -1.
+ */
+Slope getJurikFilterSlope(int barIndex) {
+
+   int slope = (int)getJurikFilterLevel(JURIK_FILTER_SLOPE, barIndex);//It is safe to explictly cast to int as the slope is either Upward = 1, or Downward = -1.
+   if(slope == 1) {
+
+      return BULLISH_SLOPE;
+   }
+   else if(slope == -1){
+      
+      return BEARISH_SLOPE;
+   }
+   else {
+      
+      return UNKNOWN_SLOPE;
+   }
+}
+/** End - JURIK_FILTER Level and slope*/
+
+/** Start - MLS_BANDS Level*/
+/**
+ * Retrieve the MLS_BANDS given buffer value and barIndex
+ *
+ * 0 = Main(Upper Band), Never empty.
+ * 1 = lower Band, Never empty
+ */
+double getMlsBandsLevel(int buffer, int barIndex) {
+   
+   int length   = 10;
+   int shift      = 0;
+   int future     = 0;
+   bool calculateDeflection= false;
+   bool reDraw = true; 
+   return NormalizeDouble(iCustom(Symbol(), Period(), MLS_BANDS, length, shift, future, calculateDeflection, reDraw, buffer, barIndex), Digits);
+}
+/** End - MLS_BANDS Level*/
+
+/** Start - SR_BANDS Level and slope*/
+/**
+ * Retrieve the SR_BANDS given buffer value and barIndex
+ *
+ * 0 = Main(Upper Band), Never empty.
+ * 1 = lower Band, Never empty
+ * 2 = Bullish Slope. Empty when Bearish.
+ * 3 = Bearish Slope. Empty when Bullish. 
+ */
+double getSrBandsLevel(int buffer, int barIndex) {
+   
+   int range =  5;
+   return NormalizeDouble(iCustom(Symbol(), Period(), SR_BANDS, range, buffer, barIndex), Digits);
+}
+/**
+ *  Get the SR_BANDS Slope(5). Upward = 1, Downward = -1.
+ */
+Slope getSrBandsSlope(int barIndex) {
+
+   double bullishSlope = getSrBandsLevel(SR_BULLISH_SLOPE, barIndex);
+   double bearishSlope = getSrBandsLevel(SR_BEARISH_SLOPE, barIndex);
+   
+   if( (bullishSlope != EMPTY_VALUE) && (bearishSlope == EMPTY_VALUE) ) {
+      
+      return BULLISH_SLOPE;
+   }
+   else if( (bearishSlope != EMPTY_VALUE) && (bullishSlope == EMPTY_VALUE) ) {
+      
+      return BEARISH_SLOPE;
+   }
+   
+   return UNKNOWN_SLOPE;
+}
+/** End - SR_BANDS Level and slope*/
+
+/** Start - JMA_BANDS Level*/
+/**
+ * Retrieve the JMA_BANDS given price, buffer value and barIndex
+ *
+ * 0 = Upper band, never empty
+ * 1 = Lower band, never empty
+ */
+double getJmaBandsLevel(int length, int buffer, int barIndex) {
+   
+   double deviation     = 0.1; //Day 0.5;     
+   return NormalizeDouble(iCustom(Symbol(), Period(), JMA_BANDS, length, deviation, buffer, barIndex), Digits);
+}
+/** End - JURIC_FILTER Level*/
+
+/** Start - EFT Level*/
+/**
+ * Retrieve the EFT given buffer value and barIndex
+ *
+ * 0 = Main, never empty
+ * 1 = Empty when bullish, not empty when bearish 
+ * 3 = Never empty
+ * 
+ * Application: if Buffer0 > Buffer3 => Bullish, if Buffer3 > Buffer0 => Bearish
+ * Oversold/Overbought Levels: 6-7, (-7)-(-6)
+ */
+double getEftLevel(int buffer, int barIndex) {
+   
+   int length        = 10;         
+   double weight     = 1.5;               
+   double filter     = 1;                 
+   int filterPeriod  = 1;                 
+   int applyFilterTo = 2;            
+   return NormalizeDouble(iCustom(Symbol(), Period(), EFT, length, weight, filter, filterPeriod, applyFilterTo, buffer, barIndex), Digits);
+}
+/** End - EFT Level*/
+
 /** Start - FIBO_BANDS Level and slope*/
 /**
  * Retrieve the FIBO_BANDS given buffer value and barIndex
@@ -4438,7 +5818,7 @@ double getFiboBandsLevel_TODO(int buffer, int barIndex) {
 int getFiboBandsLevelSlope_TODO(int barIndex) {
    
    int slopeBuffer   = 4; 
-   return (int)getDonchianChannelLevel(slopeBuffer, barIndex);// It is safe to implicitly cast to int as the slope is either Upward = 1, or Downward = -1.
+   return 0;//(int)getDonchianChannelLevel(false, slopeBuffer, barIndex);// It is safe to implicitly cast to int as the slope is either Upward = 1, or Downward = -1.
 }
 /** End - FIBO_BANDS Level and slope*/
 
@@ -4476,7 +5856,7 @@ int getFiboBandsLevelSlope_TODO(int barIndex) {
 
 
 
-void smoothedDigitalFiltesLevelTest() {
+void smoothedDigitalFilterLevelTest() {
    
    //double upper = getSmoothedDigitalFilterLevel(2, 0);
    //double lower = getSmoothedDigitalFilterLevel(3, 0);
@@ -4489,10 +5869,2017 @@ void smoothedDigitalFiltesLevelTest() {
    
    if(upperPrev == upper) {
       
-      Print("UPPER BANDS ARE FLAT at: " + Time[CURRENT_BAR]);
+      Print("UPPER BANDS ARE FLAT at: " + (string)Time[CURRENT_BAR]);
    }
    else if(lowerPrev == lower) {
       
-      Print("LOWER BANDS ARE FLAT at: " + Time[CURRENT_BAR]);
+      Print("LOWER BANDS ARE FLAT at: " + (string)Time[CURRENT_BAR]);
+   }   
+}
+
+void getSomat3LevelTest() {
+   
+   //double upper = getSmoothedDigitalFilterLevel(2, 0);
+   //double lower = getSmoothedDigitalFilterLevel(3, 0);
+   
+   double slope = getSomat3Slope(0); 
+   double main = getSomat3Level(1, 0);
+   double lower = getSomat3Level(2, 0);
+   Print("Main value: " + (string)main);
+   
+   if(slope == 1) {
+        
+      Print("Bullish at: " + (string)Time[CURRENT_BAR]);
+   }
+   else if(slope == -1) {
+      
+      Print("Bearish at: " + (string)Time[CURRENT_BAR]);
+   }   
+}
+
+/** START TRANSITION DETECTIONS */
+/** START DYNAMIC_JURIK */
+/** 
+ * Only check if previous volitilityBandsLevel was outside dynamicMpaLevel and is now inside. 
+ * When this happens, the dynamicMpaLevel should atleast have been flat for current and previous level, getDynamicMpaFlatter(true)
+ */
+ //TODO: CHANGE getDynamicMpaLevel to getDynamicJuricLevel
+Transition getDynamicJurikAndVolitilityBandsTransition(bool checkCurrentBar) {
+
+   int length = 20;
+   int volitilityLength = 20;
+   Reversal rev = getDynamicJurikReversal(true);
+   
+   int barIndex = 0;
+   if(checkCurrentBar) { // Option to check if current bar must be checked. If checkCurrentBar is true, current and the previous bars will be checked, 
+                         // Otherwise the previous 2 bars will checked without checking the current bar - this is more safe as the reversal is comfirmed - but a bit late! 
+      barIndex = CURRENT_BAR;
+   }
+   else {
+   
+      barIndex = CURRENT_BAR + 1;
+   }   
+   
+   int previousBarIndex = getPreviousBarIndex(barIndex);
+   
+   if(rev == BEARISH_REVERSAL) {
+      
+      //DYNAMIC_MPA
+      double dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex);
+      double dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, previousBarIndex);      
+      //VOLATILITY_BANDS      
+      double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);
+      double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, previousBarIndex);
+      
+      if( (volitilityBandsLevelPrev > dynamicMpaLevelPrev) && (dynamicMpaLevelCurr > volitilityBandsLevelCurr ) ) {
+         
+         return BULLISH_TO_BEARISH_TRANSITION;
+      }
+      
+   }
+   else if(rev == BULLISH_REVERSAL) { 
+     
+      //DYNAMIC_MPA
+      double dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, barIndex);
+      double dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, previousBarIndex);
+      //VOLATILITY_BANDS      
+      double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, barIndex);
+      double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, previousBarIndex);
+      
+      if( ( dynamicMpaLevelPrev > volitilityBandsLevelPrev) && (volitilityBandsLevelCurr > dynamicMpaLevelCurr) ) {
+         
+         return BEARISH_TO_BULLISH_TRANSITION;
+      }   
+   }
+   else {
+         
+         //Scan for suddent reversal - A cross of DYNAMIC_MPA and VOLATILITY_BANDS without the DYNAMIC_MPA flattening first
+         
+         //DYNAMIC_MPA
+         double dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex);
+         double dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, previousBarIndex);
+         //VOLATILITY_BANDS      
+         double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);
+         double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, previousBarIndex);
+         if( (volitilityBandsLevelPrev > dynamicMpaLevelPrev) && (dynamicMpaLevelCurr > volitilityBandsLevelCurr ) ) {
+         
+            return SUDDEN_BULLISH_TO_BEARISH_TRANSITION;
+         }
+         
+         //DYNAMIC_MPA
+         dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, barIndex);
+         dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, previousBarIndex);
+         //VOLATILITY_BANDS      
+         volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, barIndex);
+         volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, previousBarIndex);
+         if( ( dynamicMpaLevelPrev > volitilityBandsLevelPrev) && (volitilityBandsLevelCurr > dynamicMpaLevelCurr) ) {
+         
+            return SUDDEN_BEARISH_TO_BULLISH_TRANSITION;
+         }          
+                  
+   }
+   
+   return NO_TRANSITION;
+}
+/** END DYNAMIC_JURIK TRANSITION DETECTIONS */
+
+/** 
+ * Only check if previous volitilityBandsLevel was outside dynamicMpaLevel and is now inside. 
+ * When this happens, the dynamicMpaLevel should atleast have been flat for current and previous level, getDynamicMpaFlatter(true)
+ */
+Transition getDynamicMpaAndVolitilityBandsReversal(int length, int volitilityLength, bool checkCurrentBar, bool checkPreviousVolitilityBandsLevels) {
+
+   Flatter flatter = getDynamicMpaFlatter(20, checkCurrentBar);
+   
+   int barIndex = 0;
+   if(checkCurrentBar) { // Option to check if current bar must be checked. If checkCurrentBar is true, current and the previous bars will be checked, 
+                         // Otherwise the previous 2 bars will checked without checking the current bar - this is more safe as the reversal is comfirmed - but a bit late! 
+      barIndex = CURRENT_BAR;
+   }
+   else {
+   
+      barIndex = CURRENT_BAR + 1;
+   }   
+   
+   int previousBarIndex = getPreviousBarIndex(barIndex);
+   
+   if(flatter == BEARISH_FLATTER) {
+      
+      //DYNAMIC_MPA
+      double dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex);
+      double dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, previousBarIndex);      
+      
+      //VOLATILITY_BANDS      
+      double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);
+      double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, previousBarIndex);
+      
+      if(checkPreviousVolitilityBandsLevels) { //Check previous VolitilityBandsLevels
+      
+         if( (volitilityBandsLevelPrev > dynamicMpaLevelPrev) && (dynamicMpaLevelCurr > volitilityBandsLevelCurr ) ) {
+            
+            return BULLISH_TO_BEARISH_TRANSITION;
+         }
+      }
+      else {// Dont check previous VolitilityBandsLevels
+         
+         if(dynamicMpaLevelCurr > volitilityBandsLevelCurr) {
+            
+            return BULLISH_TO_BEARISH_TRANSITION;
+         }      
+      }
+      
+   }
+   else if(flatter == BULLISH_FLATTER) { 
+     
+      //DYNAMIC_MPA
+      double dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, barIndex);
+      double dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, previousBarIndex);
+      
+      //VOLATILITY_BANDS      
+      double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, barIndex);
+      double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, previousBarIndex);
+      
+      if(checkPreviousVolitilityBandsLevels) { //Check previous VolitilityBandsLevels
+         
+         if( ( dynamicMpaLevelPrev > volitilityBandsLevelPrev) && (volitilityBandsLevelCurr > dynamicMpaLevelCurr) ) {
+            
+            return BEARISH_TO_BULLISH_TRANSITION;
+         } 
+      } 
+      else { // Dont check previous VolitilityBandsLevels
+         
+         if( volitilityBandsLevelCurr > dynamicMpaLevelCurr ) {
+            
+            return BEARISH_TO_BULLISH_TRANSITION;
+         }       
+      } 
+   }
+   else {
+         
+         //Scan for suddent reversal - A cross of DYNAMIC_MPA and VOLATILITY_BANDS without the DYNAMIC_MPA flattening first
+         
+          /*--BULLISH_TO_BEARISH--*/
+         //DYNAMIC_MPA
+         double dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex);
+         double dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, previousBarIndex);
+         
+         //VOLATILITY_BANDS      
+         double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);
+         double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, previousBarIndex);
+         
+         if(checkPreviousVolitilityBandsLevels) { //Check previous VolitilityBandsLevels
+            
+            if( (volitilityBandsLevelPrev > dynamicMpaLevelPrev) && (dynamicMpaLevelCurr > volitilityBandsLevelCurr ) ) {
+            
+               return SUDDEN_BULLISH_TO_BEARISH_TRANSITION;
+            }
+         }
+         else { // Dont check previous VolitilityBandsLevels
+            
+            if( dynamicMpaLevelCurr > volitilityBandsLevelCurr ) {
+            
+               return SUDDEN_BULLISH_TO_BEARISH_TRANSITION;
+            }         
+         }
+         
+         /*--BEARISH_TO_BULLISH--*/
+         //DYNAMIC_MPA
+         dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, barIndex);
+         dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, previousBarIndex);
+         
+         //VOLATILITY_BANDS      
+         volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, barIndex);
+         volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, previousBarIndex);
+         
+         if(checkPreviousVolitilityBandsLevels) { //Check previous VolitilityBandsLevels
+            
+            if( ( dynamicMpaLevelPrev > volitilityBandsLevelPrev) && (volitilityBandsLevelCurr > dynamicMpaLevelCurr) ) {
+            
+               return SUDDEN_BEARISH_TO_BULLISH_TRANSITION;
+            } 
+         } 
+         else { // Dont check previous VolitilityBandsLevels
+            if( ( dynamicMpaLevelPrev > volitilityBandsLevelPrev) && (volitilityBandsLevelCurr > dynamicMpaLevelCurr) ) {
+            
+               return SUDDEN_BEARISH_TO_BULLISH_TRANSITION;
+            }         
+         }                
+   }
+   
+   return NO_TRANSITION;
+}
+/** END TRANSITION DETECTIONS */
+
+/** 
+ * Only check if previous volitilityBandsLevel was outside dynamicMpaLevel and is now inside. 
+ * When this happens, the dynamicMpaLevel should atleast have been flat for current and previous level, getDynamicMpaFlatter(true)
+ */
+Transition getDynamicOfAveragesAndVolitilityBandsTransition(int volitilityLength, bool checkCurrentBar) {
+
+   int dynamicOfAveragesLength = 15;
+   Flatter flatter = getDynamicOfAveragesFlatter(dynamicOfAveragesLength, false);
+   
+   int barIndex = 0;
+   if(checkCurrentBar) { // Option to check if current bar must be checked. If checkCurrentBar is true, current and the previous bars will be checked, 
+                         // Otherwise the previous 2 bars will checked without checking the current bar - this is more safe as the reversal is comfirmed - but a bit late! 
+      barIndex = CURRENT_BAR;
+   }
+   else {
+   
+      barIndex = CURRENT_BAR + 1;
+   }   
+   
+   int previousBarIndex = getPreviousBarIndex(barIndex);
+   
+   if(flatter == BEARISH_FLATTER) {
+      
+      //DYNAMIC_OF_AVAERAGES
+      double dynamicOfAveragesLevelCurr = getDynamicOfAveragesLevel(dynamicOfAveragesLength, DYNAMIC_OF_AVAERAGES_SECOND_UPPER, barIndex);
+      double dynamicOfAveragesLevelPrev = getDynamicOfAveragesLevel(dynamicOfAveragesLength, DYNAMIC_OF_AVAERAGES_SECOND_UPPER, previousBarIndex);      
+      
+      //VOLATILITY_BANDS      
+      double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);
+      double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, previousBarIndex);
+      
+      if( (volitilityBandsLevelPrev > dynamicOfAveragesLevelPrev) && (dynamicOfAveragesLevelCurr > volitilityBandsLevelCurr ) ) {
+         
+         return BULLISH_TO_BEARISH_TRANSITION;
+      }
+      
+   }
+   else if(flatter == BULLISH_FLATTER) { 
+     
+      //DYNAMIC_OF_AVAERAGES
+      double dynamicOfAveragesLevelCurr = getDynamicOfAveragesLevel(dynamicOfAveragesLength, DYNAMIC_OF_AVAERAGES_SECOND_LOWER, barIndex);
+      double dynamicOfAveragesLevelPrev = getDynamicOfAveragesLevel(dynamicOfAveragesLength, DYNAMIC_OF_AVAERAGES_SECOND_LOWER, previousBarIndex);
+      
+      //VOLATILITY_BANDS      
+      double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, barIndex);
+      double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, previousBarIndex);
+      
+      if( ( dynamicOfAveragesLevelPrev > volitilityBandsLevelPrev) && (volitilityBandsLevelCurr > dynamicOfAveragesLevelCurr) ) {
+         
+         return BEARISH_TO_BULLISH_TRANSITION;
+      }   
+   }
+   else {
+         
+         //Scan for suddent reversal - A cross of DYNAMIC_OF_AVAERAGES and VOLATILITY_BANDS without the DYNAMIC_OF_AVAERAGES flattening first
+         
+         //DYNAMIC_OF_AVAERAGES
+         double dynamicOfAveragesLevelCurr = getDynamicOfAveragesLevel(dynamicOfAveragesLength, DYNAMIC_OF_AVAERAGES_SECOND_UPPER, barIndex);
+         double dynamicOfAveragesLevelPrev = getDynamicOfAveragesLevel(dynamicOfAveragesLength, DYNAMIC_OF_AVAERAGES_SECOND_UPPER, previousBarIndex);
+         
+         //VOLATILITY_BANDS      
+         double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);
+         double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, previousBarIndex);
+         if( (volitilityBandsLevelPrev > dynamicOfAveragesLevelPrev) && (dynamicOfAveragesLevelCurr > volitilityBandsLevelCurr ) ) {
+         
+            return SUDDEN_BULLISH_TO_BEARISH_TRANSITION;
+         }
+         
+         //DYNAMIC_OF_AVAERAGES
+         dynamicOfAveragesLevelCurr = getDynamicOfAveragesLevel(dynamicOfAveragesLength, DYNAMIC_OF_AVAERAGES_SECOND_LOWER, barIndex);
+         dynamicOfAveragesLevelPrev = getDynamicOfAveragesLevel(dynamicOfAveragesLength, DYNAMIC_OF_AVAERAGES_SECOND_LOWER, previousBarIndex);
+         
+         //VOLATILITY_BANDS      
+         volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, barIndex);
+         volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, previousBarIndex);
+         if( ( dynamicOfAveragesLevelPrev > volitilityBandsLevelPrev) && (volitilityBandsLevelCurr > dynamicOfAveragesLevelCurr) ) {
+         
+            return SUDDEN_BEARISH_TO_BULLISH_TRANSITION;
+         }          
+                  
+   }
+   
+   return NO_TRANSITION;
+}
+/** END TRANSITION DETECTIONS */
+
+/** START REVERSAL DETECTIONS */
+Reversal getT3OuterBandsReversal(bool checkCurrentBar) {
+
+   if(latestT3OuterBandsReversalTime == Time[CURRENT_BAR]) {
+      
+      return CONTINUATION;
+   } 
+
+   int barIndex = 0;
+   if(checkCurrentBar) { // Option to check if current bar must be checked. If checkCurrentBar is true, current and the previous bars will be checked, 
+                         // Otherwise the previous 2 bars will checked without checking the current bar - this is more safe as the reversal is comfirmed - but a bit late! 
+      barIndex = CURRENT_BAR;
+   }
+   else {
+   
+      barIndex = CURRENT_BAR + 1;
+   }
+   
+   int previousBarIndex = getPreviousBarIndex(barIndex);     
+   
+   double t3BandLevelCurr = 0.0;  
+   double t3BandLevelPrev = 0.0;
+   double t3BandSquaredLevelCurr = 0.0;
+   double t3BandSquaredLevelPrev = 0.0;   
+   
+   Trend trend = getDynamicPriceZonesTrend();   
+   //if( trend == BULLISH_TREND ) {
+   
+      //T3_BANDS
+      t3BandLevelCurr  = getT3BandsLevel(T3_BANDS_UPPER_LEVEL, CURRENT_BAR);
+      t3BandLevelPrev  = getT3BandsLevel(T3_BANDS_UPPER_LEVEL, previousBarIndex);
+      
+      //T3_BANDS_SQUARED
+      t3BandSquaredLevelCurr  = getT3BandsSquaredLevel(T3_BANDS_SQUARED_UPPER_LEVEL, CURRENT_BAR);
+      t3BandSquaredLevelPrev  = getT3BandsSquaredLevel(T3_BANDS_SQUARED_UPPER_LEVEL, previousBarIndex);
+      
+      if( (latestT3OuterBandsReversal != BEARISH_REVERSAL) // Ignore, already BEARISH_REVERSAL
+            && (t3BandSquaredLevelCurr > t3BandLevelCurr) && (t3BandSquaredLevelPrev > t3BandLevelPrev)) {
+         
+         latestT3OuterBandsReversal = BEARISH_REVERSAL;
+         latestT3OuterBandsReversalTime = Time[CURRENT_BAR];         
+         return BEARISH_REVERSAL;
+      }      
+   //}
+   //else if( trend == BEARISH_TREND ) {
+      
+      //T3_BANDS
+      t3BandLevelCurr  = getT3BandsLevel(T3_BANDS_LOWER_LEVEL, CURRENT_BAR);
+      t3BandLevelPrev  = getT3BandsLevel(T3_BANDS_LOWER_LEVEL, previousBarIndex);
+      
+      //T3_BANDS_SQUARED
+      t3BandSquaredLevelCurr  = getT3BandsSquaredLevel(T3_BANDS_SQUARED_LOWER_LEVEL, CURRENT_BAR);
+      t3BandSquaredLevelPrev  = getT3BandsSquaredLevel(T3_BANDS_SQUARED_LOWER_LEVEL, previousBarIndex);
+      
+      if( (latestT3OuterBandsReversal != BULLISH_REVERSAL) // Ignore, already BULLISH_REVERSAL
+             &&(t3BandSquaredLevelCurr < t3BandLevelCurr) && (t3BandSquaredLevelPrev < t3BandLevelPrev)) {
+         
+         latestT3OuterBandsReversal = BULLISH_REVERSAL;
+         latestT3OuterBandsReversalTime = Time[CURRENT_BAR];
+         return BULLISH_REVERSAL;
+      }      
+   //}
+   
+   return CONTINUATION;          
+}
+
+/** START REVERSAL DETECTIONS */
+Reversal getT3MiddleBandsReversal(bool checkCurrentBar) {
+
+   if(latestT3MiddleBandsReversalTime == Time[CURRENT_BAR]) {
+      
+      return CONTINUATION;
+   } 
+
+   int barIndex = 0;
+   if(checkCurrentBar) { // Option to check if current bar must be checked. If checkCurrentBar is true, current and the previous bars will be checked, 
+                         // Otherwise the previous 2 bars will checked without checking the current bar - this is more safe as the reversal is comfirmed - but a bit late! 
+      barIndex = CURRENT_BAR;
+   }
+   else {
+   
+      barIndex = CURRENT_BAR + 1;
+   }
+   
+   int previousBarIndex = getPreviousBarIndex(barIndex);      
+   
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+   
+      //T3_BANDS
+      double t3BandLevelCurr  = getT3BandsLevel(T3_BANDS_MIDDLE_LEVEL, CURRENT_BAR);
+      double t3BandLevelPrev  = getT3BandsLevel(T3_BANDS_MIDDLE_LEVEL, previousBarIndex);
+      
+      //T3_BANDS_SQUARED
+      double t3BandSquaredLevelCurr  = getT3BandsSquaredLevel(T3_BANDS_SQUARED_MIDDLE_LEVEL, CURRENT_BAR);
+      double t3BandSquaredLevelPrev  = getT3BandsSquaredLevel(T3_BANDS_SQUARED_MIDDLE_LEVEL, previousBarIndex);
+      
+      if( (latestT3MiddleBandsReversal != BEARISH_REVERSAL) // Ignore, already BEARISH_REVERSAL
+            && (t3BandSquaredLevelCurr > t3BandLevelCurr) && (t3BandSquaredLevelPrev > t3BandLevelPrev)) {
+         
+         latestT3MiddleBandsReversal = BEARISH_REVERSAL;
+         latestT3MiddleBandsReversalTime = Time[CURRENT_BAR];
+         return BEARISH_REVERSAL;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //T3_BANDS
+      double t3BandLevelCurr  = getT3BandsLevel(T3_BANDS_MIDDLE_LEVEL, CURRENT_BAR);
+      double t3BandLevelPrev  = getT3BandsLevel(T3_BANDS_MIDDLE_LEVEL, previousBarIndex);
+      
+      //T3_BANDS_SQUARED
+      double t3BandSquaredLevelCurr  = getT3BandsSquaredLevel(T3_BANDS_SQUARED_MIDDLE_LEVEL, CURRENT_BAR);
+      double t3BandSquaredLevelPrev  = getT3BandsSquaredLevel(T3_BANDS_SQUARED_MIDDLE_LEVEL, previousBarIndex);
+      
+      if( (latestT3MiddleBandsReversal != BULLISH_REVERSAL) // Ignore, already BULLISH_REVERSAL 
+            && (t3BandSquaredLevelCurr < t3BandLevelCurr) && (t3BandSquaredLevelPrev < t3BandLevelPrev)) {
+         
+         latestT3MiddleBandsReversal = BULLISH_REVERSAL;
+         latestT3MiddleBandsReversalTime = Time[CURRENT_BAR];
+         return BULLISH_REVERSAL;
+      }      
+   }
+   
+   return CONTINUATION;
+}
+
+Reversal getDynamicPriceZonesAndJurikFilterReversal() {
+
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, CURRENT_BAR + 1);
+      
+      //JURIK_FILTER
+      double jurikFilterBullishValuePrev  = getJurikFilterLevel(JURIK_FILTER_BULLISH_VALUE, CURRENT_BAR + 1);
+      
+      if( (jurikFilterBullishValuePrev > zoneLevelPrev)) {
+         
+         return BEARISH_REVERSAL;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, CURRENT_BAR + 1);
+      
+      //JURIK_FILTER
+      double jurikFilterBearishValuePrev  = getJurikFilterLevel(JURIK_FILTER_BEARISH_VALUE, CURRENT_BAR + 1);
+      
+      if( (zoneLevelPrev > jurikFilterBearishValuePrev)) {
+         
+         return BULLISH_REVERSAL;
+      }      
+   }
+   
+   return CONTINUATION;      
+}
+
+Reversal getDynamicPriceZonesandDynamicMpaReversal(int length, int barIndex) {
+
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, barIndex);
+      //DIMPA
+      double dynamicMpaUpperLevel   = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex);
+      double dynamicMpaSignalLevel  = getDynamicMpaLevel(length, DYNAMIC_MPA_SIGNAL, barIndex);
+      
+      if( (dynamicMpaUpperLevel > zoneLevelPrev) && (dynamicMpaSignalLevel > zoneLevelPrev) ) {
+         
+         return BEARISH_REVERSAL;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, barIndex);
+      //DIMPA
+      double dynamicMpaLowerLevel   = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, barIndex);  
+      double dynamicMpaSignalLevel  = getDynamicMpaLevel(length, DYNAMIC_MPA_SIGNAL, barIndex);    
+      
+      if( (dynamicMpaLowerLevel < zoneLevelPrev) && (dynamicMpaSignalLevel < zoneLevelPrev) ) {
+         
+         return BULLISH_REVERSAL;
+      }      
+   }
+   
+   return CONTINUATION;      
+}
+
+Reversal getDynamicPriceZonesandJmaBandsReversal(int barIndex) {//This will use the getJmaBandsLevelCrossReversal to detect strong reversal
+
+   int slowerBandsLength = 15;
+
+   //DYNAMIC_PRICE_ZONE Trend 
+   Trend trend = getDynamicPriceZonesTrend(); 
+   
+   //JMA_BANDS Reversal
+   Reversal rev = getJmaBandsLevelCrossReversal();
+     
+   if( trend == BULLISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, barIndex);
+      
+      //JMA_BANDS
+      double pastJmaBandsLevel = getJmaBandsLevel(slowerBandsLength, JMA_BANDS_UPPER, getPastBars(1));    
+      double pastTwoJmaBandsLevel = getJmaBandsLevel(slowerBandsLength, JMA_BANDS_UPPER, getPastBars(2));  
+      
+      if( (zoneLevelPrev < pastJmaBandsLevel) && (zoneLevelPrev < pastTwoJmaBandsLevel) ) {
+         
+         // JMA_BANDS are outside DYNAMIC_PRICE_ZONE, wait for JMA_BANDS bearish Reversal
+         if(rev == BEARISH_REVERSAL) {
+            
+            latestDynamicPriceZonesandJmaBandsReversal = BEARISH_REVERSAL;
+            latestDynamicPriceZonesandJmaBandsReversalTime = Time[CURRENT_BAR];            
+            return BEARISH_REVERSAL;
+         }                   
+      }       
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, barIndex);
+      
+      //JMA_BANDS
+      double pastJmaBandsLevel = getJmaBandsLevel(slowerBandsLength, JMA_BANDS_LOWER, getPastBars(1));
+      double pastTwoJmaBandsLevel = getJmaBandsLevel(slowerBandsLength, JMA_BANDS_LOWER, getPastBars(2));   
+      
+      if( (zoneLevelPrev > pastJmaBandsLevel) && (zoneLevelPrev > pastTwoJmaBandsLevel) ) {
+         
+         // JMA_BANDS are outside DYNAMIC_PRICE_ZONE, wait for JMA_BANDS bullish Reversal
+         if(rev == BULLISH_REVERSAL) {
+            
+            latestDynamicPriceZonesandJmaBandsReversal = BULLISH_REVERSAL;
+            latestDynamicPriceZonesandJmaBandsReversalTime = Time[CURRENT_BAR];             
+            return BULLISH_REVERSAL;
+         }         
+      }
+     
+   }
+   
+   return CONTINUATION;      
+}
+
+
+Reversal getDynamicPriceZonesAndMlsBandsReversal(int barIndex) {
+
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, barIndex);
+      //MLS_BANDS
+      double mlsBandsLevelUpperLevel   = getMlsBandsLevel(MLS_BAND_MAIN, barIndex);
+      
+      if( (mlsBandsLevelUpperLevel > zoneLevelPrev)) {
+         
+         return BEARISH_REVERSAL;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, barIndex);
+      //MLS_BANDS
+      double mlsBandsLevelLowerLevel   = getMlsBandsLevel(MLS_BAND_LOWER, barIndex);   
+      
+      if( (mlsBandsLevelLowerLevel < zoneLevelPrev) ) {
+         
+         return BULLISH_REVERSAL;
+      }      
+   }
+   
+   return CONTINUATION;      
+}
+
+Reversal getNonLinearKalmanReversal(int nonLinearKalmanLength, bool checkCurrentBar) {
+
+   if(latestNonLinearKalmanSlopeTime == Time[CURRENT_BAR]) {
+      
+      return CONTINUATION;
+   } 
+
+   int barIndex = 0;
+   if(checkCurrentBar) { // Option to check if current bar must be checked. If checkCurrentBar is true, current and the previous bars will be checked, 
+                         // Otherwise the previous 2 bars will checked without checking the current bar - this is more safe as the reversal is comfirmed - but a bit late! 
+      barIndex = CURRENT_BAR;
+   }
+   else {
+   
+      barIndex = CURRENT_BAR + 1;
+   }
+   
+   int previousBarIndex = getPreviousBarIndex(barIndex);        
+   
+   Trend trend = getDynamicPriceZonesTrend();   
+   //if( trend == BULLISH_TREND ) {
+   
+      //NON_LINEAR_KALMAN
+      Slope slopeCurr = getNonLinearKalmanSlope(nonLinearKalmanLength, CURRENT_BAR);
+      Slope slopePrev = getNonLinearKalmanSlope(nonLinearKalmanLength, previousBarIndex);
+      
+      if( (latestNonLinearKalmanSlope != BULLISH_SLOPE) // Ignore, already BULLISH_REVERSAL
+            && (slopeCurr == BULLISH_SLOPE) && (slopePrev == BULLISH_SLOPE) ) {
+         
+         latestNonLinearKalmanSlope = BULLISH_SLOPE;
+         latestNonLinearKalmanSlopeTime = Time[CURRENT_BAR];         
+         return BEARISH_REVERSAL;
+      }      
+   //}
+   //else if( trend == BEARISH_TREND ) {
+      else if( (latestNonLinearKalmanSlope != BEARISH_SLOPE) // Ignore, already BEARISH_REVERSAL
+             && (slopeCurr == BEARISH_SLOPE) && (slopePrev == BEARISH_SLOPE) ) {
+         
+         latestNonLinearKalmanSlope = BULLISH_SLOPE;
+         latestNonLinearKalmanSlopeTime = Time[CURRENT_BAR];
+         return BULLISH_REVERSAL;
+      }      
+   //}
+   
+   return CONTINUATION;          
+}
+
+Reversal getDynamicPriceZonesAndSrBandsReversal(int barIndex) {
+
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, barIndex);
+      //SR_BANDS
+      double rsBandsUpperLevel   = getSrBandsLevel(SR_BAND_MAIN, barIndex);
+      
+      if( (rsBandsUpperLevel > zoneLevelPrev)) {
+      
+         return BEARISH_REVERSAL;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, barIndex);
+      //SR_BANDS
+      double rsBandsLowerLevel   = getSrBandsLevel(SR_BAND_LOWER, barIndex);   
+      
+      if( (rsBandsLowerLevel < zoneLevelPrev) ) {
+         
+         return BULLISH_REVERSAL;
+      }      
+   }
+   
+   return CONTINUATION;      
+}
+
+Reversal getDynamicMpaAndSomat3Reversal(int length,int barIndex) {
+
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      //SOMAT3
+      double somatLevel = getSomat3Level(SOMAT3_BULLISH_MAIN, barIndex);
+      //DIMPA
+      double dynamicMpaUpperLevel   = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex);
+      double dynamicMpaSignalLevel  = getDynamicMpaLevel(length, DYNAMIC_MPA_SIGNAL, barIndex);
+      
+      if( (somatLevel > dynamicMpaUpperLevel) && (somatLevel > dynamicMpaSignalLevel) ) {
+         
+         return BEARISH_REVERSAL;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //SOMAT3
+      double somatLevel = getSomat3Level(SOMAT3_BULLISH_MAIN, barIndex);
+      //DIMPA
+      double dynamicMpaLowerLevel   = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, barIndex);  
+      double dynamicMpaSignalLevel  = getDynamicMpaLevel(length, DYNAMIC_MPA_SIGNAL, barIndex);    
+      
+      if( (somatLevel < dynamicMpaLowerLevel) && (somatLevel < dynamicMpaSignalLevel) ) {
+         
+         return BULLISH_REVERSAL;
+      }      
+   }
+   
+   return CONTINUATION;      
+}
+
+Cross getDynamicMpaAndNonLinearKalmanBandsCross(int dynamicMpaLength, int nonLinearKalmanBandLength, int barIndex) {
+
+   if(latestDynamicMpaAndNonLinearKalmanBandsCrossTime == Time[CURRENT_BAR]) {
+      
+      return latestDynamicMpaAndNonLinearKalmanBandsCross;
+   } 
+
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      //DIMPA
+      double dynamicSignalLevel = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_SIGNAL, barIndex);
+            
+      //NON_LINEAR_KALMAN_BANDS
+      double nonLinearKalmanBandsLevel = getNonLinearKalmanBandsLevel(nonLinearKalmanBandLength, NON_LINEAR_KALMAN_BANDS_MIDDLE, barIndex);
+
+      if(nonLinearKalmanBandsLevel > dynamicSignalLevel) {
+         
+         latestDynamicMpaAndNonLinearKalmanBandsCross = BEARISH_CROSS;
+         latestDynamicMpaAndNonLinearKalmanBandsCrossTime = Time[CURRENT_BAR];       
+         return BEARISH_CROSS;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //DIMPA
+      double dynamicSignalLevel = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_SIGNAL, barIndex);
+            
+      //NON_LINEAR_KALMAN_BANDS
+      double nonLinearKalmanBandsLevel = getNonLinearKalmanBandsLevel(nonLinearKalmanBandLength, NON_LINEAR_KALMAN_BANDS_MIDDLE, barIndex);
+
+      if( nonLinearKalmanBandsLevel < dynamicSignalLevel ) {
+         
+         latestDynamicMpaAndNonLinearKalmanBandsCross = BULLISH_CROSS;
+         latestDynamicMpaAndNonLinearKalmanBandsCrossTime = Time[CURRENT_BAR];         
+         return BULLISH_CROSS;
+      }      
+   }
+   
+   return latestDynamicMpaAndNonLinearKalmanBandsCross;      
+}
+
+/**
+ * All crosses must be verified - The pair(SOMAT3 and NON_LINEAR_KALMAN) must have been heading to the opposite direction of the cross before the cross happens.
+ */
+Cross getSomat3AndNonLinearKalmanCross(int nonLinearKalmanLength,  bool checkPreviousBarClose, bool checkNonLinearKalmanSlope, int barIndex) {
+
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getSomat3AndNonLinearKalmanSlope(nonLinearKalmanLength, checkNonLinearKalmanSlope, CURRENT_BAR);
+   
+   if(checkPreviousBarClose) {
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the pair(SOMAT3 and NON_LINEAR_KALMAN) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getSomat3AndNonLinearKalmanSlope(nonLinearKalmanLength, checkNonLinearKalmanSlope, barIndexForOppositeDirectionVerification);
+      
+      //Previous slope
+      Slope slopePrev = getSomat3AndNonLinearKalmanSlope(nonLinearKalmanLength, checkNonLinearKalmanSlope, getPreviousBarIndex(CURRENT_BAR));
+
+      //Check if current and previous slopes changed direction      
+      if( ( (slopeCurr == BULLISH_SLOPE) && (slopePrev == BULLISH_SLOPE) ) // Current and previous slopes are BULLISH_SLOPE
+            && (slopeForOppositeDirectionVerification == BEARISH_SLOPE) )  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         return BULLISH_CROSS;
+      }
+      else if( ((slopeCurr == BEARISH_SLOPE) && (slopePrev == BEARISH_SLOPE) )// Current and previous slopes are BEARISH_SLOPE
+            && (slopeForOppositeDirectionVerification == BULLISH_SLOPE) )     // Last 2 bar index's should have been BULLISH_SLOPE to validate a BEARISH_CROSS
+            {
+      
+         return BEARISH_CROSS;           
+      }     
+   }
+   else {
+   
+      barIndexForOppositeDirectionVerification = getPastBars(1);
+      
+      //To verify the pair(SOMAT3 and NON_LINEAR_KALMAN) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getSomat3AndNonLinearKalmanSlope(nonLinearKalmanLength, checkNonLinearKalmanSlope, barIndexForOppositeDirectionVerification);
+      
+      //Check if current slope changed direction      
+      if( (slopeCurr == BULLISH_SLOPE) 
+            && (slopeForOppositeDirectionVerification == BEARISH_SLOPE) ) 
+            {
+         
+         return BULLISH_CROSS;
+      }
+      else if( (slopeCurr == BEARISH_SLOPE) 
+            && (slopeForOppositeDirectionVerification == BULLISH_SLOPE) ) 
+            {
+      
+         return BEARISH_CROSS;           
+      }              
+   
+   }
+
+   return UNKNOWN_CROSS;      
+}
+Slope getSomat3AndNonLinearKalmanSlope(int nonLinearKalmanLength, bool checkNonLinearKalmanSlope, int barIndex) {
+
+   double somat3Level  = getSomat3Level(SOMAT3_BULLISH_MAIN, barIndex);
+   double nonLinearKalmanLevel  = getNonLinearKalmanLevel(nonLinearKalmanLength, NON_LINEAR_KALMAN_MAIN, barIndex);   
+
+   if(somat3Level < nonLinearKalmanLevel) {
+
+      if(checkNonLinearKalmanSlope) { // More strick if checkNonLinearKalmanSlope==true
+         
+         return getNonLinearKalmanSlope(nonLinearKalmanLength, barIndex);
+      }
+      else {
+         
+         return BULLISH_SLOPE;
+      }   
+   }
+   else if(somat3Level > nonLinearKalmanLevel) {
+   
+      if(checkNonLinearKalmanSlope) { // More strick if checkNonLinearKalmanSlope==true
+         
+         return getNonLinearKalmanSlope(nonLinearKalmanLength, barIndex);
+      }
+      else {
+         
+         return BEARISH_SLOPE;
+      }
+   }
+
+   return UNKNOWN_SLOPE;      
+}
+
+/**
+ * All crosses must be verified - The pair(SOMAT3 and VOLATILITY_BAND) must have been heading to the opposite direction of the cross before the cross happens.
+ */
+Cross getSomat3AndVolitilityBandsCross(int volitilityBandsLength,  bool checkPreviousBarClose, int barIndex) {
+
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getSomat3AndVolitilityBandsSlope(volitilityBandsLength, CURRENT_BAR);   
+   
+   if(checkPreviousBarClose) {
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the pair(SOMAT3 and VOLATILITY_BAND) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getSomat3AndVolitilityBandsSlope(volitilityBandsLength, barIndexForOppositeDirectionVerification);
+      
+      //Previous slope    
+      Slope slopePrev = getSomat3AndVolitilityBandsSlope(volitilityBandsLength, getPreviousBarIndex(CURRENT_BAR));      
+
+      //Check if current and previous slopes changed direction      
+      if( ( (slopeCurr == BULLISH_SLOPE) && (slopePrev == BULLISH_SLOPE) ) // Current and previous slopes are BULLISH_SLOPE
+            && (slopeForOppositeDirectionVerification == BEARISH_SLOPE) )  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         return BULLISH_CROSS;
+      }
+      else if( ((slopeCurr == BEARISH_SLOPE) && (slopePrev == BEARISH_SLOPE) )// Current and previous slopes are BEARISH_SLOPE
+            && (slopeForOppositeDirectionVerification == BULLISH_SLOPE) )     // Last 2 bar index's should have been BULLISH_SLOPE to validate a BEARISH_CROSS
+            {
+      
+         return BEARISH_CROSS;           
+      }     
+   }
+   else {
+   
+      barIndexForOppositeDirectionVerification = getPastBars(1);
+      
+      //To verify the pair(SOMAT3 and VOLATILITY_BAND) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getSomat3AndVolitilityBandsSlope(volitilityBandsLength, barIndexForOppositeDirectionVerification);
+      
+      //Check if current slope changed direction      
+      if( (slopeCurr == BULLISH_SLOPE) 
+            && (slopeForOppositeDirectionVerification == BEARISH_SLOPE) ) 
+            {
+         
+         return BULLISH_CROSS;
+      }
+      else if( (slopeCurr == BEARISH_SLOPE) 
+            && (slopeForOppositeDirectionVerification == BULLISH_SLOPE) ) 
+            {
+      
+         return BEARISH_CROSS;           
+      }              
+   
+   }
+
+   return UNKNOWN_CROSS;      
+}
+Slope getSomat3AndVolitilityBandsSlope(int volitilityBandsLength, int barIndex) {
+
+   double somat3Level  = getSomat3Level(SOMAT3_BULLISH_MAIN, barIndex);
+   double volitilityBandsLowerLevel  = getVolitilityBandsLevel(volitilityBandsLength, VOLATILITY_BAND_LOWER, barIndex);   
+   double volitilityBandsUpperLevel  = getVolitilityBandsLevel(volitilityBandsLength, VOLATILITY_BAND_UPPER, barIndex);   
+                                  
+   if(somat3Level > volitilityBandsUpperLevel) {
+
+      return BEARISH_SLOPE;  
+   }
+   else if(somat3Level < volitilityBandsLowerLevel) { 
+      
+      return BULLISH_SLOPE;
+   }
+
+   return UNKNOWN_SLOPE;      
+}
+
+/**
+ * All crosses must be verified - The pair(NON_LINEAR_KALMAN and VOLATILITY_BAND) must have been heading to the opposite direction of the cross before the cross happens.
+ */
+Cross getNonLinearKalmanAndVolitilityBandsCross(int nonLinearKalmanLength, int volitilityBandsLength,  bool checkPreviousBarClose, int barIndex) {
+
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getNonLinearKalmanAndVolitilityBandsSlope(nonLinearKalmanLength, volitilityBandsLength, checkPreviousBarClose, CURRENT_BAR);   
+   
+   if(checkPreviousBarClose) {
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the pair(NON_LINEAR_KALMAN and VOLATILITY_BAND) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getNonLinearKalmanAndVolitilityBandsSlope(nonLinearKalmanLength, volitilityBandsLength, checkPreviousBarClose, barIndexForOppositeDirectionVerification);
+      
+      //Previous slope    
+      Slope slopePrev = getNonLinearKalmanAndVolitilityBandsSlope(nonLinearKalmanLength, volitilityBandsLength, checkPreviousBarClose, getPreviousBarIndex(CURRENT_BAR));      
+
+      //Check if current and previous slopes changed direction      
+      if( ( (slopeCurr == BULLISH_SLOPE) && (slopePrev == BULLISH_SLOPE) ) // Current and previous slopes are BULLISH_SLOPE
+            && (slopeForOppositeDirectionVerification == BEARISH_SLOPE) )  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         return BULLISH_CROSS;
+      }
+      else if( ((slopeCurr == BEARISH_SLOPE) && (slopePrev == BEARISH_SLOPE) )// Current and previous slopes are BEARISH_SLOPE
+            && (slopeForOppositeDirectionVerification == BULLISH_SLOPE) )     // Last 2 bar index's should have been BULLISH_SLOPE to validate a BEARISH_CROSS
+            {
+      
+         return BEARISH_CROSS;           
+      }     
+   }
+   else {
+   
+      barIndexForOppositeDirectionVerification = getPastBars(1);
+      
+      //To verify the pair(NON_LINEAR_KALMAN and VOLATILITY_BAND) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getNonLinearKalmanAndVolitilityBandsSlope(nonLinearKalmanLength, volitilityBandsLength, checkPreviousBarClose, barIndexForOppositeDirectionVerification);
+      
+      //Check if current slope changed direction      
+      if( (slopeCurr == BULLISH_SLOPE) 
+            && (slopeForOppositeDirectionVerification == BEARISH_SLOPE) ) 
+            {
+         
+         return BULLISH_CROSS;
+      }
+      else if( (slopeCurr == BEARISH_SLOPE) 
+            && (slopeForOppositeDirectionVerification == BULLISH_SLOPE) ) 
+            {
+      
+         return BEARISH_CROSS;           
+      }              
+   
+   }
+
+   return UNKNOWN_CROSS;      
+}
+Slope getNonLinearKalmanAndVolitilityBandsSlope(int nonLinearKalmanLength, int volitilityBandsLength, bool checkNonLinearKalmanSlope, int barIndex) {
+
+   //NON_LINEAR_KALMAN
+   double nonLinearKalmanLevel  = getNonLinearKalmanLevel(nonLinearKalmanLength, NON_LINEAR_KALMAN_MAIN, barIndex);   
+   
+   //VOLATILITY_BAND
+   double volitilityBandsLowerLevel  = getVolitilityBandsLevel(volitilityBandsLength, VOLATILITY_BAND_LOWER, barIndex);   
+   double volitilityBandsUpperLevel  = getVolitilityBandsLevel(volitilityBandsLength, VOLATILITY_BAND_UPPER, barIndex);   
+
+   if(nonLinearKalmanLevel > volitilityBandsUpperLevel) {
+
+      if(checkNonLinearKalmanSlope) { // More strick if checkNonLinearKalmanSlope==true
+         
+         return getNonLinearKalmanSlope(nonLinearKalmanLength, barIndex);
+      }
+      else {
+         
+         return BEARISH_SLOPE;
+      }   
+   }
+   else if(nonLinearKalmanLevel < volitilityBandsLowerLevel) {
+   
+      if(checkNonLinearKalmanSlope) { // More strick if checkNonLinearKalmanSlope==true
+         
+         return getNonLinearKalmanSlope(nonLinearKalmanLength, barIndex);
+      }
+      else {
+         
+         return BULLISH_SLOPE;
+      }
+   }
+
+   return UNKNOWN_SLOPE;    
+}
+
+Reversal getDynamicPriceZonesAndSomat3Reversal() {
+
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, CURRENT_BAR + 1);
+      
+      //SOMAT3
+      double somatLevel = getSomat3Level(SOMAT3_BULLISH_MAIN, CURRENT_BAR + 1);
+      
+      if( (somatLevel > zoneLevelPrev)) {
+         
+         return BEARISH_REVERSAL;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, CURRENT_BAR + 1);
+      
+      //SOMAT3
+      double somatLevel = getSomat3Level(SOMAT3_BULLISH_MAIN, CURRENT_BAR + 1);
+      
+      if( (zoneLevelPrev > somatLevel)) {
+         
+         return BULLISH_REVERSAL;
+      }      
+   }
+   
+   return CONTINUATION;      
+}
+
+Reversal getDynamicPriceZonesAndNonLinearKalmanBandsReversal(int nonLinearKalmanBandLength) {
+
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, CURRENT_BAR + 1);
+      
+      //NON_LINEAR_KALMAN_BANDS
+      double nonLinearKalmanBandsLevel = getNonLinearKalmanBandsLevel(nonLinearKalmanBandLength, NON_LINEAR_KALMAN_BANDS_UPPER, CURRENT_BAR + 1);
+      
+      if( ( ( latestNonLinearKalmanBandsReversal != BEARISH_REVERSAL) && (nonLinearKalmanBandsLevel > zoneLevelPrev) ) ) {
+         
+         latestNonLinearKalmanBandsReversalTime = Time[CURRENT_BAR];
+         latestNonLinearKalmanBandsReversal = BEARISH_REVERSAL;
+         return BEARISH_REVERSAL;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, CURRENT_BAR + 1);
+      
+      //NON_LINEAR_KALMAN_BANDS
+      double nonLinearKalmanBandsLevel = getNonLinearKalmanBandsLevel(nonLinearKalmanBandLength, NON_LINEAR_KALMAN_BANDS_LOWER, CURRENT_BAR + 1);
+      
+      if( ( (latestNonLinearKalmanBandsReversal != BULLISH_REVERSAL) && (zoneLevelPrev > nonLinearKalmanBandsLevel) )) {
+         
+         latestNonLinearKalmanBandsReversalTime = Time[CURRENT_BAR];
+         latestNonLinearKalmanBandsReversal = BULLISH_REVERSAL;
+         return BULLISH_REVERSAL;
+      }      
+   }
+   
+   return CONTINUATION;      
+}
+
+Reversal getDynamicPriceZonesAndVolitilityBandsReversal(int volitilityLength, int barIndex) {
+
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevel  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, barIndex);
+      
+      //VOLATILITY_BANDS
+      double volitilityBandLevel = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);
+      
+      if( (volitilityBandLevel > zoneLevel)) {
+         
+         return BEARISH_REVERSAL;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevel  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, barIndex);
+      
+      //VOLATILITY_BANDS
+      double volitilityBandLevel = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, barIndex);
+      
+      if( (zoneLevel > volitilityBandLevel)) {
+         
+         return BULLISH_REVERSAL;
+      }      
+   }
+   
+   return CONTINUATION;      
+}
+
+Reversal getDynamicPriceZonesAndSomat3Reversal(int barIndex) {
+
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevel  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, barIndex);
+      
+      //SOMAT3
+      double somatLevel = getSomat3Level(SOMAT3_BULLISH_MAIN, barIndex);
+      
+      if( (somatLevel > zoneLevel)) {
+         
+         return BEARISH_REVERSAL;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevel  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, barIndex);
+      
+      //SOMAT3
+      double somatLevel = getSomat3Level(SOMAT3_BULLISH_MAIN, barIndex);
+      
+      if( (zoneLevel > somatLevel)) {
+         
+         return BULLISH_REVERSAL;
+      }      
+   }
+   
+   return CONTINUATION;      
+}
+
+Reversal getDynamicPriceZonesAndHullMaReversal(int length, int barIndex) {
+
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevel  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, barIndex);
+      
+      //HULL_MA
+      double maLevel = getHullMaLevel(length, LINEAR_MA_BULLISH_VALUE, barIndex);
+      
+      if( (maLevel > zoneLevel)) {
+         
+         return BEARISH_REVERSAL;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevel  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, barIndex);
+      
+      //HULL_MA
+      double maLevel = getHullMaLevel(length, LINEAR_MA_BULLISH_VALUE, barIndex);
+      
+      if( (zoneLevel > maLevel)) {
+         
+         return BULLISH_REVERSAL;
+      }      
+   }
+   
+   return CONTINUATION;      
+}
+
+Reversal getDynamicPriceZonesAndLinearMaReversal(int barIndex) {
+
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevel  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, barIndex);
+      
+      //LINEAR_MA
+      double maLevel = getLinearMaLevel(LINEAR_MA_BULLISH_VALUE, barIndex);
+      
+      if( (maLevel > zoneLevel)) {
+         
+         return BEARISH_REVERSAL;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevel  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, barIndex);
+      
+      //LINEAR_MA
+      double maLevel = getLinearMaLevel(LINEAR_MA_BULLISH_VALUE, barIndex);
+      
+      if( (zoneLevel > maLevel)) {
+         
+         return BULLISH_REVERSAL;
+      }      
+   }
+   
+   return CONTINUATION;      
+}
+
+Reversal getDynamicPriceZonesAndDonchianChannelReversal() {
+   
+   //DONCHIAN_CHANNEL attr
+   int timeFrame           = Period(); 
+   int fastChannelPeriod   = 3;
+   int fastHighLowShift    = 1;
+   bool showMiddle         = false;
+   bool useClosePrice      = false;  
+
+   Trend trend = getDynamicPriceZonesTrend();
+   if( trend == BULLISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelCurr  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, CURRENT_BAR);
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, CURRENT_BAR + 1);
+      
+      //DONCHIAN_CHANNEL
+      double donchianChannelLevelCurr = getDonchianChannelLevel(timeFrame, fastChannelPeriod, fastHighLowShift, showMiddle, useClosePrice, DONCHIAN_CHANNEL_UPPER_LEVEL, CURRENT_BAR);
+      double donchianChannelLevelPrev = getDonchianChannelLevel(timeFrame, fastChannelPeriod, fastHighLowShift, showMiddle, useClosePrice, DONCHIAN_CHANNEL_UPPER_LEVEL, CURRENT_BAR + 1);
+      
+      if( (donchianChannelLevelCurr > zoneLevelCurr) && (donchianChannelLevelPrev > zoneLevelPrev) ) {
+         
+         return BEARISH_REVERSAL;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelCurr  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, CURRENT_BAR);
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, CURRENT_BAR + 1);
+      
+      //DONCHIAN_CHANNEL
+      double donchianChannelLevelCurr = getDonchianChannelLevel(timeFrame, fastChannelPeriod, fastHighLowShift, showMiddle, useClosePrice, DONCHIAN_CHANNEL_LOWER_LEVEL, CURRENT_BAR);
+      double donchianChannelLevelPrev = getDonchianChannelLevel(timeFrame, fastChannelPeriod, fastHighLowShift, showMiddle, useClosePrice, DONCHIAN_CHANNEL_LOWER_LEVEL, CURRENT_BAR + 1);
+
+      if( (zoneLevelCurr > donchianChannelLevelCurr) && (zoneLevelPrev > donchianChannelLevelPrev) ) {
+         
+         return BULLISH_REVERSAL;
+      }      
+   }
+   
+   return CONTINUATION;
+}
+/** END REVERSAL DETECTIONS */
+
+
+string getTime(int barIndex){
+   return (string)iTime(Symbol(), CURRENT_TIMEFRAME, barIndex);
+}
+
+string getCurrentTime(){
+   return (string)iTime(Symbol(), CURRENT_TIMEFRAME, 0);
+}
+
+/**
+ * This is just to avoid working with numeric directly
+ */
+int getPastBars(int barIndex){
+   return (barIndex);
+}
+
+int getPreviousBarIndex(int barIndex){
+   return (barIndex + 1);
+}
+
+
+double getPreviousPriceClose(int barIndex){
+   return iClose(Symbol(), CURRENT_TIMEFRAME, barIndex);
+}
+
+/** START STRATEGIES */
+Signal getDynamicPriceZonesAndDynamicMpaAndVolitilityBandsSignal(int length, int barIndex) { 
+
+   Trend trend = getDynamicPriceZonesTrend();   
+   if( trend == BULLISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, barIndex);
+      //DYNAMIC_MPA
+      double dynamicMpaLevel   = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex);
+      
+      if( (dynamicMpaLevel > zoneLevelPrev) ) {
+         
+         return SELL_SIGNAL;
+      }
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, barIndex);
+      //DYNAMIC_MPA
+      double dynamicMpaLevel   = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, barIndex);   
+      
+      if( (dynamicMpaLevel < zoneLevelPrev) ) {
+         
+         return BUY_SIGNAL;
+      }      
+   }
+   
+   return NO_SIGNAL;      
+}
+
+//T3 Bands
+Signal getT3CrossSignal(int barIndex) { 
+
+   Reversal t3OuterBandsReversal = getT3OuterBandsReversal(true);  
+   Reversal t3MiddleBandsReversal= getT3MiddleBandsReversal(true);
+   if( (t3OuterBandsReversal == BULLISH_REVERSAL) && (t3MiddleBandsReversal == BULLISH_REVERSAL) ) {
+   
+      return BUY_SIGNAL;
+   }
+   else if( (t3OuterBandsReversal == BEARISH_REVERSAL) && (t3MiddleBandsReversal == BEARISH_REVERSAL) ) {
+   
+      return SELL_SIGNAL;
+   }
+   
+   return NO_SIGNAL;
+}
+
+//T3 Bands
+Signal getT3BandsSquaredAndMainStochCrossSignal(int barIndex) { 
+
+   Reversal t3OuterBandsReversal = getT3OuterBandsReversal(true);  
+   Reversal t3MiddleBandsReversal= getT3MiddleBandsReversal(true);
+   if( (t3OuterBandsReversal == BULLISH_REVERSAL) && (t3MiddleBandsReversal == BULLISH_REVERSAL) ) {
+   
+      return BUY_SIGNAL;
+   }
+   else if( (t3OuterBandsReversal == BEARISH_REVERSAL) && (t3MiddleBandsReversal == BEARISH_REVERSAL) ) {
+   
+      return SELL_SIGNAL;
+   }
+   
+   return NO_SIGNAL;
+}
+
+//T3 Bands
+Signal getDynamicOfAveragesLevelCrossSignal(int length, int barIndex) { 
+
+   /*Reversal t3OuterBandsReversal = getDynamicOfAveragesLevel(length, true);  
+   Reversal t3MiddleBandsReversal= getT3MiddleBandsReversal(true);
+   if( (t3OuterBandsReversal == BULLISH_REVERSAL) && (t3MiddleBandsReversal == BULLISH_REVERSAL) ) {
+   
+      return BUY_SIGNAL;
+   }
+   else if( (t3OuterBandsReversal == BEARISH_REVERSAL) && (t3MiddleBandsReversal == BEARISH_REVERSAL) ) {
+   
+      return SELL_SIGNAL;
+   }*/
+   
+   return NO_SIGNAL;
+}
+//TODO SE, ML, SR Bands and Dynamic Price Zones
+
+/** END STRATEGIES */
+
+/** START TRENDS */
+Trend getDynamicPriceZonesTrend() {
+
+   int midleLevelBuffer = 2;
+   
+   double priceLevelCurr   = iClose(Symbol(), CURRENT_TIMEFRAME, CURRENT_BAR);
+   double priceLevelPrev  = iClose(Symbol(), CURRENT_TIMEFRAME, CURRENT_BAR + 1);
+   if( (priceLevelCurr > getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL, CURRENT_BAR)) 
+         && (priceLevelPrev > getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL, (CURRENT_BAR + 1)))) {
+         
+         return BULLISH_TREND;
+   }
+   else if( (priceLevelCurr < getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL, CURRENT_BAR)) 
+         && (priceLevelPrev < getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL, (CURRENT_BAR + 1)))) {
+         
+         return BEARISH_TREND;
+   }
+   
+   return NO_TREND;
+}
+
+Trend getDynamicPriceZonesAndMainStochTrend(bool checkPreviousBar) {
+
+   int barIndex = 0;
+   if(checkPreviousBar) { 
+      
+      //MAIN_STOCH
+      double stochSignalCurr = getMainStochLevel(MAIN_STOCH_SIGNAL, CURRENT_BAR);      
+      
+      //DYNAMIC_PRICE_ZONE
+      double dynamicPriceZonesMidLevelCurr = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL, CURRENT_BAR);
+      
+      if( stochSignalCurr > dynamicPriceZonesMidLevelCurr) {
+            
+            return BULLISH_TREND;
+      }
+      else if( stochSignalCurr < dynamicPriceZonesMidLevelCurr) {
+            
+            return BEARISH_TREND;
+      }      
+   }
+   else {
+      
+      int previousBarIndex = getPreviousBarIndex(CURRENT_BAR);
+      
+      //MAIN_STOCH
+      double stochSignalCurr = getMainStochLevel(MAIN_STOCH_SIGNAL, CURRENT_BAR);
+      double stochSignalPrev = getMainStochLevel(MAIN_STOCH_SIGNAL, previousBarIndex);
+      
+      //DYNAMIC_PRICE_ZONE
+      double dynamicPriceZonesMidLevelCurr = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL, CURRENT_BAR);
+      double dynamicPriceZonesMidLevelPrev = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL, previousBarIndex);
+      
+      if( (stochSignalCurr > dynamicPriceZonesMidLevelCurr) && (stochSignalPrev > dynamicPriceZonesMidLevelPrev) ) {
+            
+            return BULLISH_TREND;
+      }
+      else if( (stochSignalCurr < dynamicPriceZonesMidLevelCurr) && (stochSignalPrev < dynamicPriceZonesMidLevelPrev) ) {
+            
+            return BEARISH_TREND;
+      }      
+   }
+   
+   return NO_TREND;
+}
+/** END TRENDS */
+
+void getDynamicPriceZonesAndJurikFilterReversalTest() {
+
+   Reversal rev = getDynamicPriceZonesAndJurikFilterReversal();
+   
+   if(rev == BEARISH_REVERSAL) {
+   
+      if(latestSignal != SELL_SIGNAL) {
+         
+         latestSignal = SELL_SIGNAL;
+         latestSignalTime = Time[CURRENT_BAR];
+         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }    
+      
+   }
+   else if(rev == BULLISH_REVERSAL) {
+      
+      if( latestSignal != BUY_SIGNAL ) {      
+         
+         latestSignal = BUY_SIGNAL;
+         latestSignalTime = Time[CURRENT_BAR];
+         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }
+   }   
+}
+
+void getDynamicPriceZonesAndSomat3ReversalTest() {
+
+   Reversal rev = getDynamicPriceZonesAndSomat3Reversal();
+   
+   if(rev == BEARISH_REVERSAL) {
+   
+      if(latestSignal != SELL_SIGNAL) {
+         
+         latestSignal = SELL_SIGNAL;
+         latestSignalTime = Time[CURRENT_BAR];
+         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }    
+      
+   }
+   else if(rev == BULLISH_REVERSAL) {
+      
+      if( latestSignal != BUY_SIGNAL ) {      
+         
+         latestSignal = BUY_SIGNAL;
+         latestSignalTime = Time[CURRENT_BAR];
+         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }
+   }   
+}
+
+void getDynamicPriceZonesAndLinearMaReversalTest() {
+
+   Reversal rev = getDynamicPriceZonesAndLinearMaReversal(CURRENT_BAR);
+   
+   if(rev == BEARISH_REVERSAL) {
+   
+      if(latestSignal != SELL_SIGNAL) {
+         
+         latestSignal = SELL_SIGNAL;
+         latestSignalTime = Time[CURRENT_BAR];
+         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }    
+      
+   }
+   else if(rev == BULLISH_REVERSAL) {
+      
+      if( latestSignal != BUY_SIGNAL ) {      
+         
+         latestSignal = BUY_SIGNAL;
+         latestSignalTime = Time[CURRENT_BAR];
+         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }
+   }   
+}
+
+void getDynamicPriceZonesAndHullMaReversalTest() {
+
+   Reversal rev = getDynamicPriceZonesAndHullMaReversal(18, CURRENT_BAR);
+   
+   if(rev == BEARISH_REVERSAL) {
+   
+      if(latestSignal != SELL_SIGNAL) {
+         
+         latestSignal = SELL_SIGNAL;
+         latestSignalTime = Time[CURRENT_BAR];
+         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }    
+      
+   }
+   else if(rev == BULLISH_REVERSAL) {
+      
+      if( latestSignal != BUY_SIGNAL ) {      
+         
+         latestSignal = BUY_SIGNAL;
+         latestSignalTime = Time[CURRENT_BAR];
+         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }
+   }   
+}
+
+void getDynamicMpaReversalTest() {
+
+   Flatter flatter = getDynamicMpaFlatter(20, false);
+   
+   if(flatter == BEARISH_FLATTER) {
+   
+      if(latestDynamicMpaFlatterTime == Time[CURRENT_BAR]) {
+         Print("BEARISH FLATTER at: " + getCurrentTime());
+      }    
+      
+   }
+   else if(flatter == BULLISH_FLATTER) {
+      //Print("BULLISH_FLATTER");
+      if(latestDynamicMpaFlatterTime == Time[CURRENT_BAR]) {
+         Print("BULLISH FLATTER at: " + getCurrentTime());
+      } 
+   }     
+}
+
+void getDynamicOfAveragesReversalTest() {
+
+   Flatter flatter = getDynamicOfAveragesFlatter(20, false);
+   
+   if(flatter == BEARISH_FLATTER) {
+   
+      if(latestDynamicOfAveragesFlatter != BEARISH_FLATTER) {
+         
+         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }          
+   }
+   else if(flatter == BULLISH_FLATTER) {
+      
+      if( latestDynamicOfAveragesFlatter != BULLISH_FLATTER ) {      
+
+         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }
+   }  
+}
+
+void getMainStochReversalTest() {
+
+   Reversal rev = getMainStochReversal(false);
+   
+   if(rev == BEARISH_REVERSAL) {
+   
+      if(latestSignal != SELL_SIGNAL) {
+         
+         latestSignal = SELL_SIGNAL;
+         latestSignalTime = Time[CURRENT_BAR];
+         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }    
+      
+   }
+   else if(rev == BULLISH_REVERSAL) {
+      
+      if( latestSignal != BUY_SIGNAL ) {      
+         
+         latestSignal = BUY_SIGNAL;
+         latestSignalTime = Time[CURRENT_BAR];
+         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }
+   }  
+}
+
+void getDimpaAndSomat3ReversalTest() {
+
+   Reversal rev = getDynamicMpaAndSomat3Reversal(20, CURRENT_BAR);
+   
+   if(rev == BEARISH_REVERSAL) {
+   
+      if(latestSignal != SELL_SIGNAL) {
+         
+         latestSignal = SELL_SIGNAL;
+         latestSignalTime = Time[CURRENT_BAR];
+         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }    
+      
+   }
+   else if(rev == BULLISH_REVERSAL) {
+      
+      if( latestSignal != BUY_SIGNAL ) {      
+         
+         latestSignal = BUY_SIGNAL;
+         latestSignalTime = Time[CURRENT_BAR];
+         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }
+   }   
+}
+
+void getDynamicPriceZonesAndVolitilityBandsReversalTest() {
+
+   Reversal rev = getDynamicPriceZonesAndVolitilityBandsReversal(20, CURRENT_BAR);
+   
+   if(rev == BEARISH_REVERSAL) {
+   
+      if(latestSignal != SELL_SIGNAL) {
+         
+         latestSignal = SELL_SIGNAL;
+         latestSignalTime = Time[CURRENT_BAR];
+         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }    
+      
+   }
+   else if(rev == BULLISH_REVERSAL) {
+      
+      if( latestSignal != BUY_SIGNAL ) {      
+         
+         latestSignal = BUY_SIGNAL;
+         latestSignalTime = Time[CURRENT_BAR];
+         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }
+   }   
+}
+
+void getDynamicPriceZonesAndMlsBandsReversalTest() {
+
+   Reversal rev = getDynamicPriceZonesAndMlsBandsReversal(CURRENT_BAR + 1);
+   
+   if(rev == BEARISH_REVERSAL) {
+   
+      if(latestMlsBandsSignalTime != Time[CURRENT_BAR]) {
+         
+         latestMlsBandsSignal = SELL_SIGNAL;
+         latestMlsBandsSignalTime = Time[CURRENT_BAR];
+         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }    
+      
+   }
+   else if(rev == BULLISH_REVERSAL) {
+      
+      if( latestMlsBandsSignalTime != Time[CURRENT_BAR] ) {      
+         
+         latestMlsBandsSignal = BUY_SIGNAL;
+         latestMlsBandsSignalTime = Time[CURRENT_BAR];
+         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }
+   }   
+}
+
+void getDynamicPriceZonesAndSrBandsReversalTest() {
+
+   Reversal rev = getDynamicPriceZonesAndSrBandsReversal(CURRENT_BAR + 1);
+   
+   if(rev == BEARISH_REVERSAL) {
+   
+      if(latestSrBandsSignalTime != Time[CURRENT_BAR]) {
+         
+         latestSrBandsSignal = SELL_SIGNAL;
+         latestSrBandsSignalTime = Time[CURRENT_BAR];
+         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }    
+      
+   }
+   else if(rev == BULLISH_REVERSAL) {
+      
+      if( latestSrBandsSignalTime != Time[CURRENT_BAR] ) {      
+         
+         latestSrBandsSignal = BUY_SIGNAL;
+         latestSrBandsSignalTime = Time[CURRENT_BAR];
+         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+      }
+   }   
+}
+
+void getDonchianChannelOverlapTest() {
+
+   getDonchianChannelOverlap();
+}
+
+void getJurikFilterSlopeTest(){ 
+
+   //double upper = getSmoothedDigitalFilterLevel(2, 0);
+   //double lower = getSmoothedDigitalFilterLevel(3, 0);
+   
+   Slope slope = getJurikFilterSlope(CURRENT_BAR + 1);
+   
+   if( (slope == BULLISH_SLOPE) && (latestJurikSlope != BULLISH_SLOPE) ) {
+      
+      latestJurikSlope = BULLISH_SLOPE;
+      Print("BULLISH SLOPE " + getCurrentTime());
+   }
+   else if( (slope == BEARISH_SLOPE) && (latestJurikSlope != BEARISH_SLOPE)) {
+      
+      latestJurikSlope = BEARISH_SLOPE;
+      Print("BEARISH SLOPE " + getCurrentTime());
+   }
+}
+
+void getHullMaSlopeTest(){ 
+
+   //double upper = getSmoothedDigitalFilterLevel(2, 0);
+   //double lower = getSmoothedDigitalFilterLevel(3, 0);
+   
+   Slope slope = getHullMaSlope(18, CURRENT_BAR + 1);
+   
+   if( (slope == BULLISH_SLOPE) && (latestHmaSlope != BULLISH_SLOPE) ) {
+      
+      latestHmaSlope = BULLISH_SLOPE;
+      //Print("BULLISH SLOPE " + getCurrentTime());
+   }
+   else if( (slope == BEARISH_SLOPE) && (latestHmaSlope != BEARISH_SLOPE)) {
+      
+      latestHmaSlope = BEARISH_SLOPE;
+      //Print("BEARISH SLOPE " + getCurrentTime());
+   }
+}
+
+void getSrBandsSlopeTest() {
+   
+   Slope slope = getSrBandsSlope(CURRENT_BAR);
+   
+   if(slope == BULLISH_SLOPE) {
+      Print("SR BANDS is BULLISH");
+   }
+   else if(slope == BEARISH_SLOPE) {
+      Print("SR BANDS is BEARISH");
+   }
+}
+
+void getDynamicJuricSlopeTest() {
+   
+   Slope slope = getDynamicJuricSlope(CURRENT_BAR);
+   
+   if(slope == BULLISH_SLOPE) {
+      Print("SR BANDS is BULLISH");
+   }
+   else if(slope == BEARISH_SLOPE) {
+      Print("SR BANDS is BEARISH");
+   }
+}
+
+void getT3OuterBandsReversalTest() {
+
+   Reversal rev = getT3OuterBandsReversal(true);
+   
+   if(rev == BEARISH_REVERSAL) {
+         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+   }
+   else if(rev == BULLISH_REVERSAL) {
+      Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+   }   
+}
+
+void getT3CrossSignalTest() {
+
+   Signal signal = getT3CrossSignal(true);
+   
+   if(signal == BUY_SIGNAL) {
+         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+   }
+   else if(signal == SELL_SIGNAL) {
+      Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+   }   
+}
+
+void getJmaBandsLevelCrossReversalTest() {
+
+   Reversal rev = getJmaBandsLevelCrossReversal();
+   
+   if(rev == BEARISH_REVERSAL) {
+         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+   }
+   else if(rev == BULLISH_REVERSAL) {
+      Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+   }  
+}
+
+void getDynamicPriceZonesandJmaBandsReversalTest() {
+
+   Reversal rev = getDynamicPriceZonesandJmaBandsReversal(CURRENT_BAR);
+   
+   if(rev == BEARISH_REVERSAL) {
+         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+   }
+   else if(rev == BULLISH_REVERSAL) {
+      Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+   }  
+}
+
+
+void getNonLinearKalmanSlopeTest() {
+
+   Slope slope = getNonLinearKalmanSlope(20, CURRENT_BAR + 1);
+    
+   if(slope == BULLISH_SLOPE) {
+      Print("SR BANDS is BULLISH");
+   }
+   else if(slope == BEARISH_SLOPE) {
+      Print("SR BANDS is BEARISH");
+   }  
+}
+
+void getDynamicPriceZonesAndMainStochTrendTest() {
+
+   Trend trend = getDynamicPriceZonesAndMainStochTrend(CURRENT_BAR + 1);
+   
+   if(trend == BULLISH_TREND) {
+      Print("In a BULLISH MODE");
+   }
+   else if(trend == BEARISH_TREND) {
+      Print("In a BEARISH MODE");
+   }  
+}
+
+void getDynamicOfAveragesShortTermTrendTest() {
+
+   Trend trend = getDynamicOfAveragesShortTermTrend(20);
+   
+   if(trend == BULLISH_SHORT_TERM_TREND) {
+      Print("In a BULLISH_SHORT_TERM_TREND MODE at " + getCurrentTime() );
+   }
+   else if(trend == BEARISH_SHORT_TERM_TREND) {
+      Print("In a BEARISH_SHORT_TERM_TREND MODE at " + getCurrentTime() );
+   }  
+}
+
+//This is concrete - Uses previous close of VolitilityBands. A bit late - needs to be optimised
+void getDynamicMpaAndVolitilityBandsReversalTest() {
+
+   if(latestTransitionTime != Time[CURRENT_BAR]) { //Allow only 1 signal per candle
+     
+      Transition transition = getDynamicMpaAndVolitilityBandsReversal(20, 20, false, true);
+      
+      if(transition == BULLISH_TO_BEARISH_TRANSITION) {
+      
+         if(latestTransition != BULLISH_TO_BEARISH_TRANSITION) {
+            
+            latestTransitionTime = Time[CURRENT_BAR];
+            latestTransition = BULLISH_TO_BEARISH_TRANSITION;
+            Print("BULLISH_TO_BEARISH_TRANSITION at: " + getCurrentTime());
+         }          
+      }
+      else if(transition == BEARISH_TO_BULLISH_TRANSITION) {
+         
+         if( latestTransition != BEARISH_TO_BULLISH_TRANSITION ) {      
+            
+            latestTransitionTime = Time[CURRENT_BAR];
+            latestTransition = BEARISH_TO_BULLISH_TRANSITION;
+            Print("BEARISH_TO_BULLISH_TRANSITION at: " + getCurrentTime());
+         }
+      }
+      else if(transition == SUDDEN_BULLISH_TO_BEARISH_TRANSITION) {
+         if( latestTransition != SUDDEN_BULLISH_TO_BEARISH_TRANSITION ) {      
+            
+            latestTransitionTime = Time[CURRENT_BAR];
+            latestTransition = SUDDEN_BULLISH_TO_BEARISH_TRANSITION;
+            Print("SUDDEN_BULLISH_TO_BEARISH_TRANSITION at: " + getCurrentTime());
+         }   
+      }
+      else if(transition == SUDDEN_BEARISH_TO_BULLISH_TRANSITION) {
+         if( latestTransition != SUDDEN_BEARISH_TO_BULLISH_TRANSITION ) {      
+            
+            latestTransitionTime = Time[CURRENT_BAR];
+            latestTransition = SUDDEN_BEARISH_TO_BULLISH_TRANSITION;
+            Print("SUDDEN_BEARISH_TO_BULLISH_TRANSITION at: " + getCurrentTime());
+         }   
+      }
+   }   
+}
+
+void getDynamicPriceZonesAndNonLinearKalmanBandsReversalTest() {
+
+   //Use 15 for getDynamicPriceZonesAndNonLinearKalmanBandsReversal and 20 Dimpa getDynamicMpaAndNonLinearKalmanBandsCross
+   Reversal rev = getDynamicPriceZonesAndNonLinearKalmanBandsReversal(15); 
+   
+   if(rev == BEARISH_REVERSAL) {   
+      Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+   }
+   else if(rev == BULLISH_REVERSAL) {
+      Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+   }   
+}
+
+void invalidateNonLinearKalmanBandsReversal(int nonLinearKalmanBandLength) {
+
+   if(latestNonLinearKalmanBandsReversal == BEARISH_REVERSAL) {
+   
+      double dynamicPriceZonesLevel    = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL, CURRENT_BAR);
+      //If the NON_LINEAR_KALMAN_BANDS_LOWER crosses down the DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL - we can no longer call this a BEARISH_REVERSAL.
+      double nonLinearKalmanBandsLevel = getNonLinearKalmanBandsLevel(nonLinearKalmanBandLength, NON_LINEAR_KALMAN_BANDS_LOWER, CURRENT_BAR);
+      if( dynamicPriceZonesLevel > nonLinearKalmanBandsLevel) {
+         
+         latestNonLinearKalmanBandsReversal = UNKNOWN;
+      } 
+   }
+   
+   if( latestNonLinearKalmanBandsReversal == BULLISH_REVERSAL ) {      
+         
+      double dynamicPriceZonesLevel    = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL, CURRENT_BAR);
+      //If the NON_LINEAR_KALMAN_BANDS_UPPER crosses up the DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL - we can no longer call this a BULLISH_REVERSAL.    
+      double nonLinearKalmanBandsLevel = getNonLinearKalmanBandsLevel(nonLinearKalmanBandLength, NON_LINEAR_KALMAN_BANDS_UPPER, CURRENT_BAR); 
+      if( dynamicPriceZonesLevel < nonLinearKalmanBandsLevel) {
+         
+         latestNonLinearKalmanBandsReversal = UNKNOWN;
+      }       
+   }   
+}
+
+//LATEST TESTS
+void getDynamicMpaAndNonLinearKalmanBandsCrossTest() {
+
+   //Use 15 for getDynamicPriceZonesAndNonLinearKalmanBandsReversal and 20 Dimpa getDynamicMpaAndNonLinearKalmanBandsCross
+   Cross cross = getDynamicMpaAndNonLinearKalmanBandsCross(20, 20, CURRENT_BAR + 1); 
+   
+   if(cross == BEARISH_CROSS) {
+   
+      if(latestDynamicMpaAndNonLinearKalmanBandsCross != BEARISH_CROSS) {
+         
+         Print("BEARISH CROSS SIGNAL at: " + getCurrentTime());
+      }    
+      
+   }
+   else if(cross == BULLISH_CROSS) {
+      
+      if( latestDynamicMpaAndNonLinearKalmanBandsCross != BULLISH_CROSS ) {      
+         
+         Print("BULLISH CROSS SIGNAL at: " + getCurrentTime());
+      }
+   }   
+}
+
+void getSomat3AndNonLinearKalmanCrossSlopeTest() {
+
+   Slope slope = getSomat3AndNonLinearKalmanSlope(20, true, CURRENT_BAR);
+   
+   if(slope == BEARISH_SLOPE) {
+      Print("BEARISH SLOPE SIGNAL at: " + getCurrentTime());
+   }
+   else if(slope == BULLISH_SLOPE) {
+      Print("BULLISH SLOPE SIGNAL at: " + getCurrentTime());
+   }   
+}
+
+void getNonLinearKalmanAndVolitilityBandsSlopeTest() {
+
+   Slope slope = getNonLinearKalmanAndVolitilityBandsSlope(20, 20, true, CURRENT_BAR);
+   
+   if(slope == BEARISH_SLOPE) {
+      Print("BEARISH SLOPE SIGNAL at: " + getCurrentTime());
+   }
+   else if(slope == BULLISH_SLOPE) {
+      Print("BULLISH SLOPE SIGNAL at: " + getCurrentTime());
+   }   
+}
+
+void getSomat3AndVolitilityBandsSlopeTest() {
+
+   Slope slope = getSomat3AndVolitilityBandsSlope(20, CURRENT_BAR);
+   
+   if(slope == BEARISH_SLOPE) {
+      Print("BEARISH SLOPE SIGNAL at: " + getCurrentTime());
+   }
+   else if(slope == BULLISH_SLOPE) {
+      Print("BULLISH SLOPE SIGNAL at: " + getCurrentTime());
    }   
 }
