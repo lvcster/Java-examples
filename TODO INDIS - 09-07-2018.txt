@@ -334,3 +334,6 @@ http://www.eighbooks.com/read-now.php?q=stochastic%20processes%20and%20applicati
 
 Helweg/Stendahl value charts
 https://www.mql5.com/en/forum/179806
+
+ROBOT EXCEPTION HANDLING
+https://www.mql5.com/en/articles/2555
