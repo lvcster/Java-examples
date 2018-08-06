@@ -1,3 +1,5 @@
+dynamic double zone range on oma
+https://forex-station.com/viewtopic.php?t=8416995
 OnChart QQE: 06-08-2018
 https://www.mql5.com/en/forum/175037/page535
 https://forex-station.com/viewtopic.php?p=1295372303#p1295372303
