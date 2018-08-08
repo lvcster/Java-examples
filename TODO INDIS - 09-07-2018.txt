@@ -97,6 +97,7 @@ https://www.mql5.com/ru/code/10598. DONE, INTEGRATED
 https://www.mql5.com/ru/code/7540 Candle stop. REDO. NEED Time to play around
 
 MT5->MT4
+https://www.mql5.com/en/code/20973 - Convert, CCI Bars(Off chart) - Looks interesting
 Historical Volatility Bands -> Seems easy to convert
 https://www.mql5.com/es/code/21076
 
