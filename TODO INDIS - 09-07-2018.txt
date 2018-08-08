@@ -1,5 +1,8 @@
 Dynamic Polyfit
-https://www.mql5.com/en/forum/179731/page2
+https://www.mql5.com/en/forum/179731/page2 DZ
+https://www.mql5.com/en/forum/178128/ POLY BASED SYSTEM
+https://www.mql5.com/en/forum/178009/page2 Vel - Looks very smoothed. "Updates here                               "
+https://www.mql5.com/en/forum/178009/page3 DeTrend                    "https://www.mql5.com/en/forum/178009/page6 "
 
 HiLo channel Jurik Smooth - Similar to my idea?
 https://www.mql5.com/en/forum/179807/page15
@@ -353,6 +356,7 @@ https://www.mql5.com/en/forum/179524
 
 PolyFit Tools
 https://www.mql5.com/en/forum/179731
+https://www.mql5.com/en/forum/178009
 
 Temp
 https://www.forexfactory.com/showthread.php?p=11336468#post11336468
