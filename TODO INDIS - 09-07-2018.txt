@@ -1,6 +1,9 @@
 Dynamic Polyfit
 https://www.mql5.com/en/forum/179731/page2
 
+HiLo channel Jurik Smooth - Similar to my idea?
+https://www.mql5.com/en/forum/179807/page15
+
 Value Charts - Interesting Ideas
 https://www.mql5.com/en/forum/179806/page13 - Polyfit bands
 https://www.mql5.com/en/forum/179806/page13 - DZ
