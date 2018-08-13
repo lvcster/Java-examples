@@ -1,4 +1,16 @@
 13-08-2018
+
+dynamic zones kaufman - price filtered oma
+https://www.mql5.com/en/forum/179876/page139
+
+https://www.mql5.com/en/forum/179876/page151
+https://www.mql5.com/en/forum/179876/page148
+
+E.g of RSI Floating Levels, Quatile bands, DZ
+https://www.mql5.com/en/forum/179876/page147
+
+https://www.mql5.com/en/forum/179876/page141
+
 https://www.mql5.com/en/forum/179876/page153 
 https://www.mql5.com/en/forum/179876/page128#comment_4429114 - MT System
 https://www.mql5.com/en/forum/175037/page1046 - Swing lines and Digital Filter
