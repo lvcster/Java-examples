@@ -3,6 +3,25 @@
 dynamic zones kaufman - price filtered oma
 https://www.mql5.com/en/forum/179876/page139
 
+Dynamic zone averages bb stops line 0 alerts
+https://www.mql5.com/en/forum/179876/page134
+
+Price Channel Signal jurik alerts
+https://www.mql5.com/en/forum/179876/page132
+
+dynamic zone HeikenAshiOscillator 2.mq4
+https://www.mql5.com/en/forum/179876/page130
+
+dynamic zones adaptive Spearman rank correlation 
+https://www.mql5.com/en/forum/179876/page129
+
+Strength Finder
+https://www.mql5.com/en/forum/179876/page128
+
+RSI Accumulated
+https://www.mql5.com/en/forum/179876/page127
+
+
 https://www.mql5.com/en/forum/179876/page151
 https://www.mql5.com/en/forum/179876/page148
 
