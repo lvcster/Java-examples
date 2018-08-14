@@ -1,4 +1,9 @@
 14-08-2018
+https://www.mql5.com/en/forum/175037/page402 Average Confidence Bands
+https://www.mql5.com/en/forum/175037/page403 Hadley_acceleration_bands
+https://www.mql5.com/en/forum/175037/page404 Laguerro Cross + Super trend
+https://www.mql5.com/en/forum/175037/page401 PDF MA Cross
+https://www.mql5.com/en/forum/175037/page400 - JMA Material
 https://www.mql5.com/en/forum/175037/page396 - Some interestings, incl TDI
 https://www.mql5.com/en/forum/175037/page393
 https://www.mql5.com/en/forum/175037/page391  Can this be made OnChart
