@@ -446,3 +446,8 @@ STOPS
 https://www.forexstrategiesresources.com/metatrader-indicator-mt4/trailing-stop-metatrader-and-stop-indicator/
 STOP HUNTER
 https://www.mql5.com/en/forum/179807/page527
+
+MetaEditor:
+Hot keys
+https://innhold.bibsys.no/edx/alma/Alma_Metadata_Editor_Shortcuts.pdf
+https://www.metatrader5.com/en/metaeditor/help/hotkeys
