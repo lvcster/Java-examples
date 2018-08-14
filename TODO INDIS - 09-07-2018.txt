@@ -3,7 +3,7 @@ https://www.mql5.com/en/forum/175037/page988 pdfma_amp_confidence_bands
 https://www.mql5.com/en/forum/175037/page402 Average Confidence Bands(MTF https://www.mql5.com/en/forum/175037/page409)
 https://www.mql5.com/en/forum/175037/page410 Confidence bands of averages(Improvement to the one above) - Theory as well(Must read)
 https://www.mql5.com/en/forum/175037/page403 Hadley_acceleration_bands
-https://www.mql5.com/en/forum/180403/page4 Kurik Trend Strength + EA
+https://www.mql5.com/en/forum/180403/page4 Kurik Trend Strength + EA( or here: https://forex-station.com/viewtopic.php?t=8472355&p=1295368965&sid=5f9ecace5e6a2e086055fa98b25e77dc#p1295368965)
 https://www.mql5.com/en/forum/175037/page442 Adaptive ATR Channel(MTF https://www.mql5.com/en/forum/175037/page444)
 https://www.mql5.com/en/forum/175037/page445 Inverse Fisher Transformation indi based on your Spearman indicator
 https://www.mql5.com/en/forum/175037/page993 SSA Usable - Check Mladens comments
