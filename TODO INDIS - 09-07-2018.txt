@@ -1,7 +1,4 @@
 15-2018-08
-
-https://www.forexstrategiesresources.com/metatrader-4-trading-systems-v/640-4h-trading-by-xard777/
-
 https://www.mql5.com/en/forum/179737/page53, DSS of nma 1_5 (any symbol).ex4 Try (filter to use for filtering = 3 and apply filter to be = filter the nma) By Mladen,  and MT on https://www.mql5.com/en/forum/179737/page55 Tpl and here: https://www.mql5.com/en/forum/179737/page57
 
 https://www.mql5.com/en/forum/179737/page38 Step NMA - Workable?
