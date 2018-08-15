@@ -1,6 +1,6 @@
 15-2018-08
 Only:
-https://forex-station.com/viewtopic.php?f=578480&t=8416995&start=410
+https://forex-station.com/viewtopic.php?f=578480&t=8416995&start=410. Settings: 40,close 10
 
 14-08-2018
 https://www.mql5.com/en/forum/175037/page988 pdfma_amp_confidence_bands
