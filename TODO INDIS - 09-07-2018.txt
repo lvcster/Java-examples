@@ -1,6 +1,17 @@
 15-2018-08
 Only:
-https://www.mql5.com/en/forum/179737/page2 Bands and the smoothed version: https://www.mql5.com/en/forum/179737/page2, and the fast version: https://www.mql5.com/en/forum/179737/page3
+https://www.mql5.com/en/forum/179737/page11 - Slope, update: https://www.mql5.com/en/forum/179737/page20(MTF https://www.mql5.com/en/forum/179737/page22)
+https://www.mql5.com/en/forum/179737/page12 - Fast 2
+https://www.mql5.com/en/forum/179737/page17 - ocn_nms_nrp__ocn_mas_smooth_3_1.mq4
+https://www.mql5.com/en/forum/179737/page25 - MA - Nicely engulfs the PA
+
+https://www.mql5.com/en/forum/179737/page28: oscillator_of_ocn_nmc_fl_nrp_arrows__alerts.mq4 with FL
+
+https://www.mql5.com/en/forum/179737/page13 - (dynamic_zone_ocn_nmm_amp_ocn_mas_ss.mq4), DZ Super Smooter instead of TEMA, These are MA right? More Bands: https://www.mql5.com/en/forum/179737/page14: ocn_nma_fast_amp_sd_nmc.mq4 and ocn_nma_fast_amp_sd_smooth_nmc.mq4 and 
+https://www.mql5.com/en/forum/179737/page15: ocn_nma_fast_amp_sd_nmc.mq4 and ocn_nma_fast_amp_sd_smooth_nmc.mq4
+
+https://www.mql5.com/en/forum/179737/page2 Bands and the smoothed version: https://www.mql5.com/en/forum/179737/page2, and the fast version: https://www.mql5.com/en/forum/179737/page3, and bands updates: https://www.mql5.com/en/forum/179737/page19
+
 https://forex-station.com/viewtopic.php?f=578480&t=8416995&start=410. Settings: 40,close 10
 https://forum.worldwide-invest.org/forum/forex-forum/forex-indicators/27838-invite-share-your-best-stuff-here/page24 - DSS of Rsx: MT Settings 
 https://forum.worldwide-invest.org/forum/forex-forum/forex-indicators/27838-invite-share-your-best-stuff-here/page24 - Cycles In Time And Money : An interesting details by Stuart Belknap, Ph.D. - worth reading his pdf (Or https://forex-station.com/viewtopic.php?t=8472209&p=1295360724#p1295360724)
