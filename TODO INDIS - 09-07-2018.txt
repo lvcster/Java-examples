@@ -1,3 +1,48 @@
+=====================21-08-2018============
+price_zone
+----------------------------------------
+https://www.mql5.com/en/forum/179876/page74
+https://www.mql5.com/en/forum/179876/page94
+----------------------------------------
+dynamic_zone_stepma_pdf_nmc_3.2
+https://www.mql5.com/en/forum/179876/page91
+----------------------------------------
+ddz_insync_index
+https://www.mql5.com/en/forum/179876/page101
+----------------------------------------
+dynanmic_zones_of_averages
+https://www.mql5.com/en/forum/179876/page92
+----------------------------------------
+dynamic_zone_of_ocn_nma
+https://www.mql5.com/en/forum/179876/page44
+----------------------------------------
+dynanmic_zones_of_onchart_rsx_alerts__arrows
+https://www.mql5.com/en/forum/179876/page109
+----------------------------------------
+dynamic_zone_of_super_trend_nrp_mtf
+https://www.mql5.com/en/forum/179876/page111
+----------------------------------------
+dz_kaufman_oma
+https://www.mql5.com/en/forum/179876/page75
+----------------------------------------
+dz_laguerre
+https://www.mql5.com/en/forum/179876/page60
+----------------------------------------
+dynamic_zone_nl_ma_nmc
+https://www.mql5.com/en/forum/179876/page71
+----------------------------------------
+dz_spearman_ranks, dz_pa_rsx, sz_multi_pass
+https://www.mql5.com/en/forum/179876/page76
+dz_mp_averages, multi_pass_moving_average_filter
+https://www.mql5.com/en/forum/179876/page63
+----------------------------------------
+dynamic_double_zone_range_nmc, ddz_kase_permission
+https://www.mql5.com/en/forum/179876/page72
+----------------------------------------
+dz_digital_filter_averages_double_smoothed - exe - there a source somewhere on the same thread
+https://www.mql5.com/en/forum/179876/page105
+===========================================
+
 https://www.mql5.com/en/forum/177239/page51
 https://www.mql5.com/en/forum/173470/page5
 https://www.mql5.com/en/forum/186064/page81
