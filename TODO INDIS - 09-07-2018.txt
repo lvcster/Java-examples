@@ -1,29 +1,30 @@
 =====================21-08-2018============
-price_zone
 ----------------------------------------
-https://www.mql5.com/en/forum/179876/page74
-https://www.mql5.com/en/forum/179876/page94
+NB NB NB - Develop a BreakOut System be setting a DzLookBackBars to 12 and for a series on consolidation, then wait for breakout using any of the early birds indis
+dynamic_zone_of_super_trend_nrp_mtf
+https://www.mql5.com/en/forum/179876/page111
+----------------------------------------
+price_zone
+https://www.mql5.com/en/forum/179876/page74: Done - ReLook Later
+https://www.mql5.com/en/forum/179876/page94: Done - ReLook Later
 ----------------------------------------
 Dynamic Zone Kama
 https://forex-station.com/viewtopic.php?t=8472382
 ----------------------------------------
-dynamic_zone_stepma_pdf_nmc_3.2
+dynamic_zone_stepma_pdf_nmc_3.2 - Greate - Integrated
 https://www.mql5.com/en/forum/179876/page91
 ----------------------------------------
 ddz_insync_index
 https://www.mql5.com/en/forum/179876/page101
 ----------------------------------------
-dynanmic_zones_of_averages
+dynanmic_zones_of_averages - This Exist in the name of Ph DiZOA(Method are user friendly - confirm)
 https://www.mql5.com/en/forum/179876/page92
 ----------------------------------------
-dynamic_zone_of_ocn_nma
+dynamic_zone_of_ocn_nma: Done - ReLook Later
 https://www.mql5.com/en/forum/179876/page44
 ----------------------------------------
-dynanmic_zones_of_onchart_rsx_alerts__arrows
+dynanmic_zones_of_onchart_rsx_alerts__arrows: Done - ReLook Later
 https://www.mql5.com/en/forum/179876/page109
-----------------------------------------
-dynamic_zone_of_super_trend_nrp_mtf
-https://www.mql5.com/en/forum/179876/page111
 ----------------------------------------
 dz_kaufman_oma
 https://www.mql5.com/en/forum/179876/page75
