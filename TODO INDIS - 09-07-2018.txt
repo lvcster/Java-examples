@@ -1,3 +1,31 @@
+=====================22-08-2018============
+----------------------------------------
+dynamic_double_zone_wpr_2 - With all prices
+https://www.mql5.com/en/forum/179876/page52
+----------------------------------------
+dz_blau_smi_avgs
+https://www.mql5.com/en/forum/179876/page53
+----------------------------------------
+dz_absolutestrength_of_averages_diff
+https://www.mql5.com/en/forum/179876/page47
+----------------------------------------
+Couple of OB/OS - They look usable
+https://www.mql5.com/en/forum/179876/page59
+----------------------------------------
+dynamic_zone_dss_bressert
+https://www.mql5.com/en/forum/179876/page58
+----------------------------------------
+dynamic zones rsioma - oma pre-filtered
+https://www.mql5.com/en/forum/179876/page57
+----------------------------------------
+dz_rsx_3_oma_-_lines_1.01_mtf.mq4
+https://www.mql5.com/en/forum/179876/page53 / https://www.mql5.com/en/forum/179876/page50
+----------------------------------------
+dynamic_zone_dss_bressert_2
+https://www.mql5.com/en/forum/179876/page51
+----------------------------------------
+dz_laguerre_rsi_and_filter_2
+https://www.mql5.com/en/forum/179876/page50
 =====================21-08-2018============
 ----------------------------------------
 NB NB NB - Develop a BreakOut System be setting a DzLookBackBars to 12 and for a series on consolidation, then wait for breakout using any of the early birds indis
