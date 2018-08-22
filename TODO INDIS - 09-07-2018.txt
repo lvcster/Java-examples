@@ -1,6 +1,6 @@
 =====================22-08-2018============
 ----------------------------------------
-Greate - Incorporated
+DONE: Greate - Incorporated
 dynamic_double_zone_wpr_2 - With all prices
 https://www.mql5.com/en/forum/179876/page52
 ----------------------------------------
