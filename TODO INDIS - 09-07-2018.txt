@@ -1,4 +1,5 @@
 =====================23-08-2018============
+DONE: Integrated
 dynamic_zone_rsx_oma
 https://www.mql5.com/en/forum/179876/page5
 ----------------------------------------
@@ -8,9 +9,6 @@ dynamic zone MAMA (MESA adaptive moving average)
 dynamic zone FAMA (following adaptive moving average)
 https://www.mql5.com/en/forum/179876/page23
 https://www.mql5.com/en/forum/179876/page22
-----------------------------------------
-dynamic_zones_pa_macd
-https://www.mql5.com/en/forum/179876/page24
 ----------------------------------------
 dynamic_zone_velocity_cfb_adaptive and velocity_cfb_dj_adaptive_new_correct -> use dynamic_zone_velocity_cfb_adaptive_dj_1
 https://www.mql5.com/en/forum/179876/page21
