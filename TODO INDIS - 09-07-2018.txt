@@ -1,6 +1,16 @@
 =====================23-08-2018============
+dynamic zone AMA (adaptive moving average) and
+dynamic zone FRAMA (fractal adaptive moving average)
+dynamic zone MAMA (MESA adaptive moving average)
+dynamic zone FAMA (following adaptive moving average)
+https://www.mql5.com/en/forum/179876/page23
+https://www.mql5.com/en/forum/179876/page22
+----------------------------------------
 dynamic_zones_pa_macd
 https://www.mql5.com/en/forum/179876/page24
+----------------------------------------
+dynamic_zone_velocity_cfb_adaptive and velocity_cfb_dj_adaptive_new_correct -> use dynamic_zone_velocity_cfb_adaptive_dj_1
+https://www.mql5.com/en/forum/179876/page21
 ----------------------------------------
 dynamic_zone_jurik-2
 https://www.mql5.com/en/forum/179876/page35
