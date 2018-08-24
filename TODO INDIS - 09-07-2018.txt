@@ -1,6 +1,7 @@
 =====================24-08-2018============
 Trading the trend, Convert to MT4
-https://www.mql5.com/en/code/21992
+https://www.mql5.com/en/code/21992(Onchart)
+https://www.mql5.com/en/code/21993(Histo)
 -------------------------------------------
 FX Fish(es)
 https://www.mql5.com/en/code/7707
