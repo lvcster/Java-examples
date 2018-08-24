@@ -646,3 +646,11 @@ TECHNOLOGIES
 OCN
  e.g. DSS of nma, RSI of nma, stoch of nma, CCI, there's whole lot of ranges. 
  Develop a NMA fornular and Cache it. 
+ 
+ 
+ EAS
+ ====================================
+ MT5
+ https://www.mql5.com/ru/code/21976
+ https://www.mql5.com/ru/code/21971
+ ====================================
