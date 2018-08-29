@@ -658,3 +658,7 @@ OCN
  https://www.mql5.com/ru/code/21971
  https://forex-station.com/app.php/attach/file/3228746
  ====================================
+ 
+PhD EDUCATION
+https://www.mql5.com/en/articles/925 - BUILDING A SOCIAL TECHNOLOGY STARTUP, PART I: TWEET YOUR METATRADER 5 SIGNALS
+https://www.mql5.com/en/articles/342 - MQL5-RPC. REMOTE PROCEDURE CALLS FROM MQL5: WEB SERVICE ACCESS AND XML-RPC ATC ANALYZER FOR FUN AND PROFIT
