@@ -665,8 +665,18 @@ PhD EDUCATION
 https://www.mql5.com/en/articles/925 - BUILDING A SOCIAL TECHNOLOGY STARTUP, PART I: TWEET YOUR METATRADER 5 SIGNALS
 https://www.mql5.com/en/articles/342 - MQL5-RPC. REMOTE PROCEDURE CALLS FROM MQL5: WEB SERVICE ACCESS AND XML-RPC ATC ANALYZER FOR FUN AND PROFIT
 
-FINANCE
+FINANCE AND RESEARCH PAPERS
 https://www.fitchlearning.com/introduction-quant-finance
+https://files.stlouisfed.org/files/htdocs/wp/2011/2011-001.pdf
+http://www.ijsrp.org/research-paper-0314/ijsrp-p2722.pdf
+https://www.forexfactory.com/showthread.php?t=3880
+https://www.jbs.cam.ac.uk/fileadmin/user_upload/research/workingpapers/wp0315.pdf
+https://www.unich.it/~vitale/Rime-2.pdf
+https://pdfs.semanticscholar.org/3c75/45daaa4baf12328bd09eb5e67f87cb4aa966.pdf
+https://www.business.uq.edu.au/sites/default/files/pitchingpaper_internet_appendix_a65_financialliteracy_letter_27november2015.pdf
+http://www.scientificpapers.org/economics/introduction-to-the-foreign-exchange-market/ => http://www.scientificpapers.org/wp-content/files/1120_Introduction_to_the_foreign_exchange_market.pdf
 
 FIBO CASE STUDY
 https://www.mql5.com/en/code/21516 - Does not have buffer. See if it can be added
+
+
