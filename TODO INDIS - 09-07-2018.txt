@@ -1,5 +1,6 @@
 =====================30-08-2018============
 https://www.mql5.com/en/code/20398
+https://www.forexstrategiesresources.com/trading-system-metatrader-4-iv/595-cycle-kroufur-trading-system/ : 8,16, 34, true, with smoothe moving average 2 period
 ===========================================
 =====================24-08-2018============
 Trading the trend, Convert to MT4
