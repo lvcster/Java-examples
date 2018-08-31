@@ -693,3 +693,4 @@ Sublime Text
 Atom
 DoXygen
 DoxyDoxygen
+Scite-Mql: http://ylw633.github.io/scite-mql/
