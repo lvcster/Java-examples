@@ -38,6 +38,8 @@ https://www.mql5.com/en/forum/179876/page17
 https://www.mql5.com/en/forum/179876/page13
 ----------------------------------------
 
+
+
 BOOKS
 New Concepts in Technical Trading Systems: https://books.mec.biz/tmp/books/218XOTBWY3FEW2CT3EVR.PDF
 ----------------------------------------
@@ -684,3 +686,6 @@ https://www.mql5.com/en/forum/179673
 
 RESOURCES
 https://wetalktrade.com/9-best-forex-trading-blogs/
+
+MQL EDITOR AND DOCS
+https://www.mql5.com/en/articles/3112
