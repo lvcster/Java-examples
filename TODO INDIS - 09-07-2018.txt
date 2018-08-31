@@ -689,8 +689,8 @@ https://wetalktrade.com/9-best-forex-trading-blogs/
 
 MQL EDITOR AND DOCS
 https://www.mql5.com/en/articles/3112
-Sublime Text (sublimeMQL4compile: https://github.com/rchjp/sublimeMQL4compile)
+Sublime Text (Install MQL package: https://packagecontrol.io/installation#st3) or (sublimeMQL4compile: https://github.com/rchjp/sublimeMQL4compile)
 Atom
 DoXygen
 DoxyDoxygen
-Scite-Mql: http://ylw633.github.io/scite-mql/ (Install MQL package: https://packagecontrol.io/installation#st3)
+Scite-Mql: http://ylw633.github.io/scite-mql/ 
