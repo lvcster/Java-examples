@@ -1,4 +1,6 @@
 =====================03-09-2018============
+PROJECTION BANDS
+https://www.mql5.com/en/forum/175831
 FIBOS
 https://forex-station.com/viewtopic.php?t=8415735&p=1295349559#p1295349559
 https://forex-station.com/app.php/attach/file/3315459
