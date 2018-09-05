@@ -9,7 +9,7 @@
 //|                                                                  |
 //|   Renamed from PhD Sometrig FX - 01/07/2018                      |
 //|                                                                  |
-//|   Notes: Reversal:                                              |
+//|   Notes: Reversal:                                               |
 //|   Compares 2 bars, either (cur + prev) or (prev 1+prev2)         | 
 //|                                                                  |
 //|   TODO - Should be able test only current, current&prev, prev*2  |
@@ -17,7 +17,6 @@
 #property copyright "Copyright 2016, PhD Systems"
 #property link      "https://www.phdinvest.co.za"
 #property version   "400.00" 
-
 
 //TODOS
 //1. Give reasons why trade is opened - high( which indicators triggered)
@@ -29,19 +28,15 @@
 //| Utility functions                                                |
 //+------------------------------------------------------------------+
 #include <stdlib.mqh>
-//#include <stderror.mqh>
-//#include <WinUser32.mqh>
+#include <PhDLib.mqh>
 
 // General attributes
-int CURRENT_TIMEFRAME      =  0; // Automatically picks up the TF where it is attached.
-int CURRENT_BAR            =  0; // The current bar from where to count from when getting the indicator value
-string SYMBOL              =  Symbol(); // Current symbol of the chart the EA applied on
 ENUM_TIMEFRAMES TIMEFRAME  =  NULL; // Current time frame of the chart the EA applied on
 
 // Trade transactions
 int slippage            =  5;    // Acceptable price deviation
-string buyComment       =  "Buy order trigered by the signal";  // Buy comment
-string sellComment      =  "Sell order trigered by the signal"; // Sell comment
+string buyComment       =  "Buy order triggered by the signal";  // Buy comment
+string sellComment      =  "Sell order triggered by the signal"; // Sell comment
 int BUY_MAGIC_NUMBER    =  1;    // Some random number
 int SELL_MAGIC_NUMBER   =  2;    // Some random number
 datetime ORDER_EXPIRATION_TIME =  0; 
@@ -98,23 +93,25 @@ extern bool trendFilterEnabled            = false;
 int DYNAMIC_MPA_METHOD = 15;
 
 //Indicator constants
-static string STEP_RSI         =  "-PhD StepRSI";                    
-static string OCN_NMC_AND_MA   =  "-PhD OcnMa OffChart Boundries";  
-static string IRC_TRIPPLETS    =  "-PhD IRC Tripplets";             
-static string IRC_TRIPPLETS_V2 =  "-PhD IRC Tripplets v2";           
-static string SOMAT3           =  "-PhD SOMAT3";                    
-static string SOMA_LITE        =  "-PhD SOMA Lite";                    
-static string STEPPED_MA       =  "-PhD Stepped MA";                 
-static string MR_TRIGGER       =  "-PhD MR-Trigger";                 
-static string TREND_SCORE      =  "-PhD TrendScore";                 
-static string VELOCITY_STEPS   =  "-PhD Velocity Steps";             
-static string SADUKI           =  "-PhD Saduki";                     
-static string LEVEL_STOP       =  "-PhD Level Stop";                
-static string WCCI             =  "-PhD wCCI";                      
-static string TEST             =  "-velocity"; 
-static string PERFECT_TREND    =  "-PhD Perfect Trend";              
-static string QEPS             =  "-PhD Qeps";                      
-static string QEVELO           =  "-PhD QeVelo";                    
+static string STEP_RSI           =  "-PhD StepRSI";                    
+static string OCN_NMC_AND_MA     =  "-PhD OcnMa OffChart Boundries";  
+static string IRC_TRIPPLETS      =  "-PhD IRC Tripplets";             
+static string IRC_TRIPPLETS_V2   =  "-PhD IRC Tripplets v2";           
+static string SOMAT3             =  "-PhD SOMAT3";  
+static string DYNAMIC_STEPMA_PDF =  "-PhD DiStepped PdF";  
+static string STEPPED_MA         =  "-PhD Stepped MA";             
+static string SOMA_LITE          =  "-PhD SOMA Lite";
+static string STEPPED_TTA        =  "-PhD Stepped TTA";
+static string MR_TRIGGER         =  "-PhD MR-Trigger";                 
+static string TREND_SCORE        =  "-PhD TrendScore";                 
+static string VELOCITY_STEPS     =  "-PhD Velocity Steps";             
+static string SADUKI             =  "-PhD Saduki";                     
+static string LEVEL_STOP         =  "-PhD Level Stop";                
+static string WCCI               =  "-PhD wCCI";                      
+static string TEST               =  "-velocity"; 
+static string PERFECT_TREND      =  "-PhD Perfect Trend";              
+static string QEPS               =  "-PhD Qeps";                      
+static string QEVELO             =  "-PhD QeVelo";                    
 static string DYNAMIC_STEEPPED_STOCH   =  "-PhD DySteppedStoch";            
 static string DYNAMIC_NOLAG_MA         =  "-PhD DiNoLagMa"; //Multi time frame issues 
 static string DYNAMIC_OF_AVERAGES      =  "-PhD DiZOA";
@@ -123,9 +120,14 @@ static string DYNAMIC_EFT              =  "-PhD DiEFT";
 static string EFT                      =  "-PhD EFT";
 static string DYNAMIC_WPR_OFF_CHART    =  "-PhD DiWPR offChart";
 static string DYNAMIC_WPR_ON_CHART     =  "-PhD DiWPR onChart";
+static string DYNAMIC_WPR              =  "-PhD DiWpR";
+static string DYNAMIC_RSX_OMA          =  "-PhD DiRsXoMA";
+static string CYCLE_KROUFR_VERSION     =  "-PhD Cycle";
 static string RSI_FILTER               =  "-rsi-filter";
 
 //START BANDS
+static string VIDYA_ZONES              =  "-PhD Vidya Zones";
+static string KALMAN_BANDS             =  "-PhD Kalma Bands";
 static string DYNAMIC_JURIK            =  "-PhD DiJurik";
 static string MAIN_STOCH               =  "-PhD Main Stochastic";
 static string DYNAMIC_MACD_RSI         =  "-PhD DiMcDRsi";
@@ -146,7 +148,14 @@ static string SR_BANDS                 =  "-PhD SR Bands";
 static string SE_BANDS                 =  "-PhD SE Bands";
 static string MLS_BANDS                =  "-PhD MLS";
 static string NON_LINEAR_KALMAN_BANDS  =  "-PhD NonLinearKalmanBands";
+static string RSIOMA_BANDS             =  "-PhD RsiOMA Bands";
+static string QUANTILE_DSS             =  "-PhD Quantile Dss";
 //END BANDS
+
+//START FLOATING LEVELS
+static string FLOATED_KAUFMAN_RSI =  "-PhD Floated RsX";
+static string FLOATED_STEPPED_RSI =  "-PhD Floated Stepped-RSI";
+//END FLOATING LEVELS
 
 //START TRIGGERS
 static string NON_LINEAR_KALMAN        =  "-PhD NonLinearKalman";
@@ -154,9 +163,10 @@ static string LINEAR_MA                =  "-PhD Linear";
 static string HULL_MA                  =  "-PhD HMA";
 static string JURIK_FILTER             =  "-PhD Jurik filter";
 static string NOLAG_MA                 =  "-PhD NonLagMA"; 
-static string SUPERTREND               =  "-PhD SuperTrend";
+static string SUPER_TREND              =  "-PhD SuperTrend";
 static string SMOOTHED_DIGITAL_FILTER  =  "-PhD Smoothed Digital Filters";
 static string BUZZER                   =  "-PhD Buzzer";
+static string BB_STOCH_OF_RSI          =  "-PhD BBnStochVanRSI";
 //ENDS TRIGGERS
 
 //--------MISCELLANEOUS---------- 
@@ -174,76 +184,6 @@ static int OP_EXIT_SELL= -3;
 static int OP_BEARISH_REVERSAL   = 6;
 static int OP_BULLISH_REVERSAL   = 7;
 //--------MISCELLANEOUS---------- 
-
-/* START local enums */
-enum StochasticsValues {
-   SIGNAL_VALUE,
-   STOCHASTIC_VALUE
-};
-
-enum Zones {
-   OVERBOUGHT,
-   OVERSOLD,
-   NORMAL
-};
-
-enum Sentiments {
-   BULLISH,
-   BEARISH
-};
-
-enum Cross {
-   BULLISH_CROSS,
-   BEARISH_CROSS,
-   NO_CROSS,
-   UNKNOWN_CROSS,
-};
-
-enum Reversal {
-   BULLISH_REVERSAL,
-   BEARISH_REVERSAL,
-   CONTINUATION,
-   UNKNOWN
-};
-
-enum Trend {
-   BULLISH_TREND,
-   BEARISH_TREND,
-   BULLISH_SHORT_TERM_TREND,
-   BEARISH_SHORT_TERM_TREND,
-   NO_TREND
-};
-
-enum Slope {
-   BULLISH_SLOPE,
-   BEARISH_SLOPE,
-   UNKNOWN_SLOPE //This should not happen
-};
-
-enum Signal {
-   BUY_SIGNAL,
-   SELL_SIGNAL,
-   NO_SIGNAL
-};
-
-enum Flatter {
-   BULLISH_FLATTER,
-   BEARISH_FLATTER,
-   NO_FLATTER
-};
-
-enum Transition {
-   BULLISH_TO_BEARISH_TRANSITION,
-   BEARISH_TO_BULLISH_TRANSITION,
-   SUDDEN_BULLISH_TO_BEARISH_TRANSITION,
-   SUDDEN_BEARISH_TO_BULLISH_TRANSITION,
-   NO_TRANSITION
-};
-
-/* END local enums */
-
-
-
 
 /*TEMP */
 datetime checkedBar = 0;
@@ -279,6 +219,14 @@ static int DONCHIAN_CHANNEL_MIDDLE_LEVEL =  2;
 static int DONCHIAN_CHANNEL_SLOPE_LEVEL  =  4;
 //END DONCHIAN_CHANNEL
 
+//START POLYFIT_BANDS
+static int POLYFIT_BAND_MAIN        =  0; //Middle
+static int POLYFIT_BAND_FIRST_UPPER =  1;
+static int POLYFIT_BAND_FIRST_LOWER =  2;
+static int POLYFIT_BAND_SECOND_UPPER=  5;
+static int POLYFIT_BAND_SECOND_LOWER=  6;
+//END POLYFIT_BANDS
+
 //START DYNAMIC_PRICE_ZONE
 static int DYNAMIC_PRICE_ZONE_LOWER_LEVEL  =  0;
 static int DYNAMIC_PRICE_ZONE_UPPER_LEVEL  =  1;
@@ -292,18 +240,63 @@ static int JURIK_FILTER_BEARISH_VALUE  =  1;
 static int JURIK_FILTER_SLOPE          =  5;
 //END JURIK_FILTER
 
+//START FLOATED_KAUFMAN_RSI
+static int FLOATED_KAUFMAN_RSI_LEVEL_SIGNAL = 0;
+static int FLOATED_KAUFMAN_RSI_LEVEL_UPPER  = 3;
+static int FLOATED_KAUFMAN_RSI_LEVEL_MIDDLE = 4;
+static int FLOATED_KAUFMAN_RSI_LEVEL_LOWER  = 5;
+//END FLOATED_KAUFMAN_RSI
+
+//START FLOATED_STEPPED_RSI
+static int FLOATED_STEPPED_RSI_FAST    = 0;
+static int FLOATED_STEPPED_RSI_SLOW    = 1;
+static int FLOATED_STEPPED_RSI_SIGNAL  = 2; 
+static int FLOATED_STEPPED_RSI_UPPER   = 5;
+static int FLOATED_STEPPED_RSI_MIDDLE  = 6;
+static int FLOATED_STEPPED_RSI_LOWER   = 7;
+//END FLOATED_STEPPED_RSI
+
 //START SOMAT3
-static int SOMAT3_SLOPE          =  0;
-static int SOMAT3_BULLISH_MAIN   =  1;
-static int SOMAT3_BULLISH_VALUE  =  1;
-static int SOMAT3_BEARISH_VALUE  =  2;
+static int SOMAT3_SLOPE    =  0;
+static int SOMAT3_MAIN     =  1;
+static int SOMAT3_BEARISH  =  2;
 //END SOMAT3
 
+//START STEPPED_TTA
+static int STEPPED_TTA_MAIN   = 0;
+static int STEPPED_TTA_SLOPE  = 3; //EMPTY_VALUE when in BULLISH_SLOPE, !=EMPTY_VALUE when BEARISH_SLOPE
+//END STEPPED_TTA
+
 //START HULL_MA
-static int HULL_MA_BULLISH_MAIN   =  0;
+static int HULL_MA_MAIN_VALUE   =  0;
 static int HULL_MA_BULLISH_VALUE  =  1;
 static int HULL_MA_BEARISH_VALUE  =  2; 
 //END HULL_MA
+
+//START BB_STOCH_OF_RSI
+static int BB_STOCH_OF_RSI_STOCH    = 0;
+static int BB_STOCH_OF_RSI_BB_UPPER = 2;
+static int BB_STOCH_OF_RSI_BB_LOWER = 3; 
+static int BB_STOCH_OF_RSI_BB_MID   = 4;
+//END BB_STOCH_OF_RSI
+
+//START EFT
+static int EFT_SIGNAL      = 0;
+static int EFT_SLOPE       = 1; //Empty when bullish, not empty when bearish 
+static int EFT_SECOND_LINE = 3; //Never empty. Bullish when below EFT_SIGNAL, Bearish when above EFT_SIGNAL
+//END EFT 
+
+ //START SE_BANDS
+static int SE_BAND_MAIN    = 0;
+static int SE_BAND_UPPER   = 1; //Empty when bullish, not empty when bearish 
+static int SE_BAND_LOWER   = 2; //Never empty. Bullish when below EFT_SIGNAL, Bearish when above EFT_SIGNAL
+//END SE_BANDS 
+
+//START VIDYA_ZONE
+static int VIDYA_ZONE_UPPER   = 0;
+static int VIDYA_ZONE_MIDDLE  = 1;
+static int VIDYA_ZONE_LOWER   = 2;
+//START VIDYA_ZONE
 
 //START LINEAR_MA
 static int LINEAR_MA_BULLISH_MAIN   =  0;
@@ -311,8 +304,14 @@ static int LINEAR_MA_BULLISH_VALUE  =  1;
 static int LINEAR_MA_BEARISH_VALUE  =  2; 
 //END LINEAR_MA
 
+//START QUANTILE_DSS
+static int QUANTILE_DSS_SIGNAL =  0;
+static int QUANTILE_DSS_UPPER  =  5;
+static int QUANTILE_DSS_LOWER  =  6;
+//END QUANTILE_DSS
+
 //START DYNAMIC_MPA
-static int DYNAMIC_MPA_MAIN   = 0; //UPPER
+static int DYNAMIC_MPA_UPPER  = 0; //UPPER
 static int DYNAMIC_MPA_MIDDLE = 2;
 static int DYNAMIC_MPA_LOWER  = 4;
 static int DYNAMIC_MPA_SIGNAL = 5; 
@@ -341,6 +340,51 @@ static int SR_BULLISH_SLOPE   = 2;
 static int SR_BEARISH_SLOPE   = 3; 
 // END SR_BANDS
 
+// START SUPER_TREND
+static int SUPER_TREND_MAIN            = 0; 
+static int SUPER_TREND_BEARISH_SLOPE   = 1;  //EMPTY_VALUE = BULLISH, !EMPTY_VALUE = BEARISH
+// END SUPER_TREND
+
+// START RSIOMA_BANDS
+static int RSIOMA_BANDS_SIGNAL  = 0; //SIGNAL
+static int RSIOMA_BANDS_UPPER = 1;
+static int RSIOMA_BANDS_LOWER = 2;
+static int RSIOMA_BANDS_MA    = 3;
+static int RSIOMA_BANDS_SLOPE = 4;
+static int RSIOMA_BANDS_OVERSOLD_LEVEL    = 20;
+static int RSIOMA_BANDS_OVERBOUGHT_LEVEL  = 80;
+// END RSIOMA_BANDS
+
+// START DYNAMIC_WPR
+static int DYNAMIC_WPR_SIGNAL       = 0;
+//static int DYNAMIC_WPR_SECONDLIND = 1;
+static int DYNAMIC_WPR_FIRST_LOWER  = 2;
+static int DYNAMIC_WPR_FIRST_UPPER  = 3;
+static int DYNAMIC_WPR_SECOND_LOWER = 4;
+static int DYNAMIC_WPR_SECOND_UPPER = 5;
+static int DYNAMIC_WPR_MIDDLE       = 6;
+// END DYNAMIC_WPR
+
+// START DYNAMIC_RSX_OMA
+static int DYNAMIC_RSX_OMA_SIGNAL = 0;
+static int DYNAMIC_RSX_OMA_LOWER  = 1;
+static int DYNAMIC_RSX_OMA_UPPER  = 2;
+static int DYNAMIC_RSX_OMA_MIDDLE = 3;
+// END DYNAMIC_RSX_OMA
+
+// START CYCLE_KROUFR_VERSION
+static int CYCLE_KROUFR_VERSION_SIGNAL = 0;
+static int CYCLE_KROUFR_VERSION_OVERSOLD_LEVEL  = 10;
+static int CYCLE_KROUFR_VERSION_OVERBOUGHT_LEVEL= 90;
+// END CYCLE_KROUFR_VERSION
+
+// START DYNAMIC_STEPMA_PDF
+static int DYNAMIC_STEPMA_PDF_SIGNAL= 0;
+static int DYNAMIC_STEPMA_PDF_SLOPE = 1;//EMPTY_VALUE = BEARISH, EMPTY_VALUE != BULLISH
+static int DYNAMIC_STEPMA_PDF_UPPER = 3;
+static int DYNAMIC_STEPMA_PDF_LOWER = 4;
+// END DYNAMIC_STEPMA_PDF
+
 // START MLS_BANDS
 static int MLS_BAND_MAIN      = 0; //UPPER BAND
 static int MLS_BAND_LOWER     = 1;
@@ -348,7 +392,13 @@ static int MLS_BAND_LOWER     = 1;
 
 //START NON_LINEAR_KALMAN
 static int NON_LINEAR_KALMAN_MAIN   = 0; 
-static int NON_LINEAR_KALMAN_SLOPE  = 1; //Use to gauge the slope. EMPTY_VALUE = BULLISH, !EMPTY_VALUE = BULLISH
+static int NON_LINEAR_KALMAN_SLOPE  = 1; //Use to gauge the slope. EMPTY_VALUE = BULLISH, !EMPTY_VALUE = BEARISH
+//END NON_LINEAR_KALMAN
+
+//START KALMAN_BANDS
+static int KALMAN_BAND_MIDDLE = 0;
+static int KALMAN_BAND_UPPER  = 1;
+static int KALMAN_BAND_LOWER  = 2;
 //END NON_LINEAR_KALMAN
 
 //START T3_BANDS
@@ -373,6 +423,7 @@ static int T3_BANDS_SQUARED_LOWER_LEVEL  =  2;
 static int JMA_BANDS_UPPER = 0;
 static int JMA_BANDS_LOWER = 1;
 //JMA_BANDS
+
 /* BUFFERS */
 
 /* START SESSIONS */
@@ -391,36 +442,78 @@ Transition latestTransition = NO_TRANSITION;
 
 //Tracking - Allow only 1 signal per candle
 datetime latestSignalTime                    = 0; 
+datetime latestEftCrossTime                  = 0;
+datetime latestEftSlopeTime                  = 0;
 datetime latestTransitionTime                = 0; 
-datetime latestMlsBandsSignalTime            = 0; 
-datetime latestSrBandsSignalTime             = 0;
+datetime latestSrBandsSignalTime             = 0; 
+datetime latestMlsBandsSignalTime            = 0;
+datetime latestSomat3ReversalTime            = 0;
+datetime latestRsiomaBandsZoneTime           = 0;
+datetime latestDynamicMpaCrossTime           = 0;
+datetime latestRsiomaBandsCrossTime          = 0;
+datetime latestQuantileDssCrossTime          = 0;
 datetime latestJmaBandsReversalTime          = 0; 
 datetime latestDynamicMpaFlatterTime         = 0;
-datetime latestT3OuterBandsReversalTime      = 0;
 datetime latestMainStochReversalTime         = 0;
 datetime latestDynamicMpaReversalTime        = 0;
 datetime latestDynamicJurikReversalTime      = 0;
-datetime latestDynamicOfAveragesCrossTime    = 0;
-datetime latestT3MiddleBandsReversalTime     = 0;
 datetime latestNonLinearKalmanSlopeTime      = 0;
-datetime latestDynamicOfAveragesReversalTime = 0;
+datetime latestT3OuterBandsReversalTime      = 0;
+datetime latestT3MiddleBandsReversalTime     = 0;
+datetime latestDynamicStepMaPdfCrossTime     = 0;
+datetime latestCycleKroufrExtremeZoneTime    = 0;
+datetime latestDynamicOfAveragesCrossTime    = 0;
+datetime latestStepRSIFloatingReversalTime   = 0;
+datetime latestRsiomaBandsZoneReversalTime   = 0;
 datetime latestDynamicOfAveragesFlatterTime  = 0;
-datetime latestNonLinearKalmanBandsReversalTime          = 0;
-datetime latestDynamicOfAveragesCrossSignalTime          = 0;
-datetime latestDynamicOfAveragesShortTermTrendTime       = 0;
+datetime latestDynamicRsxOmaExtremeZoneTime  = 0;
+datetime latestDynamicStepMaPdfReversalTime  = 0;
+datetime latestDynamicOfAveragesReversalTime = 0;
+datetime latestStepRSIFloatingExtremeZoneTime= 0;
+datetime latestNonLinearKalmanBandsReversalTime    = 0;
+datetime latestDynamicOfAveragesCrossSignalTime    = 0;
+datetime latestSomat3AndNonLinearKalmanCrossTime   = 0;
+datetime latestCycleKroufrExtremeZoneReversalTime  = 0;
+datetime latestDynamicOfAveragesShortTermTrendTime = 0;
+datetime latestDynamicRsxOmaExtremeZoneReversalTime= 0;
+datetime latestDynamicMpaAndVolitilityBandsCrossTime     = 0;
+datetime latestDynamicPriceZonesAndSomat3ReversalTime    = 0;
+datetime latestStepRSIFloatingExtremeZoneReversalTime     = 0;
 datetime latestDynamicPriceZonesandJmaBandsReversalTime  = 0;
 datetime latestDynamicMpaAndNonLinearKalmanBandsCrossTime= 0;
+datetime latestDynamicMpaSignalLevelAndVolitilityBandsCrossTime = 0;
 
+//Invalidation time
+datetime invalidateDynamicRsxOmaExtremeZoneTime = 0;
+
+//Tests
+datetime dynamicMpaAndVolitilityBandsCombinedCrossTime=0;
 
 //Reversal
+Reversal latestSomat3Reversal                = UNKNOWN;
 Reversal latestJmaBandsReversal              = UNKNOWN;
 Reversal latestMainStochReversal             = UNKNOWN;
 Reversal latestDynamicMpaReversal            = UNKNOWN;
 Reversal latestT3OuterBandsReversal          = UNKNOWN;
 Reversal latestT3MiddleBandsReversal         = UNKNOWN;
+Reversal latestStepRSIFloatingReversal       = UNKNOWN;
+Reversal latestRsiomaBandsZoneReversal       = UNKNOWN;
+Reversal latestDynamicStepMaPdfReversal      = UNKNOWN;
 Reversal latestDynamicOfAveragesReversal     = UNKNOWN;
 Reversal latestNonLinearKalmanBandsReversal  = UNKNOWN;
-Reversal latestDynamicPriceZonesandJmaBandsReversal = UNKNOWN;
+Reversal latestCycleKroufrExtremeZoneReversal= UNKNOWN;
+Reversal latestDynamicRsxOmaExtremeZoneReversal    = UNKNOWN;
+Reversal latestStepRSIFloatingExtremeZoneReversal  = UNKNOWN;
+Reversal latestDynamicPriceZonesAndSomat3Reversal  = UNKNOWN;
+Reversal latestDynamicPriceZonesandJmaBandsReversal= UNKNOWN;
+
+//Zones
+Zones latestRsiomaBandsZone            = UNKNOWN_ZONE;
+Zones latestCycleKroufrExtremeZone     = UNKNOWN_ZONE;
+Zones latestDynamicRsxOmaExtremeZone   = UNKNOWN_ZONE;
+Zones latestStepRSIFloatingExtremeZone = UNKNOWN_ZONE;
+
+Slope latestEftSlope = UNKNOWN_SLOPE;
 
 Flatter latestDynamicMpaFlatter = NO_FLATTER;
 Flatter latestDynamicOfAveragesFlatter = NO_FLATTER;
@@ -429,10 +522,17 @@ Flatter latestDynamicOfAveragesFlatter = NO_FLATTER;
 Trend latestDynamicOfAveragesShortTermTrend  = NO_TREND;
 
 //Crosses
-Cross latestDynamicOfAveragesCross = UNKNOWN_CROSS;
-
+Cross latestEftCross                = UNKNOWN_CROSS; 
+Cross latestDynamicMpaCross         = UNKNOWN_CROSS; 
+Cross latestQuantileDssCross        = UNKNOWN_CROSS;
+Cross latestRsiomaBandsCross        = UNKNOWN_CROSS;
+Cross latestDynamicStepMaPdfCross   = UNKNOWN_CROSS;
+Cross latestDynamicOfAveragesCross  = UNKNOWN_CROSS;
+Cross latestSomat3AndNonLinearKalmanCross       = UNKNOWN_CROSS;
+Cross dynamicMpaAndVolitilityBandsCombinedCross = UNKNOWN_CROSS;
+Cross latestDynamicMpaAndVolitilityBandsCross   = UNKNOWN_CROSS;
 Cross latestDynamicMpaAndNonLinearKalmanBandsCross = UNKNOWN_CROSS;
-
+Cross latestDynamicMpaSignalLevelAndVolitilityBandsCross = UNKNOWN_CROSS;
 /* END SESSIONS */
 
 int OnInit() {
@@ -705,7 +805,7 @@ void openTrade() {
    //getEftSentiments();
    //getDonchianChannelOverlapTest();
    //getDynamicPriceZonesAndJurikFilterReversalTest();
-   //getDynamicPriceZonesAndSomat3ReversalTest();
+   
    //getDynamicPriceZonesAndLinearMaReversalTest();
    //getDynamicPriceZonesAndHullMaReversalTest();
    //getDimpaAndSomat3ReversalTest();
@@ -723,18 +823,35 @@ void openTrade() {
    //getNonLinearKalmanSlopeTest();
    //getDynamicPriceZonesAndMainStochTrendTest();   
    //getDynamicOfAveragesShortTermTrendTest();   
-   //getDynamicMpaAndVolitilityBandsReversalTest();
    //getDynamicPriceZonesAndNonLinearKalmanBandsReversalTest();
-   invalidateDynamicPriceZonesLinkedSignals(20);
+
    //getDynamicMpaAndNonLinearKalmanBandsCrossTest();
-   getSomat3AndNonLinearKalmanCrossSlopeTest();
+   
    //getNonLinearKalmanAndVolitilityBandsSlopeTest();
    //getSomat3AndVolitilityBandsSlopeTest();
+   //getDynamicMpaAndNonLinearKalmanBandsSlopeTest();
+   //getDynamicMpaAndSlopeTest();
+   //getDynamicMpaCrossTest();
+   //getDynamicMpaSignalLevelAndVolitilityBandsCrossTest();
+   //getRsiomaBandsSlopeTest();
+   //getRsiomaBandsCrossTest();
+   //getQuantileDssSlopeTest();
+   //getQuantileDssCrosstTest();
+   //getDynamicMpaAndVolitilityBandsSlopeTest();
+   //getDynamicMpaAndVolitilityBandsCrossTest();
+   //getDynamicMpaAndVolitilityBandsReversalTest();   
+   //getDynamicMpaSignalLevelAndVolitilityBandsSlopeTest();
+   //getDynamicMpaAndVolitilityBandsCombinedCrossTest();
 
    //getDynamicPriceZonesandJmaBandsReversalTest();
    //getJmaBandsLevelCrossReversalTest();  
-   //getDynamicOfAveragesReversalTest();   
-   return;
+   //getDynamicOfAveragesReversalTest();
+   //getSomat3AndNonLinearKalmanSlopeTest();
+   //getSomat3AndNonLinearKalmanCrossTest();
+   //getEftSlopeTest();
+   //getEftCrossTest();
+
+   
    
    //getAveragesBoundries(true);// Dynamic Zone
    //getTdiDirection(true);
@@ -752,6 +869,40 @@ void openTrade() {
       Print("We Selling"  );
    }
    */
+   
+   //STRATEGY CONTEDERS
+   getRsiomaBandsZoneReversalTest();
+   //getDynamicStepMaPdfCrossTest();
+   //getDynamicStepMaPdfSlopeTest();
+
+   //getSomat3SlopeTest();
+   //getDynamicRsxOmaExtremeZoneReversalTest();
+   //getCycleKroufrExtremeZoneReversalTest();
+
+   //getRsiomaBandsZonesTest();
+   //getCycleKroufRLevelSlopeTest();
+   //getCycleKroufRLevelExtremeZoneTest();
+   
+   
+   //getStepRSIFloatingLevelTest();
+   //getStepRSIFloatingExtremeZoneTest();
+   //getStepRSIFloatingSlopeTest();
+   //getStepRSIFloatingSlopeReversalTest();
+   //getDynamicRsxOmaLevelSlopeTest();
+   //getDynamicRsxOmaExtremeZoneTest();
+
+
+   //getSteppedTtaSlopeTest();   
+   //getVidyaZonesLevelTest();
+   //getSuperTrendSlopeTest();
+   //getSomat3AndKalmanBandsSlopeTest();
+   //getSomat3AndSeBandsSlopeTest();   
+   //getSomat3AndPolyfitBandsSlopeTest();
+   //getBBnStochOfRsiSlopeTest();
+
+   //getDynamicPriceZonesAndSomat3ReversalTest();   
+   invalidateDynamicPriceZonesLinkedSignals(20);
+   return;
 
       
    int tradeSetup  =  getTradeSetup(); 
@@ -924,24 +1075,27 @@ int PlaceOrder(int lOrderType, string orderComment, int lMagicNumber, color arro
       
    }
    
-   return OrderSend(SYMBOL, lOrderType, lVolume, price, slippage, initialStopLevel, takeProfitPrice, orderComment, lMagicNumber, ORDER_EXPIRATION_TIME, arrowColor);
+   return OrderSend(Symbol(), lOrderType, lVolume, price, slippage, initialStopLevel, takeProfitPrice, orderComment, lMagicNumber, ORDER_EXPIRATION_TIME, arrowColor);
 }
 
 void processTradeManagement(int lBreakEvenPoints, int lTrailingStopPoints, int lTargetPointsBeforeTrailingStop, int pastCandleIndex) {
 
-   if ( orderExists(SYMBOL) == false ) {
+   //TODO: MANAGE TRADES
+   return;
+
+   if ( orderExists(Symbol()) == false ) {
          
       // No open orders for this Symbol            
       if (reEnterOnNextSetup) { // If this is false - No follow up trades will be open on the same trend after both auto and manual TP/SL. 
                                 // Setup attributes will only reset on the next setup.
 
-         // If trades for this SYMBOL has been auto TPd, SLd. This SYMBOL won't be in OrdersTotal().
+         // If trades for this Symbol() has been auto TPd, SLd. This Symbol() won't be in OrdersTotal().
          // Therefore clearing attributes is required to make way for the next setup in the same trend. 
          resetTradeSetupAttributes();
       } 
       
       if (debug) {
-         Print("Open orders: " + (string) OrdersTotal() + ". None for " + SYMBOL); 
+         Print("Open orders: " + (string) OrdersTotal() + ". None for " + Symbol()); 
          Print("Exit processTradeManagement."); 
       }
       
@@ -954,7 +1108,7 @@ void processTradeManagement(int lBreakEvenPoints, int lTrailingStopPoints, int l
       if (OrderSelect(count, SELECT_BY_POS, MODE_TRADES)) {
       
          // Only open orders for current symbol
-         if ( OrderCloseTime() == 0 && OrderSymbol() == SYMBOL) { 
+         if ( OrderCloseTime() == 0 && OrderSymbol() == Symbol()) { 
          
             if (OrderType() == OP_BUY ) { 
             
@@ -1005,7 +1159,11 @@ void processTradeManagement(int lBreakEvenPoints, int lTrailingStopPoints, int l
 
 
 int getTradeSetup() {
+
+   //return getDynamicMpaAndVolitilityBandsCombinedCrossTest();
+   //return StrategyTester();
    
+
    int currentTrend = -1;
    
    if (false) {//{ (trendFilterEnabled) {
@@ -2036,7 +2194,7 @@ int getWcci(int turboCCi, int slowCci, bool _validatePreviousbar) {
 /* Start: Trend direction using Saduki */
 int getSaduki() {
 
-   double priceClose =  iClose(SYMBOL, CURRENT_TIMEFRAME, CURRENT_BAR);                                          
+   double priceClose =  iClose(Symbol(), CURRENT_TIMEFRAME, CURRENT_BAR);                                          
 
    bool isPreviousTriggered = false;
    
@@ -2679,7 +2837,7 @@ bool isPowerFuseBuy(int barIndex) {
    double lowerBand = NormalizeDouble(iCustom(Symbol(), Period(), "PowerFuse", 
                                           band_period, fast, slow, smooth, std_dev, 6, barIndex), Digits);                                                                                    
                                           
-   double priceClose =  iClose(SYMBOL, CURRENT_TIMEFRAME, CURRENT_BAR);                                          
+   double priceClose =  iClose(Symbol(), CURRENT_TIMEFRAME, CURRENT_BAR);                                          
    
    if(upBBMacd != EMPTY_VALUE && upBBMacd > upperBand) {
       
@@ -2703,7 +2861,7 @@ bool getPhdTrendDirection(string timeFrame, int barIndex) {
 
    double price_direction = NormalizeDouble(iCustom(Symbol(), Period(), "PhD Trends", timeFrame, look_back_period, 0, barIndex), Digits);
                                           
-   double priceClose =  iClose(SYMBOL, Period(), barIndex);                                          
+   double priceClose =  iClose(Symbol(), Period(), barIndex);                                          
    
    if(priceClose > price_direction) {
       
@@ -2723,7 +2881,7 @@ bool getPhdTrendDirection(string timeFrame, int barIndex) {
 bool isSuperTrend1Buy(int barIndex) {
 
    double upValue = NormalizeDouble(iCustom(Symbol(), Period(), "--SuperTrend1", 0, barIndex), Digits);
-   double priceClose =  iClose(SYMBOL, CURRENT_TIMEFRAME, barIndex);                                          
+   double priceClose =  iClose(Symbol(), CURRENT_TIMEFRAME, barIndex);                                          
    
 
    return (upValue != EMPTY_VALUE) && (upValue > 0 && priceClose > upValue); 
@@ -2735,7 +2893,7 @@ bool isSuperTrend1Sell(int barIndex) {
 
    double downValue = NormalizeDouble(iCustom(Symbol(), Period(), "--SuperTrend1", 1, barIndex), Digits);
                                           
-   double priceClose =  iClose(SYMBOL, CURRENT_TIMEFRAME, barIndex);                                          
+   double priceClose =  iClose(Symbol(), CURRENT_TIMEFRAME, barIndex);                                          
    
    return (downValue != EMPTY_VALUE) && (downValue > 0 && downValue > priceClose); 
 }
@@ -2747,7 +2905,7 @@ bool isPhDSuperTrendBuy(int barIndex) {
    int nbr_periods = 10;
    double multiplier = 2.0;
    double upValue  = NormalizeDouble(iCustom(Symbol(), Period(), "--PhD SuperTrend", nbr_periods, multiplier, 0, barIndex), Digits);
-   double priceClose =  iClose(SYMBOL, CURRENT_TIMEFRAME, barIndex);    
+   double priceClose =  iClose(Symbol(), CURRENT_TIMEFRAME, barIndex);    
    
    return (upValue != EMPTY_VALUE) && (upValue > 0 && priceClose > upValue); 
 }
@@ -2759,7 +2917,7 @@ bool isPhDSuperTrendV2Sell(int barIndex) {
    int nbr_periods = 10;
    double multiplier = 2.0;
    double downValue  = NormalizeDouble(iCustom(Symbol(), Period(), "--PhD SuperTrend v2.0", nbr_periods, multiplier, 1, barIndex), Digits);
-   double priceClose =  iClose(SYMBOL, CURRENT_TIMEFRAME, barIndex);                                          
+   double priceClose =  iClose(Symbol(), CURRENT_TIMEFRAME, barIndex);                                          
    
    return (downValue != EMPTY_VALUE) && (downValue > 0 && downValue > priceClose); 
 }
@@ -2785,7 +2943,7 @@ bool isForexStrategistMaBuy(int barIndex) {
                                           ma1_period, ma1_method, ma1_price, ma2_period, ma2_method, ma2_price,  
                                           1, barIndex), Digits);
                                           
-   double priceClose =  iClose(SYMBOL, CURRENT_TIMEFRAME, CURRENT_BAR);                                          
+   double priceClose =  iClose(Symbol(), CURRENT_TIMEFRAME, CURRENT_BAR);                                          
    
    return ( 
             (upperFxStrategistMa > lowerFxStrategistMa) 
@@ -2811,7 +2969,7 @@ bool isForexStrategistMaSell(int barIndex) {
                                           ma1_period, ma1_method, ma1_price, ma2_period, ma2_method, ma2_price,  
                                           1, barIndex), Digits);
                                           
-   double priceClose  =  iClose(SYMBOL, CURRENT_TIMEFRAME, CURRENT_BAR);                                          
+   double priceClose  =  iClose(Symbol(), CURRENT_TIMEFRAME, CURRENT_BAR);                                          
                             
                                          
    return ( 
@@ -2830,7 +2988,7 @@ bool isGannHiLoActivatorBuy(int _period, int barIndex) {
    
    double gann5213 = NormalizeDouble(iCustom(Symbol(), Period(), "Gann Hi-lo Activator SSL", _period, 0, barIndex), Digits);
                                           
-   double priceClose  =  iClose(SYMBOL, CURRENT_TIMEFRAME, CURRENT_BAR);                                          
+   double priceClose  =  iClose(Symbol(), CURRENT_TIMEFRAME, CURRENT_BAR);                                          
    
    return (priceClose > gann5213); 
 }
@@ -2842,7 +3000,7 @@ bool isGannHiLoActivatorSell(int _period, int barIndex) {
    
    double gann5213 = NormalizeDouble(iCustom(Symbol(), Period(), "Gann Hi-lo Activator SSL", _period, 0, barIndex), Digits);
                                           
-   double priceClose  =  iClose(SYMBOL, CURRENT_TIMEFRAME, CURRENT_BAR);                                          
+   double priceClose  =  iClose(Symbol(), CURRENT_TIMEFRAME, CURRENT_BAR);                                          
    
    return (priceClose < gann5213); 
 }
@@ -3020,12 +3178,12 @@ double getSmoothedDigitalFilterStopLossLevel(int lOrderType, int linitialStopPoi
 /** Start - SMOOTHED_DIGITAL_FILTER Stop Loss */
 
 /** Start - JURIK_FILTER Stop Loss */
-double getJurikFilterLevelStopLossLevel(int lOrderType, int linitialStopPoints, int buffer) {
+double getJurikFilterLevelStopLossLevel(int length, int lOrderType, int linitialStopPoints, int buffer) {
    
    double initialStopLossLevel  = 0.0; 
 
    int barIndex = CURRENT_BAR; //Use current bar as the previous will definately be in the direction of the trade for this indicator. 
-   double jurikFilterLevel = getJurikFilterLevel(buffer, barIndex);
+   double jurikFilterLevel = getJurikFilterLevel(length, buffer, barIndex);
   
    if (lOrderType == OP_BUY) {
    
@@ -3082,7 +3240,7 @@ double getHullMaStopLossLevel(int length, int lOrderType, int linitialStopPoints
 }
 /** Start - HULL_MA Stop Loss */
 
-/** Start - SUPERTREND Stop Loss */
+/** Start - SUPER_TREND Stop Loss */
 double getSuperTrendStopLossLevel(int lOrderType, int linitialStopPoints, int buffer) {
    
    double initialStopLossLevel  = 0.0; 
@@ -3102,7 +3260,7 @@ double getSuperTrendStopLossLevel(int lOrderType, int linitialStopPoints, int bu
  
    return initialStopLossLevel;
 }
-/** Start - SUPERTREND Stop Loss */
+/** Start - SUPER_TREND Stop Loss */
 
 /** Start - NOLAG_MA Stop Loss */
 double getNoLagMaStopLossLevel(int lOrderType, int linitialStopPoints, int buffer) {
@@ -3275,7 +3433,7 @@ bool breakEven(int orderTicket, double openPrice, int lOrderType) {
 
 bool takeProfit(int lOrderType) {
    
-   double closePrice = NormalizeDouble( iOpen(SYMBOL, CURRENT_TIMEFRAME, CURRENT_BAR + 1), Digits );
+   double closePrice = NormalizeDouble( iOpen(Symbol(), CURRENT_TIMEFRAME, CURRENT_BAR + 1), Digits );
    double decimalTargetPointsTrailingStop = NormalizeDouble( (getDecimalPip() * targetPointsTrailingStop), Digits );   
 
    if (lOrderType == OP_BUY) {
@@ -3321,7 +3479,7 @@ bool CloseOrder(int lRetries) {
       if (OrderSelect(count, SELECT_BY_POS, MODE_TRADES)) {
          
          // Only open orders and current symbol
-         if( OrderCloseTime() == 0 && OrderSymbol() == SYMBOL) { 
+         if( OrderCloseTime() == 0 && OrderSymbol() == Symbol()) { 
            
            RefreshRates(); 
            
@@ -4227,7 +4385,7 @@ int getNonLagMaSetup(bool _validatePreviousbar) {
 }
 /*END: NOLAG_MA Setup */ 
 
-/*Start: SUPERTREND Setup */ 
+/*Start: SUPER_TREND Setup */ 
 int getSuperTrendSetup(bool _validatePreviousbar) {
 
    ENUM_TIMEFRAMES timeFrame = PERIOD_CURRENT;
@@ -4236,8 +4394,8 @@ int getSuperTrendSetup(bool _validatePreviousbar) {
    
    if( _validatePreviousbar == false) {      
 
-      double upTrendCurrent = NormalizeDouble(iCustom(Symbol(), Period(), SUPERTREND, timeFrame, length, mutliplier, 0, CURRENT_BAR), Digits);
-      double downTrendCurrent = NormalizeDouble(iCustom(Symbol(), Period(), SUPERTREND, timeFrame, length, mutliplier, 1, CURRENT_BAR), Digits);
+      double upTrendCurrent = NormalizeDouble(iCustom(Symbol(), Period(), SUPER_TREND, timeFrame, length, mutliplier, 0, CURRENT_BAR), Digits);
+      double downTrendCurrent = NormalizeDouble(iCustom(Symbol(), Period(), SUPER_TREND, timeFrame, length, mutliplier, 1, CURRENT_BAR), Digits);
 
       if( (upTrendCurrent != EMPTY_VALUE) && (downTrendCurrent == EMPTY_VALUE)) { 
       
@@ -4253,11 +4411,11 @@ int getSuperTrendSetup(bool _validatePreviousbar) {
    else { 
       
       // Check previous and current candle
-      double upTrendCurrent = NormalizeDouble(iCustom(Symbol(), Period(), SUPERTREND, timeFrame, length, mutliplier, 0, CURRENT_BAR), Digits);
-      double downTrendCurrent = NormalizeDouble(iCustom(Symbol(), Period(), SUPERTREND, timeFrame, length, mutliplier, 1, CURRENT_BAR), Digits);
+      double upTrendCurrent = NormalizeDouble(iCustom(Symbol(), Period(), SUPER_TREND, timeFrame, length, mutliplier, 0, CURRENT_BAR), Digits);
+      double downTrendCurrent = NormalizeDouble(iCustom(Symbol(), Period(), SUPER_TREND, timeFrame, length, mutliplier, 1, CURRENT_BAR), Digits);
       
-      double upTrendPrev = NormalizeDouble(iCustom(Symbol(), Period(), SUPERTREND, timeFrame, length, mutliplier, 0, CURRENT_BAR + 1), Digits);
-      double downTrendPrev = NormalizeDouble(iCustom(Symbol(), Period(), SUPERTREND, timeFrame, length, mutliplier, 1, CURRENT_BAR + 1), Digits);    
+      double upTrendPrev = NormalizeDouble(iCustom(Symbol(), Period(), SUPER_TREND, timeFrame, length, mutliplier, 0, CURRENT_BAR + 1), Digits);
+      double downTrendPrev = NormalizeDouble(iCustom(Symbol(), Period(), SUPER_TREND, timeFrame, length, mutliplier, 1, CURRENT_BAR + 1), Digits);    
             
       if( (upTrendCurrent != EMPTY_VALUE && upTrendPrev != EMPTY_VALUE)  && (downTrendCurrent == EMPTY_VALUE && downTrendPrev == EMPTY_VALUE) ) { 
       
@@ -4325,25 +4483,23 @@ int getStochasticSetup(bool _validatePreviousbar) {
 /*END: STOCHASTIC Setup */ 
 
 /*Start: EFT Sentiments */ 
-Zones getEftSentiments() {
-                  
-   double overBoughtLevel = 6.0;
-   double overSoldLevel = -6.0;               
-   double eftLevel = getEftLevel(0, 0);
+Zones getEftSentiments(int length, double overBoughtLevel, double overSoldLevel) {
+                              
+   double eftLevel = getEftLevel(length, 0, 0);
    
    if (eftLevel > overBoughtLevel) {
       
-      Print("OVERBOUGHT");
-      return OVERBOUGHT;
+      Print("BULLISH_EXTREME_ZONE");
+      return BULLISH_EXTREME_ZONE;
    }
    else if(eftLevel < overSoldLevel) {
    
-      Print("OVERSOLD");
-      return OVERSOLD;
+      Print("BEARISH_EXTREME_ZONE");
+      return BEARISH_EXTREME_ZONE;
    }
    else {
    
-      return NORMAL;
+      return NORMAL_ZONE;
    }
 }
 /*END: EFT Sentiments */ 
@@ -4370,15 +4526,15 @@ Zones getStochasticSentiments(StochasticsValues targetValue, int barIndex) {
    
    if(value < 10) {
    
-      return OVERSOLD;
+      return BEARISH_EXTREME_ZONE;
    }
    else if(value > 90) {
       
-      return OVERBOUGHT;
+      return BULLISH_EXTREME_ZONE;
    }
    else {
    
-      return NORMAL;
+      return NORMAL_ZONE;
    }
 }
 /*END: STOCHASTIC Sentiments */ 
@@ -4393,10 +4549,14 @@ void invalidateDynamicPriceZonesLinkedSignals(int length){
    //In bearish, bands must be heading down and DYNAMIC_PRICE_ZONE middle line heading up
    invalidateNonLinearKalmanBandsReversal(15);
    
+   invalidateStepRSIFloatingExtremeZone(getPreviousBarIndex(CURRENT_BAR));
+   
+   //invalidateDynamicPriceZonesAndSomat3Reversal();
+   
    //RELOOK
    /*if(latestDynamicOfAveragesReversal == UNKNOWN) {
    
-      Print("UNKNOWN at " + getCurrentTime() );
+      Print("UNKNOWN at " + convertCurrentTimeToString() );
    }
    
    if( (latestDynamicOfAveragesReversal == BEARISH_REVERSAL) && (getDynamicOfAveragesShortTermTrend(length) != BULLISH_SHORT_TERM_TREND) ) {
@@ -4406,7 +4566,7 @@ void invalidateDynamicPriceZonesLinkedSignals(int length){
       
       if(latestDynamicOfAveragesReversalBarShift > 2) {
          
-         Print("BEARS DEVIATED at " + getCurrentTime() );
+         Print("BEARS DEVIATED at " + convertCurrentTimeToString() );
       }
    } 
    
@@ -4417,7 +4577,7 @@ void invalidateDynamicPriceZonesLinkedSignals(int length){
       
       if(latestDynamicOfAveragesReversalBarShift > 2) {
          
-         Print("BULLS DEVIATED at " + getCurrentTime() );
+         Print("BULLS DEVIATED at " + convertCurrentTimeToString() );
       }
    }*/      
    return;
@@ -4443,11 +4603,143 @@ void invalidateDynamicPriceZonesLinkedSignals(int length){
    double mlsBandLowerLevelPrev = getMlsBandsLevel(MLS_BAND_LOWER, CURRENT_BAR + 1);
          
    //Invalidate Somat3 getSomat3Level
-   double somat3Curr = getSomat3Level(SOMAT3_BULLISH_MAIN, CURRENT_BAR); 
-   double somat3Prev = getSomat3Level(SOMAT3_BULLISH_MAIN, CURRENT_BAR + 1);      
+   double somat3Curr = getSomat3Level(SOMAT3_MAIN, CURRENT_BAR); 
+   double somat3Prev = getSomat3Level(SOMAT3_MAIN, CURRENT_BAR + 1);      
       
 }
+void invalidateDynamicPriceZonesAndSomat3Reversal() {
 
+   int previousBarIndex = getPreviousBarIndex(CURRENT_BAR);
+   Slope slopePrev = getSomat3Slope(getPreviousBarIndex( previousBarIndex) );
+
+   if(latestDynamicPriceZonesAndSomat3Reversal == BEARISH_REVERSAL) {
+   
+      int latestDynamicPriceZonesAndSomat3ReversalBarShift = iBarShift(Symbol(), Period(), latestDynamicPriceZonesAndSomat3ReversalTime);
+      if(latestDynamicPriceZonesAndSomat3ReversalBarShift > 0) {
+         
+         latestSignal = NO_SIGNAL;
+         latestDynamicPriceZonesAndSomat3Reversal = UNKNOWN;
+         //Print("BEARISH_REVERSAL Signal invalidated at " + convertCurrentTimeToString());
+      }
+      return;
+      
+      double dynamicPriceZonesLevel    = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL, CURRENT_BAR);
+      //If the SOMAT3_MAIN crosses down the DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL - we can no longer call this a BEARISH_REVERSAL.
+      double somat3Level = getSomat3Level(SOMAT3_MAIN, CURRENT_BAR);
+      if( dynamicPriceZonesLevel > somat3Level) {
+
+         latestSignal = NO_SIGNAL;
+         latestDynamicPriceZonesAndSomat3Reversal = UNKNOWN;
+      } 
+      
+      if( (slopePrev != BEARISH_SLOPE)){
+         
+         Print("We have registered a fake BULLISH_REVERSAL signal @ " + convertCurrentTimeToString() + " " + (string)latestDynamicPriceZonesAndSomat3Reversal);
+      }      
+   }
+   
+   else if( latestDynamicPriceZonesAndSomat3Reversal == BULLISH_REVERSAL ) {     
+   
+      int latestDynamicPriceZonesAndSomat3ReversalBarShift = iBarShift(Symbol(), Period(), latestDynamicPriceZonesAndSomat3ReversalTime);
+      if(latestDynamicPriceZonesAndSomat3ReversalBarShift > 0) {
+         
+         latestSignal = NO_SIGNAL;
+         latestDynamicPriceZonesAndSomat3Reversal = UNKNOWN;
+         //Print("BULLISH_REVERSAL Signal invalidated at " + convertCurrentTimeToString());
+      }
+      return;    
+         
+      double dynamicPriceZonesLevel    = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL, CURRENT_BAR);
+      //If the SOMAT3_MAIN crosses up the DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL - we can no longer call this a BULLISH_REVERSAL.    
+      double somat3Level = getSomat3Level(SOMAT3_MAIN, CURRENT_BAR);
+      if( dynamicPriceZonesLevel < somat3Level) {
+
+         latestSignal = NO_SIGNAL;
+         latestDynamicPriceZonesAndSomat3Reversal = UNKNOWN;
+      }     
+      
+      if( (slopePrev != BULLISH_SLOPE) ){
+
+         Print("We have registered a fake BEARISH_REVERSAL signal @ " + convertCurrentTimeToString() + " " + (string)latestDynamicPriceZonesAndSomat3Reversal);
+      }            
+   }  
+ 
+}
+
+void invalidateNonLinearKalmanBandsReversal(int nonLinearKalmanBandLength) {
+
+   if(latestNonLinearKalmanBandsReversal == BEARISH_REVERSAL) {
+   
+      double dynamicPriceZonesLevel    = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL, CURRENT_BAR);
+      //If the NON_LINEAR_KALMAN_BANDS_LOWER crosses down the DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL - we can no longer call this a BEARISH_REVERSAL.
+      double nonLinearKalmanBandsLevel = getNonLinearKalmanBandsLevel(nonLinearKalmanBandLength, NON_LINEAR_KALMAN_BANDS_LOWER, CURRENT_BAR);
+      if( dynamicPriceZonesLevel > nonLinearKalmanBandsLevel) {
+         
+         latestNonLinearKalmanBandsReversal = UNKNOWN;
+      } 
+   }
+   
+   if( latestNonLinearKalmanBandsReversal == BULLISH_REVERSAL ) {      
+         
+      double dynamicPriceZonesLevel    = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL, CURRENT_BAR);
+      //If the NON_LINEAR_KALMAN_BANDS_UPPER crosses up the DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL - we can no longer call this a BULLISH_REVERSAL.    
+      double nonLinearKalmanBandsLevel = getNonLinearKalmanBandsLevel(nonLinearKalmanBandLength, NON_LINEAR_KALMAN_BANDS_UPPER, CURRENT_BAR); 
+      if( dynamicPriceZonesLevel < nonLinearKalmanBandsLevel) {
+         
+         latestNonLinearKalmanBandsReversal = UNKNOWN;
+      }       
+   }   
+}
+
+void invalidateDynamicRsxOmaExtremeZoneOnReversal() {
+
+   //Invalidate the extreme zone after giving the signal as the signal must be back inside the bands
+   if( (latestDynamicRsxOmaExtremeZoneReversal == BEARISH_REVERSAL) || (latestDynamicRsxOmaExtremeZoneReversal == BULLISH_REVERSAL)) {
+      
+      //If there was any signal given, //Invalidate the extreme zones after giving the signal as the signal must be back inside the bands
+      invalidateDynamicRsxOmaExtremeZoneTime = getCurrentTime();
+      latestDynamicRsxOmaExtremeZone = UNKNOWN_ZONE;
+   }   
+}
+
+void invalidateCycleKroufrExtremeZoneOnReversal() {
+
+   //Invalidate the extreme zone after giving the signal as the signal must be back inside the bands
+   if( (latestCycleKroufrExtremeZoneReversal == BEARISH_REVERSAL) || (latestCycleKroufrExtremeZoneReversal == BULLISH_REVERSAL)) {
+      
+      //If there was any signal given, //Invalidate the extreme zones after giving the signal as the signal must be back inside the bands
+      latestCycleKroufrExtremeZoneTime = getCurrentTime();
+      latestCycleKroufrExtremeZone = UNKNOWN_ZONE;
+   }   
+}
+
+void invalidateStepRSIFloatingExtremeZone(int barIndex) {
+
+   Slope slope = getStepRSIFloatingSlope(barIndex);
+
+   if(latestStepRSIFloatingExtremeZone == BULLISH_EXTREME_ZONE) {
+   
+      
+      if( slope == BEARISH_SLOPE) {
+         
+         //Print("BULLISH_EXTREME_ZONE invalidated @ " + getCurrentTime());
+         latestSignal = NO_SIGNAL;
+         latestStepRSIFloatingExtremeZone       = UNKNOWN_ZONE;
+         latestStepRSIFloatingExtremeZoneTime   = 0;
+      } 
+   }
+   
+   if( latestStepRSIFloatingExtremeZone == BEARISH_EXTREME_ZONE ) {      
+             
+      if( slope == BULLISH_SLOPE) {
+          
+         //Print("BEARISH_EXTREME_ZONE invalidated @ " + getCurrentTime());
+         latestSignal = NO_SIGNAL;
+         latestStepRSIFloatingExtremeZone       = UNKNOWN_ZONE;
+         latestStepRSIFloatingExtremeZoneTime   = 0;
+      }        
+   }   
+}
 //DYNAMIC_MPA Linked
 
 /** END INVALIDATE SIGNALS*/
@@ -4501,7 +4793,7 @@ Reversal getLinearMaReversal() {
 /** Start - NOLAG_MA Reversal Detection*/
 Reversal getNoLagMaReversal() {
 
-   if(checkedBar == Time[CURRENT_BAR]) {
+   if(checkedBar == getCurrentTime()) {
       
       return CONTINUATION;
    } 
@@ -4521,7 +4813,7 @@ Reversal getNoLagMaReversal() {
       //currently bullish, look out for bearish reversal
       if( getNoLagMaLevel(upTrendBuffer, CURRENT_BAR) == getNoLagMaLevel(upTrendBuffer, CURRENT_BAR + 1)) { //It will start by being equal and change as price moves away, thus confirming the reversal
          
-         checkedBar = Time[CURRENT_BAR];
+         checkedBar = getCurrentTime();
          Print("BEARISH_REVERSAL Reversal on " + (string)iTime(Symbol(),CURRENT_TIMEFRAME,0) );
          return BEARISH_REVERSAL;
       }        
@@ -4532,7 +4824,7 @@ Reversal getNoLagMaReversal() {
       //currently bearish, look out for bullish reversal
       if( getNoLagMaLevel(downTrendBuffer, CURRENT_BAR) == getNoLagMaLevel(downTrendBuffer, CURRENT_BAR + 1)) { //It will start by being equal and change as price moves away, thus confirming the reversal
          
-         checkedBar = Time[CURRENT_BAR];
+         checkedBar = getCurrentTime();
          Print("BULLISH_REVERSAL Reversal on " + (string)iTime(Symbol(),CURRENT_TIMEFRAME,0));
          return BULLISH_REVERSAL;
       }      
@@ -4582,7 +4874,7 @@ Reversal getDonchianChannelOverlap() {
          
          if(donchianChannelLatestSignal != SELL_SIGNAL) {
             donchianChannelLatestSignal = SELL_SIGNAL;
-            Print("BEARISH REVERSAL on " + getCurrentTime());
+            Print("BEARISH REVERSAL on " + convertCurrentTimeToString());
          }
       }
       
@@ -4601,7 +4893,7 @@ Reversal getDonchianChannelOverlap() {
          
          if(donchianChannelLatestSignal != BUY_SIGNAL) {
             donchianChannelLatestSignal = BUY_SIGNAL;
-            Print("BULLISH REVERSAL on " + getCurrentTime());
+            Print("BULLISH REVERSAL on " + convertCurrentTimeToString());
          }
       }
       
@@ -4652,7 +4944,7 @@ Reversal getDonchianChannelSeBandsReversals() {
          
          if(donchianChannelLatestSignal != SELL_SIGNAL) {
             donchianChannelLatestSignal = SELL_SIGNAL;
-            Print("BEARISH REVERSAL on " + getCurrentTime());
+            Print("BEARISH REVERSAL on " + convertCurrentTimeToString());
          }
       }
       
@@ -4671,7 +4963,7 @@ Reversal getDonchianChannelSeBandsReversals() {
          
          if(donchianChannelLatestSignal != BUY_SIGNAL) {
             donchianChannelLatestSignal = BUY_SIGNAL;
-            Print("BULLISH REVERSAL on " + getCurrentTime());
+            Print("BULLISH REVERSAL on " + convertCurrentTimeToString());
          }
       }
       
@@ -4683,7 +4975,7 @@ Reversal getDonchianChannelSeBandsReversals() {
 
 /** One touch of the previous bar(CURRENT_BAR + 1) should be enough to warrant a reversal */
 //TODO
-Reversal getDynamicPriceZonesAndHurstChannelReversal() { //Hurst 4, 8, 5, 0, 1
+Reversal getDynamicPriceZonesAndHurstChannelReversal(int length) { //Hurst 4, 8, 5, 0, 1
 
    Trend trend = getDynamicPriceZonesTrend();   
    if( trend == BULLISH_TREND ) {
@@ -4692,7 +4984,7 @@ Reversal getDynamicPriceZonesAndHurstChannelReversal() { //Hurst 4, 8, 5, 0, 1
       double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, CURRENT_BAR + 1);
       
       //JURIK_FILTER
-      double jurikFilterBullishValuePrev  = getJurikFilterLevel(JURIK_FILTER_BULLISH_VALUE, CURRENT_BAR + 1);
+      double jurikFilterBullishValuePrev  = getJurikFilterLevel(length, JURIK_FILTER_BULLISH_VALUE, CURRENT_BAR + 1);
       
       if( (jurikFilterBullishValuePrev > zoneLevelPrev)) {
          
@@ -4706,7 +4998,7 @@ Reversal getDynamicPriceZonesAndHurstChannelReversal() { //Hurst 4, 8, 5, 0, 1
       double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, CURRENT_BAR + 1);
       
       //JURIK_FILTER
-      double jurikFilterBearishValuePrev  = getJurikFilterLevel(JURIK_FILTER_BEARISH_VALUE, CURRENT_BAR + 1);
+      double jurikFilterBearishValuePrev  = getJurikFilterLevel(length, JURIK_FILTER_BEARISH_VALUE, CURRENT_BAR + 1);
       
       if( (zoneLevelPrev > jurikFilterBearishValuePrev)) {
          
@@ -4721,7 +5013,7 @@ Reversal getDynamicPriceZonesAndHurstChannelReversal() { //Hurst 4, 8, 5, 0, 1
 /** Start - DONCHIAN_CHANNEL Reversal Detection*/
 Reversal getDonchianChannelReversal(bool useClosePrice) {
 
-   if(checkedBar == Time[CURRENT_BAR]) {
+   if(checkedBar == getCurrentTime()) {
       
       return CONTINUATION;
    } 
@@ -4733,13 +5025,13 @@ Reversal getDonchianChannelReversal(bool useClosePrice) {
    
    /*if( getDonchianChannelLevel(useClosePrice, upperBuffer, CURRENT_BAR) == getDonchianChannelLevel(useClosePrice, upperBuffer, CURRENT_BAR + 1) ) { 
       
-      checkedBar = Time[CURRENT_BAR];
+      checkedBar = getCurrentTime();
       Print("BEARISH_REVERSAL Reversal on " + (string)iTime(Symbol(),CURRENT_TIMEFRAME,0) );
       return BEARISH_REVERSAL;       
    }
    if( getDonchianChannelLevel(useClosePrice, lowerBuffer, CURRENT_BAR) == getDonchianChannelLevel(useClosePrice, lowerBuffer, CURRENT_BAR + 1) ) { 
    
-      checkedBar = Time[CURRENT_BAR];
+      checkedBar = getCurrentTime();
       Print("BULLISH_REVERSAL Reversal on " + (string)iTime(Symbol(),CURRENT_TIMEFRAME,0));
       return BULLISH_REVERSAL;     
    }*/
@@ -4754,7 +5046,7 @@ Reversal getDonchianChannelReversal(bool useClosePrice) {
 Reversal getDynamicJurikReversal(bool checkCurrentBar) {
 
    //Only check once per bar
-   if(latestDynamicJurikReversalTime == Time[CURRENT_BAR]) {      
+   if(latestDynamicJurikReversalTime == getCurrentTime()) {      
       
       return CONTINUATION;
    } 
@@ -4775,7 +5067,7 @@ Reversal getDynamicJurikReversal(bool checkCurrentBar) {
       
       if( getDynamicJuricLevel(DYNAMIC_JURIK_SECOND_UPPER_VALUE, previousBarIndex ) == getDynamicJuricLevel(DYNAMIC_JURIK_SECOND_UPPER_VALUE, barIndex) ) { 
          
-         latestDynamicJurikReversalTime = Time[CURRENT_BAR];
+         latestDynamicJurikReversalTime = getCurrentTime();
          return BEARISH_REVERSAL;       
       }
    }   
@@ -4783,7 +5075,7 @@ Reversal getDynamicJurikReversal(bool checkCurrentBar) {
       
       if( getDynamicJuricLevel(DYNAMIC_JURIK_SECOND_LOWER_VALUE, previousBarIndex) == getDynamicJuricLevel(DYNAMIC_JURIK_SECOND_LOWER_VALUE, barIndex) ) { 
       
-         latestDynamicJurikReversalTime = Time[CURRENT_BAR];
+         latestDynamicJurikReversalTime = getCurrentTime();
          return BULLISH_REVERSAL;     
       }
    }
@@ -4799,7 +5091,7 @@ Reversal getDynamicJurikReversal(bool checkCurrentBar) {
 Reversal getMainStochReversal(bool checkCurrentBar) {
 
    //Only check once per bar
-   if(latestMainStochReversalTime == Time[CURRENT_BAR]) {      
+   if(latestMainStochReversalTime == getCurrentTime()) {      
       
       return latestMainStochReversal;
    } 
@@ -4821,7 +5113,7 @@ Reversal getMainStochReversal(bool checkCurrentBar) {
       if( getMainStochLevel(MAIN_STOCH_MAIN_VALUE, previousBarIndex ) == getMainStochLevel(MAIN_STOCH_MAIN_VALUE, barIndex) ) { 
          
          latestMainStochReversal = BEARISH_REVERSAL;
-         latestMainStochReversalTime = Time[CURRENT_BAR];
+         latestMainStochReversalTime = getCurrentTime();
          return BEARISH_REVERSAL;       
       }
    }
@@ -4830,7 +5122,7 @@ Reversal getMainStochReversal(bool checkCurrentBar) {
       if( getMainStochLevel(MAIN_STOCH_SECOND_LOWER_VALUE, previousBarIndex ) == getMainStochLevel(MAIN_STOCH_SECOND_LOWER_VALUE, barIndex) ) { 
       
          latestMainStochReversal = BULLISH_REVERSAL;
-         latestMainStochReversalTime = Time[CURRENT_BAR];
+         latestMainStochReversalTime = getCurrentTime();
          return BULLISH_REVERSAL;     
       }
    }   
@@ -4843,7 +5135,7 @@ Reversal getMainStochReversal(bool checkCurrentBar) {
  */
 Flatter getDynamicMpaFlatter(int length, bool checkCurrentBar) {
 
-   if(latestDynamicMpaFlatterTime == Time[CURRENT_BAR]) {
+   if(latestDynamicMpaFlatterTime == getCurrentTime()) {
       
       return latestDynamicMpaFlatter;
    } 
@@ -4858,31 +5150,31 @@ Flatter getDynamicMpaFlatter(int length, bool checkCurrentBar) {
       barIndex = CURRENT_BAR + 1;
    }
    
-    int previousBarIndex = getPreviousBarIndex(barIndex);
+   int previousBarIndex = getPreviousBarIndex(barIndex);
 
-   if( (getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, previousBarIndex) == getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex)) ) { 
+   if( (getDynamicMpaLevel(length, DYNAMIC_MPA_UPPER, previousBarIndex) == getDynamicMpaLevel(length, DYNAMIC_MPA_UPPER, barIndex)) ) { 
       
-      latestDynamicMpaFlatter = BULLISH_FLATTER;      
-      latestDynamicMpaFlatterTime = Time[CURRENT_BAR];
+      latestDynamicMpaFlatter = BEARISH_FLATTER;      
+      latestDynamicMpaFlatterTime = getCurrentTime();
       return BEARISH_FLATTER;       
    }
    else if( (getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, previousBarIndex) == getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, barIndex)) ) {
       
       latestDynamicMpaFlatter = BULLISH_FLATTER;
-      latestDynamicMpaFlatterTime = Time[CURRENT_BAR];
+      latestDynamicMpaFlatterTime = getCurrentTime();
       return BULLISH_FLATTER;     
    }
 
-   return NO_FLATTER;
+   return latestDynamicMpaFlatter;
 }
-/** End - DYNAMIC_MPA Reversal Detection*/
+/** End - DYNAMIC_MPA Flat Detection*/
 
 /** 
  *Start - DYNAMIC_OF_AVERAGES Flat Detection - The way this is checked assumes Bullish and Bearish reversal cannot at the same time.
  */
 Flatter getDynamicOfAveragesFlatter(int length, bool checkCurrentBar) {
 
-   if(latestDynamicOfAveragesFlatterTime == Time[CURRENT_BAR]) {
+   if(latestDynamicOfAveragesFlatterTime == getCurrentTime()) {
       
       return latestDynamicOfAveragesFlatter;
    } 
@@ -4917,7 +5209,7 @@ Flatter getDynamicOfAveragesFlatter(int length, bool checkCurrentBar) {
          //&& (getDynamicOfAveragesLevel(length, DYNAMIC_OF_AVAERAGES_SIGNAL, CURRENT_BAR ) < getDynamicOfAveragesLevel(length, DYNAMIC_OF_AVAERAGES_MIDDLE, CURRENT_BAR ) )          
          ) { 
       latestDynamicOfAveragesFlatter     = BULLISH_FLATTER;   
-      latestDynamicOfAveragesFlatterTime = Time[CURRENT_BAR];
+      latestDynamicOfAveragesFlatterTime = getCurrentTime();
       return BULLISH_FLATTER;     
    }   
    else if( ( dynamicOfAveragesUpperLevelPrev == dynamicOfAveragesUpperLevelCurr) 
@@ -4928,7 +5220,7 @@ Flatter getDynamicOfAveragesFlatter(int length, bool checkCurrentBar) {
          ) { 
       Print("Test");
       latestDynamicOfAveragesFlatter     = BEARISH_FLATTER;
-      latestDynamicOfAveragesFlatterTime = Time[CURRENT_BAR];
+      latestDynamicOfAveragesFlatterTime = getCurrentTime();
       return BEARISH_FLATTER;       
    }
 
@@ -4945,9 +5237,9 @@ Signal getDynamicOfAveragesCrossSignal(int length, bool checkPreviousBar, bool c
    int slowDynamicOfAveragesLength = 20;
    
 
-   if(latestDynamicOfAveragesCrossSignalTime == Time[CURRENT_BAR]) {
+   if(latestDynamicOfAveragesCrossSignalTime == getCurrentTime()) {
       
-      return latestDynamicOfAveragesCrossSignalTime;
+      return latestDynamicOfAveragesCrossSignal;
    } 
 
    Cross cross = getDynamicOfAveragesCross(fastDynamicOfAveragesLength, slowDynamicOfAveragesLength, checkPreviousBar);
@@ -4960,16 +5252,16 @@ Signal getDynamicOfAveragesCrossSignal(int length, bool checkPreviousBar, bool c
          if(cross == BULLISH_CROSS) {
 
             latestDynamicOfAveragesCrossSignal = SELL_SIGNAL;
-            latestDynamicOfAveragesCrossSignalTime = Time[CURRENT_BAR];
+            latestDynamicOfAveragesCrossSignalTime = getCurrentTime();
          }                   
       }
       else if(flatter == BULLISH_FLATTER) {
       
-         Cross cross = getDynamicOfAveragesCross(fastDynamicOfAveragesLength, slowDynamicOfAveragesLength, checkPreviousBar);
+         cross = getDynamicOfAveragesCross(fastDynamicOfAveragesLength, slowDynamicOfAveragesLength, checkPreviousBar);
          if(cross == BEARISH_CROSS) {
             
             latestDynamicOfAveragesCrossSignal = SELL_SIGNAL;
-            latestDynamicOfAveragesCrossSignalTime = Time[CURRENT_BAR];
+            latestDynamicOfAveragesCrossSignalTime = getCurrentTime();
          } 
       }       
         
@@ -4979,12 +5271,12 @@ Signal getDynamicOfAveragesCrossSignal(int length, bool checkPreviousBar, bool c
          if(cross == BULLISH_CROSS) {
 
             latestDynamicOfAveragesCrossSignal = SELL_SIGNAL;
-            latestDynamicOfAveragesCrossSignalTime = Time[CURRENT_BAR];
+            latestDynamicOfAveragesCrossSignalTime = getCurrentTime();
          } 
          else if(cross == BEARISH_CROSS) {
             
             latestDynamicOfAveragesCrossSignal = SELL_SIGNAL;
-            latestDynamicOfAveragesCrossSignalTime = Time[CURRENT_BAR];
+            latestDynamicOfAveragesCrossSignalTime = getCurrentTime();
          }
 
    }
@@ -4998,7 +5290,7 @@ Signal getDynamicOfAveragesCrossSignal(int length, bool checkPreviousBar, bool c
  */
 Cross getDynamicOfAveragesCross(int fastDynamicOfAveragesLength, int slowDynamicOfAveragesLength, bool checkPreviousBar) {
 
-   if(latestDynamicOfAveragesCrossTime == Time[CURRENT_BAR]) {
+   if(latestDynamicOfAveragesCrossTime == getCurrentTime()) {
       
       return latestDynamicOfAveragesCross;
    } 
@@ -5014,7 +5306,7 @@ Cross getDynamicOfAveragesCross(int fastDynamicOfAveragesLength, int slowDynamic
       if( (slowDynamicOfAveragesMiddleLevelCurr < fastDynamicOfAveragesMiddleLevelCurr) && (slowDynamicOfAveragesMiddleLevelPrev < fastDynamicOfAveragesMiddleLevelPrev) ) {      
       
          latestDynamicOfAveragesCross = BEARISH_CROSS;
-         latestDynamicOfAveragesCrossTime = Time[CURRENT_BAR];
+         latestDynamicOfAveragesCrossTime = getCurrentTime();
          return BEARISH_CROSS;
       }            
    }
@@ -5026,7 +5318,7 @@ Cross getDynamicOfAveragesCross(int fastDynamicOfAveragesLength, int slowDynamic
       if( slowDynamicOfAveragesMiddleLevelCurr < fastDynamicOfAveragesMiddleLevelCurr ) {      
       
          latestDynamicOfAveragesCross = BULLISH_CROSS;
-         latestDynamicOfAveragesCrossTime = Time[CURRENT_BAR];
+         latestDynamicOfAveragesCrossTime = getCurrentTime();
          return BEARISH_CROSS;
       }            
    }
@@ -5057,7 +5349,7 @@ Reversal getJmaBandsLevelCrossReversal() {
          && (currJmaBandsLevelFaster > currJmaBandsLevelSlower) ) { //It is currently Bullist
          
       latestJmaBandsReversal     = BULLISH_REVERSAL;   
-      latestJmaBandsReversalTime = Time[CURRENT_BAR];
+      latestJmaBandsReversalTime = getCurrentTime();
       return BULLISH_REVERSAL;          
    }
    else if( (pastTwoJmaBandsLevelSlower < pastTwoJmaBandsLevelFaster) //It was Bullish
@@ -5065,7 +5357,7 @@ Reversal getJmaBandsLevelCrossReversal() {
          && (currJmaBandsLevelFaster < currJmaBandsLevelSlower) ) { //It is currently Bearish
          
       latestJmaBandsReversal     = BEARISH_REVERSAL;   
-      latestJmaBandsReversalTime = Time[CURRENT_BAR];
+      latestJmaBandsReversalTime = getCurrentTime();
       return BEARISH_REVERSAL;          
    }
   
@@ -5078,7 +5370,7 @@ Reversal getJmaBandsLevelCrossReversal() {
 /** Start - QUANTILE_BANDS Reversal Detection*/
 Reversal getQuantileBandsReversal() {
 
-   if(checkedBar == Time[CURRENT_BAR]) {
+   if(checkedBar == getCurrentTime()) {
       
       return CONTINUATION;
    } 
@@ -5088,13 +5380,13 @@ Reversal getQuantileBandsReversal() {
    
    if( getQuantileBandsLevel(upperBuffer, CURRENT_BAR) == getQuantileBandsLevel(upperBuffer, CURRENT_BAR + 1) ) { 
       
-      checkedBar = Time[CURRENT_BAR];
+      checkedBar = getCurrentTime();
       Print("BEARISH_REVERSAL Reversal on " + (string)iTime(Symbol(),CURRENT_TIMEFRAME,0) );
       return BEARISH_REVERSAL;       
    }
    if( getQuantileBandsLevel(lowerBuffer, CURRENT_BAR) == getQuantileBandsLevel(lowerBuffer, CURRENT_BAR + 1) ) { 
    
-      checkedBar = Time[CURRENT_BAR];
+      checkedBar = getCurrentTime();
       Print("BULLISH_REVERSAL Reversal on " + (string)iTime(Symbol(),CURRENT_TIMEFRAME,0));
       return BULLISH_REVERSAL;     
    }
@@ -5229,8 +5521,8 @@ double getHullMaLevel(int length, int buffer, int barIndex) {
 
 Slope getHullMaSlope(int length, int barIndex) {
    
-    double hmaMainValuePrev = getHullMaLevel(length, HULL_MA_BULLISH_MAIN, CURRENT_BAR + 1);
-    double hmaMainValuePrevPrev = getHullMaLevel(length, HULL_MA_BULLISH_MAIN, CURRENT_BAR + 1);
+    double hmaMainValuePrev = getHullMaLevel(length, HULL_MA_MAIN_VALUE, CURRENT_BAR + 1);
+    double hmaMainValuePrevPrev = getHullMaLevel(length, HULL_MA_MAIN_VALUE, CURRENT_BAR + 1);
    
    double hmaBullishValueCurr = getHullMaLevel(length, HULL_MA_BULLISH_VALUE, CURRENT_BAR);
    double hmaBullishValuePrev = getHullMaLevel(length, HULL_MA_BULLISH_VALUE, CURRENT_BAR + 1);
@@ -5238,35 +5530,35 @@ Slope getHullMaSlope(int length, int barIndex) {
    double hmaBearishValueCurr = getHullMaLevel(length, HULL_MA_BEARISH_VALUE, CURRENT_BAR);
    double hmaBearishValuePrev = getHullMaLevel(length, HULL_MA_BEARISH_VALUE, CURRENT_BAR + 1);
    
-   if( latestTransitionTime != Time[CURRENT_BAR] ) {
+   if( latestTransitionTime != getCurrentTime() ) {
       
       if(hmaMainValuePrev == hmaMainValuePrevPrev) {
          
-         Print("Flat @ " + getCurrentTime() );
+         Print("Flat @ " + convertCurrentTimeToString() );
          
-         latestTransitionTime = Time[CURRENT_BAR];
+         latestTransitionTime = getCurrentTime();
          if( (hmaBullishValuePrev != EMPTY_VALUE) && (hmaBearishValuePrev == EMPTY_VALUE)) {
             
-            Print("Slope was Bullish @ " + getTime(CURRENT_BAR + 1) + " and is now... ");
+            Print("Slope was Bullish @ " + convertTimeToString(CURRENT_BAR + 1) + " and is now... ");
             if( (hmaBullishValueCurr != EMPTY_VALUE) && (hmaBearishValueCurr == EMPTY_VALUE)) { 
             
-               Print("...Bullish @ " + getCurrentTime() ); 
+               Print("...Bullish @ " + convertCurrentTimeToString() ); 
             } 
             else if( (hmaBearishValueCurr != EMPTY_VALUE) && (hmaBullishValueCurr != EMPTY_VALUE)) { 
                
-               Print("...Bearish @ " + getCurrentTime() );
+               Print("...Bearish @ " + convertCurrentTimeToString() );
             }            
          }
          else if( (hmaBearishValuePrev != EMPTY_VALUE) && (hmaBullishValuePrev == EMPTY_VALUE)) {
             
-            Print("Slope was Bearish @ " + getTime(CURRENT_BAR + 1) + " and is now... ");
+            Print("Slope was Bearish @ " + convertTimeToString(CURRENT_BAR + 1) + " and is now... ");
             if( (hmaBullishValueCurr != EMPTY_VALUE) && (hmaBearishValueCurr == EMPTY_VALUE)) { 
             
-               Print("...Bullish @ " + getCurrentTime() ); 
+               Print("...Bullish @ " + convertCurrentTimeToString() ); 
             } 
             else if( (hmaBearishValueCurr != EMPTY_VALUE) && (hmaBullishValueCurr != EMPTY_VALUE)) { 
                
-               Print("...Bearish @ " + getCurrentTime() );
+               Print("...Bearish @ " + convertCurrentTimeToString() );
             }            
          }      
       }
@@ -5333,7 +5625,39 @@ Slope getNonLinearKalmanSlope(int length, int barIndex) {
    
    return UNKNOWN_SLOPE;
 }
-/** Start - NON_LINEAR_KALMAN Level and slope*/
+/** End - NON_LINEAR_KALMAN Level and slope*/
+
+/** Start - KALMAN_BANDS Level and slope*/
+/**
+ * Retrieve the KALMAN_BANDS given buffer value and barIndex
+ *
+ * 0 = KALMAN_BAND_MIDDLE
+ * 1 = KALMAN_BAND_UPPER
+ * 2 = KALMAN_BAND_LOWER
+ */
+double getKalmanBandsLevel(int length, int buffer, int barIndex) {
+   
+   int     preSmooth      =  1;
+   double  kSigma        =  0.5;   
+   return NormalizeDouble(iCustom(Symbol(), Period(), KALMAN_BANDS, length, preSmooth, kSigma, buffer, barIndex), Digits);
+}
+Slope getKalmanBandsSlope(int length, int barIndex) {
+   
+   double current = getKalmanBandsLevel(length, KALMAN_BAND_MIDDLE, barIndex);
+   double previous = getKalmanBandsLevel(length, KALMAN_BAND_MIDDLE, getPreviousBarIndex(barIndex));
+   
+   if( current > previous) {
+      
+      return BULLISH_SLOPE;
+   }
+   else if(current < previous){
+      
+      return BEARISH_SLOPE;
+   }
+   
+   return UNKNOWN_SLOPE;
+}
+/** End - KALMAN_BANDS Level and slope*/
 
 /** Start - NOLAG_MA Level*/
 /**
@@ -5354,26 +5678,9 @@ double getNoLagMaLevel(int buffer, int barIndex) {
 }
 /** End - NOLAG_MA Level*/
 
-/** Start - SUPERTREND Level*/
-/**
- * Retrieve the SUPERTREND given buffer value and barIndex
- *
- * 0 = Main, never empty
- * 1 = For both Up and down trend
- *   : EMPTY_VALUE=>  Up trend
- *   : NOT EMPTY  =>  Down trend
- */
-double getSuperTrendLevel(int buffer, int barIndex) {
-   
-   int     length       =  1;  
-   double  multiplier   =  1;  
-   return NormalizeDouble(iCustom(Symbol(), Period(), SUPERTREND, CURRENT_TIMEFRAME, length, multiplier, buffer, barIndex), Digits);
-}
-/** End - SUPERTREND Level*/
-
 /** Start - POLIFIT_BANDS Level*/
 /**
- * Retrieve the SUPERTREND given buffer value
+ * Retrieve the SUPER_TREND given buffer value
  *
  * 0 = Main, never empty
  * 1 = For both Up and down trend
@@ -5384,9 +5691,9 @@ double getSuperTrendLeve_TODO(int buffer, int barIndex) {
    
    int     length       =  1;  
    double  multiplier   =  1;  
-   return NormalizeDouble(iCustom(Symbol(), Period(), SUPERTREND, CURRENT_TIMEFRAME, length, multiplier, buffer, barIndex), Digits);
+   return NormalizeDouble(iCustom(Symbol(), Period(), SUPER_TREND, CURRENT_TIMEFRAME, length, multiplier, buffer, barIndex), Digits);
 }
-/** End - SUPERTREND Level*/
+/** End - SUPER_TREND Level*/
 
 /** Start - NOLAG_MA Level*/
 /**
@@ -5542,18 +5849,508 @@ int getDonchianChannelSlope(int barIndex) {
 /**
  * Retrieve the SE_BANDS given buffer value and barIndex
  *
- * 0 = Main(Middle), never empty
- * 1 = Upper band
- * 2 = Lower
+ * 0 = SE_BAND_MAIN(Middle): never empty
+ * 1 = SE_BAND_UPPER: never empty
+ * 2 = SE_BAND_LOWER: never empty
  */
-double getSeBandsLevel(int buffer, int barIndex) {
+double getSeBandsLevel(int length, int buffer, int barIndex) {
    
-   int timeFrame              = Period(); 
    int smoothingLength        = 3;
-   int linearRegresionPeriod  = 15;
-   return NormalizeDouble(iCustom(Symbol(), Period(), SE_BANDS, timeFrame, linearRegresionPeriod, smoothingLength, buffer, barIndex), Digits);
+   return NormalizeDouble(iCustom(Symbol(), Period(), SE_BANDS, length, smoothingLength, buffer, barIndex), Digits);
 }
 /** End - SE_BANDS Level*/
+
+/** Start - VIDYA_ZONES Level*/
+/**
+ * Retrieve the VIDYA_ZONES given buffer value and barIndex
+ *
+ * 0 = VIDYA_ZONE_UPPER: never empty
+ * 1 = VIDYA_ZONE_MIDDLE: never empty
+ * 2 = VIDYA_ZONE_LOWER: never empty
+ */
+double getVidyaZonesLevel(int cmoPeriod, int smoothPeriod, int buffer, int barIndex) {
+   
+   return NormalizeDouble(iCustom(Symbol(), Period(), VIDYA_ZONES, cmoPeriod, smoothPeriod, buffer, barIndex), Digits);
+}
+/** End - VIDYA_ZONES Level*/
+
+/** Start - FLOATED_KAUFMAN_RSI Level*/
+/**
+ * Retrieve the FLOATED_KAUFMAN_RSI given buffer value and barIndex
+ *
+ * 0 = FLOATED_KAUFMAN_RSI_LEVEL_SIGNAL
+ * 3 = FLOATED_KAUFMAN_RSI_LEVEL_UPPER
+ * 4 = FLOATED_KAUFMAN_RSI_LEVEL_MIDDLE
+ * 5 = FLOATED_KAUFMAN_RSI_LEVEL_LOWER 
+ */
+double getRsiOfKaufmanLevel(int buffer, int barIndex) {
+   
+   int rsiPeriod     = 10;
+   int amaPeriod     = 10;
+   int fastEnd       = 1;
+   int slowEnd       = 34;
+   int smoothPower   = 2;
+   int minMaxPeriod  = 35;
+
+   return NormalizeDouble(iCustom(Symbol(), Period(), FLOATED_KAUFMAN_RSI, rsiPeriod, amaPeriod, fastEnd, slowEnd, smoothPower, minMaxPeriod, buffer, barIndex), Digits);
+}
+/** End - FLOATED_KAUFMAN_RSI Level*/
+
+
+/** Start - DYNAMIC_RSX_OMA Level, Slope, Extremes, and Reversal*/
+/**
+ * Retrieve the DYNAMIC_RSX_OMA given buffer value and barIndex
+ *
+ * DYNAMIC_RSX_OMA_SIGNAL = 0
+ * DYNAMIC_RSX_OMA_LOWER  = 1
+ * DYNAMIC_RSX_OMA_UPPER  = 2
+ * DYNAMIC_RSX_OMA_MIDDLE = 3
+ */
+double getDynamicRsxOmaLevel(int buffer, int barIndex) {
+   
+   int    rsxLength     = 9;
+   int    price         = 0;
+   int    omaLength     = 2;
+   double omaSpeed      = 1;
+   bool   omaAdaptive   = true;
+   int    lookBackBars  = 35;
+   return NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_RSX_OMA, rsxLength, price, omaLength, omaSpeed, omaAdaptive, lookBackBars, buffer, barIndex), Digits);
+}
+Slope getDynamicRsxOmaLevelSlope() {
+   
+   double signalCurr    = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, CURRENT_BAR);
+   double signalPrev    = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, getPreviousBarIndex(1));
+   
+   if(signalCurr > signalPrev) {
+   
+      return BULLISH_SLOPE;
+   }
+   else if(signalCurr < signalPrev){
+      
+      return BEARISH_SLOPE;
+   }
+   else {
+      
+      return UNKNOWN_SLOPE;
+   }   
+}
+Zones getDynamicRsxOmaExtremeZone(int barIndex) {
+
+   if( (barIndex > 0) && (latestDynamicRsxOmaExtremeZoneTime == getCurrentTime()) ) {      
+      
+      //If we checking previous close - then only check once as the status will never change
+      return latestDynamicRsxOmaExtremeZone;
+   } 
+   
+   double signalLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, barIndex);
+   double upperLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_UPPER, barIndex);
+   double lowerLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_LOWER, barIndex);
+   
+   if(signalLevel > upperLevel) {
+      
+      latestDynamicRsxOmaExtremeZone       = BULLISH_EXTREME_ZONE;
+      latestDynamicRsxOmaExtremeZoneTime   = getCurrentTime();        
+      return BULLISH_EXTREME_ZONE;
+   }
+   else if(signalLevel < lowerLevel) {
+      
+      latestDynamicRsxOmaExtremeZone       = BEARISH_EXTREME_ZONE;
+      latestDynamicRsxOmaExtremeZoneTime   = getCurrentTime();
+      return BEARISH_EXTREME_ZONE;
+   } 
+   /*else if( (signalLevel < upperLevel) && (signalLevel > lowerLevel) ) {
+      
+      return RANGING_ZONE;
+   }*/     
+
+   return latestDynamicRsxOmaExtremeZone;
+}
+/**
+ * Pre-Conditions: Previous bar should have been closed on extreme zones
+ *
+ */
+Reversal getDynamicRsxOmaExtremeZoneReversal(bool checkPreviousBarClose) {
+      
+   if(latestDynamicRsxOmaExtremeZoneReversalTime == getCurrentTime()) {
+      
+      return latestDynamicRsxOmaExtremeZoneReversal;
+   }
+   
+   int extremeBarIndex = 0;
+   if(checkPreviousBarClose) {
+      extremeBarIndex = 2;
+   }
+   else {
+      extremeBarIndex = 1;
+   }
+   
+   Zones zone = getDynamicRsxOmaExtremeZone(extremeBarIndex);
+   
+   if(zone == BULLISH_EXTREME_ZONE) {
+      
+      if(checkPreviousBarClose) {
+         
+         double signalLevelCurr = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, CURRENT_BAR);
+         double upperLevelCurr = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_UPPER, CURRENT_BAR);
+         
+         double signalLevelPrev = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, getPreviousBarIndex(CURRENT_BAR));
+         double upperLevelPrev = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_UPPER, getPreviousBarIndex(CURRENT_BAR));
+        
+         if( (signalLevelCurr < upperLevelCurr) && (signalLevelPrev < upperLevelPrev)) {
+
+            latestDynamicRsxOmaExtremeZoneReversal       = BEARISH_REVERSAL;
+            latestDynamicRsxOmaExtremeZoneReversalTime   = getCurrentTime();
+            
+            //Invalidate the extreme zone after giving the signal as the signal must be back inside the bands
+            invalidateDynamicRsxOmaExtremeZoneOnReversal();          
+            
+            return BEARISH_REVERSAL;
+         }          
+         
+      } 
+      else {
+         
+         double signalLevelCurr = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, CURRENT_BAR);
+         double upperLevelCurr = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_UPPER, CURRENT_BAR);
+         
+         if(signalLevelCurr < upperLevelCurr) {
+
+            latestDynamicRsxOmaExtremeZoneReversal       = BEARISH_REVERSAL;
+            latestDynamicRsxOmaExtremeZoneReversalTime   = getCurrentTime();
+            
+            //Invalidate the extreme zone after giving the signal as the signal must be back inside the bands
+            invalidateDynamicRsxOmaExtremeZoneOnReversal();            
+            
+            return BEARISH_REVERSAL;
+         }       
+      } 
+
+      
+   }
+   else if(zone == BEARISH_EXTREME_ZONE) {
+     
+      if(checkPreviousBarClose) {
+        
+         double signalLevelCurr = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, CURRENT_BAR);
+         double lowerLevelCurr = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_LOWER, CURRENT_BAR);
+         
+         double signalLevelPrev = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, getPreviousBarIndex(CURRENT_BAR));
+         double lowerLevelPrev = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_LOWER, getPreviousBarIndex(CURRENT_BAR)); 
+         
+         if( (signalLevelCurr > lowerLevelCurr) && (signalLevelPrev > lowerLevelPrev)) {
+            
+            latestDynamicRsxOmaExtremeZoneReversal       = BULLISH_REVERSAL;
+            latestDynamicRsxOmaExtremeZoneReversalTime   = getCurrentTime();             
+            return BULLISH_REVERSAL;
+         }          
+         
+      } 
+      else {
+          
+         double signalLevelCurr = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, CURRENT_BAR);
+         double lowerLevelCurr = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_LOWER, CURRENT_BAR);
+         
+         if(signalLevelCurr > lowerLevelCurr) {
+
+            latestDynamicRsxOmaExtremeZoneReversal       = BULLISH_REVERSAL;
+            latestDynamicRsxOmaExtremeZoneReversalTime   = getCurrentTime();             
+            return BULLISH_REVERSAL;
+         }
+      }      
+     
+   }   
+
+   return latestDynamicRsxOmaExtremeZoneReversal;       
+}
+/** End - DYNAMIC_RSX_OMA Level, Slope, Extremes, and Reversal*/
+
+/** Start - FLOATED_STEPPED_RSI Level, slope, zones, and reversal*/
+/**
+ * Retrieve the FLOATED_STEPPED_RSI given buffer value and barIndex
+ *
+ * FLOATED_STEPPED_RSI_FAST    = 0;
+ * FLOATED_STEPPED_RSI_SLOW    = 1;
+ * FLOATED_STEPPED_RSI_SIGNAL  = 2; 
+ * FLOATED_STEPPED_RSI_UPPER   = 5;
+ * FLOATED_STEPPED_RSI_MIDDLE  = 6;
+ * FLOATED_STEPPED_RSI_LOWER   = 7;
+ */
+double getStepRSIFloatingLevel(int rsiPeriod, int fastStepSize, int slowStepSize, int minMaxPeriod,  int buffer, int barIndex) {
+   
+   return NormalizeDouble(iCustom(Symbol(), Period(), FLOATED_STEPPED_RSI, rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, buffer, barIndex), Digits);
+}
+Slope getStepRSIFloatingSlope(int barIndex) {
+
+   double signalLevel = getStepRSIFloatingLevel(10, 10, 15, 49, FLOATED_STEPPED_RSI_SIGNAL, CURRENT_BAR);
+   double fastLevel = getStepRSIFloatingLevel(10, 10, 15, 49, FLOATED_STEPPED_RSI_FAST, CURRENT_BAR); 
+   double slowLevel = getStepRSIFloatingLevel(10, 10, 15, 49, FLOATED_STEPPED_RSI_SLOW, CURRENT_BAR);
+
+   if(signalLevel > fastLevel && signalLevel > slowLevel) {
+              
+      return BULLISH_SLOPE;
+   }
+   else if(signalLevel < fastLevel && signalLevel < slowLevel) {
+      
+      return BEARISH_SLOPE;
+   } 
+  
+   return UNKNOWN_SLOPE;
+}
+Zones getStepRSIFloatingExtremeZone(int rsiPeriod, int fastStepSize, int slowStepSize, int minMaxPeriod, int barIndex) {
+
+   if(latestStepRSIFloatingExtremeZoneTime == getCurrentTime()) {      
+      
+      return latestStepRSIFloatingExtremeZone;
+   } 
+   
+   double signalLevel = getStepRSIFloatingLevel(rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, FLOATED_STEPPED_RSI_SIGNAL, barIndex);
+   double upperLevel = getStepRSIFloatingLevel(rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, FLOATED_STEPPED_RSI_UPPER, barIndex);
+   double lowerLevel = getStepRSIFloatingLevel(rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, FLOATED_STEPPED_RSI_LOWER, barIndex);
+   
+   if(signalLevel > upperLevel) {
+      
+      latestStepRSIFloatingExtremeZone       = BULLISH_EXTREME_ZONE;
+      latestStepRSIFloatingExtremeZoneTime   = getCurrentTime();        
+      return BULLISH_EXTREME_ZONE;
+   }
+   else if(signalLevel < lowerLevel) {
+      
+      latestStepRSIFloatingExtremeZone       = BEARISH_EXTREME_ZONE;
+      latestStepRSIFloatingExtremeZoneTime   = getCurrentTime();      
+      return BEARISH_EXTREME_ZONE;
+   } 
+   else if( (signalLevel < upperLevel) && (signalLevel > lowerLevel) ) {
+      
+      return RANGING_ZONE;
+   }     
+   return NORMAL_ZONE;
+}
+//TODO: TEST
+Reversal getStepRSIFloatingExtremeZoneReversal(bool checkPreviousBarClose) {
+  
+   int rsiPeriod = 10;
+   int fastStepSize=10;
+   int slowStepSize = 15;
+   int minMaxPeriod= 49;
+
+   if(latestStepRSIFloatingExtremeZoneReversalTime == getCurrentTime()) {
+      return latestStepRSIFloatingExtremeZoneReversal;
+   } 
+   
+   if(latestStepRSIFloatingExtremeZone == BULLISH_EXTREME_ZONE) {
+   
+      if(checkPreviousBarClose) {
+         
+         double signalCurr = getStepRSIFloatingLevel(rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, FLOATED_STEPPED_RSI_SIGNAL, CURRENT_BAR);
+         double signalPrev = getStepRSIFloatingLevel(rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, FLOATED_STEPPED_RSI_SIGNAL, getPastBars(1));
+         double upperLevelCurr = getStepRSIFloatingLevel(rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, FLOATED_STEPPED_RSI_UPPER, CURRENT_BAR);
+         double upperLevelPrev = getStepRSIFloatingLevel(rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, FLOATED_STEPPED_RSI_UPPER, getPastBars(1));
+         
+         if( (signalCurr < upperLevelCurr) && (signalPrev < upperLevelPrev) ) {
+            
+            latestStepRSIFloatingExtremeZoneReversal = BEARISH_REVERSAL;
+            latestStepRSIFloatingExtremeZoneReversalTime = getCurrentTime();             
+            return BEARISH_REVERSAL;
+         }         
+      }
+      else {
+         
+         double signalCurr = getStepRSIFloatingLevel(rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, FLOATED_STEPPED_RSI_SIGNAL, CURRENT_BAR);
+         double upperLevelCurr = getStepRSIFloatingLevel(rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, FLOATED_STEPPED_RSI_UPPER, CURRENT_BAR);
+         
+         if(signalCurr < upperLevelCurr) {
+            
+            latestStepRSIFloatingExtremeZoneReversal = BULLISH_REVERSAL;
+            latestStepRSIFloatingExtremeZoneReversalTime = getCurrentTime();             
+            return BULLISH_REVERSAL;
+         }                  
+      }           
+   }
+   else if(latestStepRSIFloatingExtremeZone == BEARISH_EXTREME_ZONE) {
+      
+      if(checkPreviousBarClose) {
+         
+         double signalCurr = getStepRSIFloatingLevel(rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, FLOATED_STEPPED_RSI_SIGNAL, CURRENT_BAR);
+         double signalPrev = getStepRSIFloatingLevel(rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, FLOATED_STEPPED_RSI_SIGNAL, getPastBars(1));
+         double lowerLevelCurr = getStepRSIFloatingLevel(rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, FLOATED_STEPPED_RSI_LOWER, CURRENT_BAR);
+         double lowerLevelPrev = getStepRSIFloatingLevel(rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, FLOATED_STEPPED_RSI_LOWER, getPastBars(1));
+         
+         if( (signalCurr > lowerLevelCurr) && (signalPrev > lowerLevelPrev) ) {
+            
+            latestStepRSIFloatingExtremeZoneReversal = BULLISH_REVERSAL;
+            latestStepRSIFloatingExtremeZoneReversalTime = getCurrentTime();            
+            return BULLISH_REVERSAL;
+         }         
+      }
+      else {
+         
+         double signalCurr = getStepRSIFloatingLevel(rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, FLOATED_STEPPED_RSI_SIGNAL, CURRENT_BAR);
+         double lowerLevelCurr = getStepRSIFloatingLevel(rsiPeriod, fastStepSize, slowStepSize, minMaxPeriod, FLOATED_STEPPED_RSI_LOWER, CURRENT_BAR);
+         
+         if(signalCurr > lowerLevelCurr) {
+            
+            latestStepRSIFloatingExtremeZoneReversal = BULLISH_REVERSAL;
+            latestStepRSIFloatingExtremeZoneReversalTime = getCurrentTime();            
+            return BULLISH_REVERSAL;
+         }         
+         
+      }      
+   }   
+
+   return latestStepRSIFloatingExtremeZoneReversal;       
+}
+//TODO: Fix Prev and Curr slopes always same
+Reversal getStepRSIFloatingSlopeReversal(bool checkPreviousBarClose) {
+  
+
+   if(latestStepRSIFloatingReversalTime == getCurrentTime()) {
+      return latestStepRSIFloatingReversal;
+   } 
+   
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getStepRSIFloatingSlope(CURRENT_BAR);
+   
+   if(checkPreviousBarClose) {//Check previous(Current, Prev, Prev + 1) - 3 Candles will be involved
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the getStepRSIFloatingSlope was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getStepRSIFloatingSlope(barIndexForOppositeDirectionVerification);
+      
+      //Previous slope
+      Slope slopePrev = getStepRSIFloatingSlope(getPreviousBarIndex(CURRENT_BAR) );
+      
+      //Check if current and previous slopes changed direction      
+      if(  (slopeCurr == slopePrev) // Current and previous slopes are BULLISH_SLOPE
+            )  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         if( (latestStepRSIFloatingReversal != BULLISH_REVERSAL) && (slopeCurr == BULLISH_SLOPE) && slopeForOppositeDirectionVerification == BEARISH_SLOPE) {
+            
+            //Print("AT BULLISH");
+            
+            //Print("SLOPE is " + slopeCurr + " at " + getCurrentTime());
+            //Print("SLOPE was " + slopeForOppositeDirectionVerification + " at " + latestSomat3ReversalTime);            
+            
+            latestStepRSIFloatingReversal = BULLISH_REVERSAL;
+            latestStepRSIFloatingReversalTime = getCurrentTime();
+
+
+            //Print("CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+            return BULLISH_REVERSAL;
+         }         
+         else if( (latestSomat3Reversal != BEARISH_REVERSAL) && (slopeCurr == BEARISH_SLOPE)  && slopeForOppositeDirectionVerification == BULLISH_SLOPE) {
+            
+            //Print("AT BEARISH"); 
+
+            //Print("SLOPE is " + slopeCurr + " at " + getCurrentTime());
+            //Print("SLOPE was " + slopeForOppositeDirectionVerification + " at " + latestSomat3ReversalTime);             
+            
+            latestStepRSIFloatingReversal = BEARISH_REVERSAL;
+            latestStepRSIFloatingReversalTime = getCurrentTime(); 
+            
+            //Print("CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+            return BEARISH_REVERSAL;
+         } 
+         else {
+            
+            //Print("Here" + slopeCurr);
+         }            
+      }
+      else {
+         
+         //Print("Here" + slopeCurr);
+      }   
+   }
+   else {
+   
+      barIndexForOppositeDirectionVerification = getPastBars(1);
+      
+      //To verify the getStepRSIFloatingSlope was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getStepRSIFloatingSlope(barIndexForOppositeDirectionVerification);
+
+      //Check if current and previous slopes changed direction      
+      if( slopeForOppositeDirectionVerification != slopeCurr)  {// Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+         
+         if(slopeCurr == BULLISH_SLOPE) {
+         
+            latestStepRSIFloatingReversal = BULLISH_REVERSAL;
+            latestStepRSIFloatingReversalTime = getCurrentTime();   
+
+            Print("CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+            return BULLISH_REVERSAL;
+         }         
+         else if(slopeCurr == BEARISH_SLOPE) {
+            
+            latestStepRSIFloatingReversal = BEARISH_REVERSAL;
+            latestStepRSIFloatingReversalTime = getCurrentTime(); 
+            
+            Print("CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+            return BEARISH_REVERSAL;
+         }             
+      }     
+      
+   }
+
+   return latestStepRSIFloatingReversal;       
+}
+/** End - FLOATED_STEPPED_RSI Level, slope, zones, and reversal*/
+
+/** Start - BB_STOCH_OF_RSI Level and Slope*/
+/**
+ * Retrieve the BB_STOCH_OF_RSI given buffer value and barIndex
+ *
+ * 0 = SE_BAND_MAIN(Middle): never empty
+ * 1 = SE_BAND_UPPER: never empty
+ * 2 = SE_BAND_LOWER: never empty
+ */
+double getBBnStochOfRsiLevel(int buffer, int barIndex) {
+   
+   //Stochastic
+   int kPeriod            =  20;//9; //21         20
+   int dPeriod            =  10;//6; //8          10
+   int slowing            =  5;//9; //5 or 3     5
+  
+   //Bollinger Bands
+   int bandsPeriod        =  5;
+   int bandsShift         =  0;
+   double bandsDeviations =  0.5;
+   
+   //RSI
+   int rSIPeriod          =  4;
+   return NormalizeDouble(iCustom(Symbol(), Period(), BB_STOCH_OF_RSI, 
+   
+                           //Stochastic
+                           kPeriod, dPeriod, slowing, 
+                           
+                           //Bollinger Bands
+                           bandsPeriod, bandsShift, bandsDeviations,
+                           //RSI
+                           rSIPeriod,
+                           
+                           buffer, barIndex), Digits);
+}
+Slope getBBnStochOfRsiSlope(int barIndex) {
+   
+   double stochLevel    = getBBnStochOfRsiLevel(BB_STOCH_OF_RSI_STOCH, barIndex);
+   double bbUpperLevel  = getBBnStochOfRsiLevel(BB_STOCH_OF_RSI_BB_UPPER, barIndex);
+   double bbLowerLevel  = getBBnStochOfRsiLevel(BB_STOCH_OF_RSI_BB_LOWER, barIndex);
+   
+   if(stochLevel > bbUpperLevel) {
+   
+      return BULLISH_SLOPE;
+   }
+   else if(stochLevel < bbLowerLevel){
+      
+      return BEARISH_SLOPE;
+   }
+   else {
+      
+      return UNKNOWN_SLOPE;
+   }   
+}
+/** End - BB_STOCH_OF_RSI Level and Slope*/
 
 /** Start - QUANTILE_BANDS Level*/
 /**
@@ -5576,24 +6373,145 @@ double getQuantileBandsLevel(int buffer, int barIndex) {
  *
  * 0 = Main(slope), Never empty. 1 = > Bullish, -1 => Bearish.
  * 1 = Bullish value, Never empty
- * 2 = Bearish value, empty when in Mullish mode
+ * 2 = Bearish value, empty when in Bullish mode
  */
 double getSomat3Level(int buffer, int barIndex) {
    
    int timeFrame              = Period(); 
    int length                 = 10;
-   double sensitivityFactor_  = 0.4;
-   return NormalizeDouble(iCustom(Symbol(), Period(), SOMAT3, timeFrame, length, sensitivityFactor_, buffer, CURRENT_BAR), Digits);
+   double sensitivityFactor_  = 0.5;
+   return NormalizeDouble(iCustom(Symbol(), Period(), SOMAT3, timeFrame, length, sensitivityFactor_, buffer, barIndex), Digits);
 }
-/**
- *  Get the SOMAT3 Slope(5). Upward = 1, Downward = -1.
- */
-int getSomat3Slope(int barIndex) {
+Slope getSomat3Slope(int barIndex) {
    
-   int slopeBuffer   = 0; 
-   return (int)getSomat3Level(slopeBuffer, barIndex);// It is safe to implicitly cast to int as the slope is either Upward = 1, or Downward = -1.
+   int slope = (int)getSomat3Level(SOMAT3_SLOPE, barIndex);// It is safe to implicitly cast to int as the slope is either Upward = 1, or Downward = -1.
+   
+   if(slope == 1) {
+   
+      return BULLISH_SLOPE;
+   }
+   else if(slope == -1){
+      
+      return BEARISH_SLOPE;
+   }
+   else {
+      
+      return UNKNOWN_SLOPE;
+   }   
 }
 /** End - SOMAT3 Level and slope*/
+
+
+/** Start - DYNAMIC_STEPMA_PDF Level and slope*/
+/**
+ * Retrieve the DYNAMIC_STEPMA_PDF given buffer value and barIndex
+ *
+ * DYNAMIC_STEPMA_PDF_SLOPE = 1;//EMPTY_VALUE = BEARISH, EMPTY_VALUE != BULLISH
+ * DYNAMIC_STEPMA_PDF_UPPER = 3;
+ * DYNAMIC_STEPMA_PDF_LOWER = 4;
+ */
+double getDynamicStepMaPdfLevel(int pdfMaLength, int pdfStepSize, int buffer, int barIndex) {
+   
+   double  sensitivity        = 10;
+   double  variance           = 5;
+   double  mean               = 0.0;
+   return NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_STEPMA_PDF, pdfMaLength, pdfStepSize, sensitivity, variance, mean, buffer, barIndex), Digits);
+}
+Slope getDynamicStepMaPdfSlope(int pdfMaLength, int pdfStepSize, int barIndex) {
+   
+   double slope = getDynamicStepMaPdfLevel(pdfMaLength, pdfStepSize, DYNAMIC_STEPMA_PDF_SLOPE, barIndex);   
+   if(slope == EMPTY_VALUE) {
+      
+      return BULLISH_SLOPE;
+   }
+   else if( slope != EMPTY_VALUE) {
+      
+      return BEARISH_SLOPE;
+   }   
+      
+   return UNKNOWN_SLOPE;
+}
+Cross getDynamicStepMaPdfCross(int pdfMaLength, int fastPdfStepSize, int slowPdfStepSize, int barIndex) {
+
+   //Only check once per bar
+   if(latestDynamicStepMaPdfCrossTime == getCurrentTime()) {      
+      
+      return latestDynamicStepMaPdfCross;
+   }
+
+   double fastMaValue = getDynamicStepMaPdfLevel(pdfMaLength, fastPdfStepSize, DYNAMIC_STEPMA_PDF_SIGNAL, barIndex);
+   double slowMaValue = getDynamicStepMaPdfLevel(pdfMaLength, slowPdfStepSize, DYNAMIC_STEPMA_PDF_SIGNAL, barIndex);
+   if(fastMaValue > slowMaValue) {
+      
+      latestDynamicStepMaPdfCross      = BULLISH_CROSS;
+      latestDynamicStepMaPdfCrossTime  = getCurrentTime();
+      return BULLISH_CROSS;
+   }
+   else if( fastMaValue < slowMaValue) {
+      
+      latestDynamicStepMaPdfCross      = BEARISH_CROSS;
+      latestDynamicStepMaPdfCrossTime  = getCurrentTime();
+      return BEARISH_CROSS;
+   }   
+      
+   return latestDynamicStepMaPdfCross;
+}
+/** End - DYNAMIC_STEPMA_PDF Level and slope*/
+
+/** Start - STEPPED_TTA Level and slope*/
+/**
+ * Retrieve the STEPPED_TTA given buffer value and barIndex
+ *
+ * 0 = STEPPED_TTA_MAIN
+ * 3 = STEPPED_TTA_SLOPE value. EMPTY_VALUE when in BULLISH_SLOPE, !=EMPTY_VALUE when BEARISH_SLOPE
+ */
+double getSteppedTtaLevel(int filterPeriod, int filterHot, int buffer, int barIndex) {
+   
+   return NormalizeDouble(iCustom(Symbol(), Period(), STEPPED_TTA, filterPeriod, filterHot, buffer, barIndex), Digits);
+}
+Slope getSteppedTtaSlope(int filterPeriod, int filterHot, int barIndex) {
+   
+   double bearishSlope = getSteppedTtaLevel(filterPeriod, filterHot, STEPPED_TTA_SLOPE, barIndex);
+   if( (bearishSlope != EMPTY_VALUE)) {
+      
+      return BEARISH_SLOPE;
+   }
+   else {
+      
+      return BULLISH_SLOPE;
+   }
+}
+/** End - STEPPED_TTA Level and slope*/
+
+/** Start - SUPER_TREND Level and slope*/
+/**
+ * Retrieve the SUPER_TREND given buffer value and barIndex
+ *
+ * 0 = Main, never empty
+ * 1 = For both Up and down trend
+ *   : EMPTY_VALUE=>  Up trend
+ *   : NOT EMPTY  =>  Down trend
+ */
+double getSuperTrendLevel(int buffer, int barIndex) {
+   
+   int     length       =  2;  
+   double  multiplier   =  1;  
+   return NormalizeDouble(iCustom(Symbol(), Period(), SUPER_TREND, CURRENT_TIMEFRAME, length, multiplier, buffer, barIndex), Digits);
+}
+Slope getSuperTrendSlope(int barIndex) {
+
+   double bearishSlope = getSuperTrendLevel(SUPER_TREND_BEARISH_SLOPE, barIndex);
+   
+   if( (bearishSlope != EMPTY_VALUE)) {
+      
+      return BEARISH_SLOPE;
+   }
+   else {
+      
+      return BULLISH_SLOPE;
+   }
+}
+/** End - SUPER_TREND Level and slope*/
 
 /** Start - DYNAMIC_OF_AVERAGES Level */
 /**
@@ -5609,7 +6527,7 @@ int getSomat3Slope(int barIndex) {
 double getDynamicOfAveragesLevel(int length, int buffer, int barIndex) {
 
    //Only check once per bar
-   if(latestDynamicOfAveragesShortTermTrendTime == Time[CURRENT_BAR]) {      
+   if(latestDynamicOfAveragesShortTermTrendTime == getCurrentTime()) {      
       
       return latestDynamicOfAveragesShortTermTrend;
    } 
@@ -5632,14 +6550,14 @@ Trend getDynamicOfAveragesShortTermTrend(int length) {//IDEA: Invalidate trends,
          && (signalCurr > midLevelCurr ) && (signalCurr > midLevelPrev)) ) {
    
       latestDynamicOfAveragesShortTermTrend = BULLISH_SHORT_TERM_TREND;
-      latestDynamicOfAveragesShortTermTrendTime = Time[CURRENT_BAR];    
+      latestDynamicOfAveragesShortTermTrendTime = getCurrentTime();    
       return BULLISH_SHORT_TERM_TREND;
    }
    else if( (latestDynamicOfAveragesShortTermTrend != BEARISH_SHORT_TERM_TREND) 
          && ((signalCurr < midLevelCurr ) && (signalCurr < midLevelPrev)) ) {
       
       latestDynamicOfAveragesShortTermTrend = BEARISH_SHORT_TERM_TREND;
-      latestDynamicOfAveragesShortTermTrendTime = Time[CURRENT_BAR];       
+      latestDynamicOfAveragesShortTermTrendTime = getCurrentTime();       
       return BEARISH_SHORT_TERM_TREND;
    }
    
@@ -5659,7 +6577,7 @@ Trend getDynamicOfAveragesShortTermTrend(int length) {//IDEA: Invalidate trends,
 double getDynamicMpaLevel(int length, int buffer, int barIndex) {
    
    int method     =  10; 
-   int dzLookBack =  5;
+   int dzLookBack =  12;
    ENUM_APPLIED_PRICE price = PRICE_CLOSE;
    return NormalizeDouble(iCustom(Symbol(), Period(), DYNAMIC_MPA, length, price, method, dzLookBack, buffer, barIndex), Digits);
 }
@@ -5673,10 +6591,9 @@ double getDynamicMpaLevel(int length, int buffer, int barIndex) {
  * 1 = Bearish value, Empty when Bullish
  * 5 = Slope. Upward = 1, Downward = -1.
  */
-double getJurikFilterLevel(int buffer, int barIndex) {
+double getJurikFilterLevel(int length, int buffer, int barIndex) {
    
    int timeFrame  =  Period(); 
-   int length     =  15;
    double phase   =  100;             
    int price      =  21; //Zero based, pr_hatbiased2;    
    double filter  =  1; 
@@ -5687,9 +6604,9 @@ double getJurikFilterLevel(int buffer, int barIndex) {
 /**
  *  Get the JURIK_FILTER Slope(5). Upward = 1, Downward = -1.
  */
-Slope getJurikFilterSlope(int barIndex) {
+Slope getJurikFilterSlope(int length, int barIndex) {
 
-   int slope = (int)getJurikFilterLevel(JURIK_FILTER_SLOPE, barIndex);//It is safe to explictly cast to int as the slope is either Upward = 1, or Downward = -1.
+   int slope = (int)getJurikFilterLevel(length, JURIK_FILTER_SLOPE, barIndex);//It is safe to explictly cast to int as the slope is either Upward = 1, or Downward = -1.
    if(slope == 1) {
 
       return BULLISH_SLOPE;
@@ -5758,6 +6675,365 @@ Slope getSrBandsSlope(int barIndex) {
 }
 /** End - SR_BANDS Level and slope*/
 
+/** Start - POLYFIT_BANDS Level*/
+/**
+ * Retrieve the POLYFIT_BANDS given buffer value and barIndex
+ *
+ * 0 = POLYFIT_BAND_MAIN(Middle), Never empty.
+ * 1 = POLYFIT_BAND_FIRST_UPPER, Never empty
+ * 2 = POLYFIT_BAND_FIRST_LOWER, Never empty
+ * 5 = POLYFIT_BAND_SECOND_UPPER, Never empty
+ * 6 = POLYFIT_BAND_SECOND_LOWER, Never empty
+ */
+double getPolyfitBandsLevel(int length, int buffer, int barIndex) {
+  
+   int preSmooth     = 2;   
+   int preSmoothMode = 0;   
+   return NormalizeDouble(iCustom(Symbol(), Period(), POLYFIT_BANDS, length, preSmooth, preSmoothMode, buffer, barIndex), Digits);
+}
+/** End - POLYFIT_BANDS Level*/
+
+/** Start - RSIOMA_BANDS Level, zones and slope*/
+/**
+ * Retrieve the RSIOMA_BANDS given buffer value and barIndex
+ *
+ * 0 = RSIOMA_BANDS_SIGNAL(Upper Band), Never empty.
+ * 1 = RSIOMA_BANDS_UPPER, Never empty
+ * 2 = RSIOMA_BANDS_LOWER. Empty when Bearish.
+ * 3 = RSIOMA_BANDS_MA. Empty when Bullish. 
+ * 4 = RSIOMA_BANDS_SLOPE. Empty when Bullish, Not Empty when Bearish.  
+ */
+double getRsiomaBandsLevel(int length, int buffer, int barIndex) {
+   
+   double          omaSpeed   = 5.0;    
+   int             maPeriod   = 34;
+   ENUM_MA_METHOD  maMethod   = 3;
+   return NormalizeDouble(iCustom(Symbol(), Period(), RSIOMA_BANDS, length, omaSpeed, maPeriod, maMethod, buffer, barIndex), Digits);
+}
+/**
+ *  Get the RSIOMA_BANDS Slope(4). Upward = EMPTY_VALUE, Downward = !EMPTY_VALUE.
+ */
+Slope getRsiomaBandsSlope(int length, int barIndex) {
+
+   double slope = getRsiomaBandsLevel(length, RSIOMA_BANDS_SLOPE, barIndex);
+   
+   if( slope != EMPTY_VALUE) {
+      
+      return BEARISH_SLOPE;
+   }
+   else if(slope == EMPTY_VALUE) {
+      
+      return BULLISH_SLOPE;
+   }
+   
+   return UNKNOWN_SLOPE;
+}
+Zones getRsiomaBandsZones(int length, int barIndex) {
+
+   if(latestRsiomaBandsZoneTime == getCurrentTime()) {      
+      
+      return latestRsiomaBandsZone;
+   } 
+   
+   double signalLevel = getRsiomaBandsLevel(length, RSIOMA_BANDS_SIGNAL, barIndex);
+   double upperLevel = getRsiomaBandsLevel(length, RSIOMA_BANDS_UPPER, barIndex);
+   double lowerLevel = getRsiomaBandsLevel(length, RSIOMA_BANDS_LOWER, barIndex);
+   
+   if(signalLevel > upperLevel) {
+      
+      latestRsiomaBandsZone      = BULLISH_ZONE;
+      latestRsiomaBandsZoneTime  = getCurrentTime();        
+      return BULLISH_ZONE;
+   }   
+   else if(signalLevel < lowerLevel) {
+      
+      latestRsiomaBandsZone      = BEARISH_ZONE;
+      latestRsiomaBandsZoneTime  = getCurrentTime();        
+      return BEARISH_ZONE;
+   }   
+   else if((signalLevel < upperLevel) && (signalLevel > lowerLevel)) {
+      
+      latestRsiomaBandsZone     = TRANSITION_ZONE;
+      latestRsiomaBandsZoneTime = getCurrentTime();        
+      return TRANSITION_ZONE;
+   }
+   
+   return latestRsiomaBandsZone;
+}
+/**
+ * Pre-Conditions: Previous zone should have been opposite
+ *
+ */
+Reversal getRsiomaBandsZoneReversal(int length, bool checkPreviousBarClose) {
+
+   if(latestRsiomaBandsZoneReversalTime == getCurrentTime()) {
+      
+      return latestRsiomaBandsZoneReversal;
+   }
+   
+   int previousZoneBarIndex = 0;
+   if(checkPreviousBarClose) {
+      previousZoneBarIndex = 2;
+   }
+   else {
+      previousZoneBarIndex = 1;
+   }
+   
+   Zones zone = getRsiomaBandsZones(length, previousZoneBarIndex);
+   
+   Print("Zone at bar: " + previousZoneBarIndex + "is " + getZoneDescription(zone) );
+   
+   if(zone == BULLISH_ZONE) {
+      
+      if(checkPreviousBarClose) {
+      
+         Zones zonePrevOne = getRsiomaBandsZones(length, getPreviousBarIndex(CURRENT_BAR));
+         Zones zonePrevTwo = getRsiomaBandsZones(length, previousZoneBarIndex);
+        
+         if( (zonePrevTwo == BEARISH_ZONE || zonePrevTwo == TRANSITION_ZONE) && ((zonePrevOne == BULLISH_ZONE || zonePrevOne == BULLISH_ZONE)) ) {
+
+            latestRsiomaBandsZoneReversal       = BULLISH_REVERSAL;
+            latestRsiomaBandsZoneReversalTime   = getCurrentTime();
+            
+            return BULLISH_REVERSAL;
+         }          
+         
+      } 
+      else {
+
+         Zones zonePrev = getRsiomaBandsZones(length, previousZoneBarIndex);
+         if(zonePrev == BEARISH_ZONE || zonePrev == TRANSITION_ZONE) {
+
+            latestRsiomaBandsZoneReversal       = BULLISH_REVERSAL;
+            latestRsiomaBandsZoneReversalTime   = getCurrentTime();
+            
+            return BULLISH_REVERSAL;
+         }                       
+      } 
+      
+   }
+   else if(zone == BEARISH_ZONE) {
+     
+      if(checkPreviousBarClose) {
+        
+         Zones zonePrevOne = getRsiomaBandsZones(length, getPreviousBarIndex(CURRENT_BAR));
+         Zones zonePrevTwo = getRsiomaBandsZones(length, previousZoneBarIndex);
+         
+         if( (zonePrevTwo == BULLISH_ZONE || zonePrevTwo == TRANSITION_ZONE) && ((zonePrevOne == BEARISH_ZONE || zonePrevOne == BEARISH_ZONE)) ) {
+            
+            latestRsiomaBandsZoneReversal       = BEARISH_REVERSAL;
+            latestRsiomaBandsZoneReversalTime   = getCurrentTime(); 
+                        
+            return BEARISH_REVERSAL;
+         }          
+         
+      } 
+      else {
+          
+         Zones zonePrev = getRsiomaBandsZones(length, previousZoneBarIndex);
+
+         if(zonePrev == BULLISH_ZONE || zonePrev == TRANSITION_ZONE) {
+
+            latestRsiomaBandsZoneReversal       = BEARISH_REVERSAL;
+            latestRsiomaBandsZoneReversalTime   = getCurrentTime(); 
+
+            return BEARISH_REVERSAL;
+         }
+      }      
+     
+   }   
+
+   return latestRsiomaBandsZoneReversal;       
+}
+/** End - RSIOMA_BANDS Level, zones, slope, and reversal*/
+
+/** Start - CYCLE_KROUFR_VERSION Level, zones and slope*/
+/**
+ * Retrieve the CYCLE_KROUFR_VERSION given buffer value and barIndex
+ *
+ * 0 = CYCLE_KROUFR_VERSION_SIGNAL
+ * 
+ * Zones
+ * 10 = CYCLE_KROUFR_VERSION_OVERSOLD_LEVEL
+ * 90 = CYCLE_KROUFR_VERSION_OVERBOUGHT_LEVEL
+ */
+double getCycleKroufRLevel(int fastMa, int slowMa, int crosses, int buffer, int barIndex) {
+   
+   return NormalizeDouble(iCustom(Symbol(), Period(), CYCLE_KROUFR_VERSION, fastMa, slowMa, crosses, buffer, barIndex), Digits);
+}
+/**
+ *  Get the CYCLE_KROUFR_VERSION Slope
+ */
+Slope getCycleKroufRLevelSlope(int fastMa, int slowMa, int crosses) {
+
+   double signalCurr = getCycleKroufRLevel(fastMa, slowMa, crosses, CYCLE_KROUFR_VERSION_SIGNAL, CURRENT_BAR);
+   double signalPrev = getCycleKroufRLevel(fastMa, slowMa, crosses, CYCLE_KROUFR_VERSION_SIGNAL, getPreviousBarIndex(CURRENT_BAR));
+   
+   if( signalCurr > signalPrev) {
+      
+      return BULLISH_SLOPE;
+   }
+   else if(signalCurr < signalPrev) {
+      
+      return BEARISH_SLOPE;
+   }
+   
+   return UNKNOWN_SLOPE;
+}
+Zones getCycleKroufrExtremeZone(int fastMa, int slowMa, int crosses, int barIndex) {
+
+   if(latestCycleKroufrExtremeZoneTime == getCurrentTime()) {      
+      
+      return latestCycleKroufrExtremeZone;
+   } 
+   
+   double signalCurr = getCycleKroufRLevel(fastMa, slowMa, crosses, CYCLE_KROUFR_VERSION_SIGNAL, barIndex);
+   
+   if( signalCurr > CYCLE_KROUFR_VERSION_OVERBOUGHT_LEVEL) {
+      
+      latestCycleKroufrExtremeZone     = BULLISH_EXTREME_ZONE;
+      latestCycleKroufrExtremeZoneTime = getCurrentTime();        
+      return BULLISH_EXTREME_ZONE;
+   }   
+   else if(signalCurr < CYCLE_KROUFR_VERSION_OVERSOLD_LEVEL) {
+      
+      latestCycleKroufrExtremeZone     = BEARISH_EXTREME_ZONE;
+      latestCycleKroufrExtremeZoneTime = getCurrentTime();        
+      return BEARISH_EXTREME_ZONE;      
+   }   
+
+   return UNKNOWN_ZONE;
+}
+/**
+ * Pre-Conditions: Previous bar should have been closed on extreme zones
+ *
+ */
+Reversal getCycleKroufrExtremeZoneReversal(int fastMa, int slowMa, int crosses, bool checkPreviousBarClose) {
+      
+   if(latestCycleKroufrExtremeZoneReversalTime == getCurrentTime()) {
+      
+      return latestCycleKroufrExtremeZoneReversal;
+   }
+   
+   int extremeBarIndex = 0;
+   if(checkPreviousBarClose) {
+      extremeBarIndex = 2;
+   }
+   else {
+      extremeBarIndex = 1;
+   }
+   
+   Zones zone = getCycleKroufrExtremeZone(fastMa, slowMa, crosses, extremeBarIndex);
+   
+   if(zone == BULLISH_EXTREME_ZONE) {
+      
+      if(checkPreviousBarClose) {
+      
+         double signalLevelCurr = getCycleKroufRLevel(fastMa, slowMa, crosses, CYCLE_KROUFR_VERSION_SIGNAL, CURRENT_BAR);
+         double signalLevelPrev = getCycleKroufRLevel(fastMa, slowMa, crosses, CYCLE_KROUFR_VERSION_SIGNAL, getPreviousBarIndex(CURRENT_BAR));
+        
+         if( (signalLevelCurr < CYCLE_KROUFR_VERSION_OVERBOUGHT_LEVEL) && (signalLevelPrev < CYCLE_KROUFR_VERSION_OVERBOUGHT_LEVEL)) {
+
+            latestCycleKroufrExtremeZoneReversal       = BEARISH_REVERSAL;
+            latestCycleKroufrExtremeZoneReversalTime   = getCurrentTime();
+            
+            //Invalidate the extreme zone after giving the signal as the signal must be back inside the bands
+            invalidateCycleKroufrExtremeZoneOnReversal();          
+            
+            return BEARISH_REVERSAL;
+         }          
+         
+      } 
+      else {
+         
+         double signalLevelCurr = getCycleKroufRLevel(fastMa, slowMa, crosses, CYCLE_KROUFR_VERSION_SIGNAL, CURRENT_BAR);
+         
+         if(signalLevelCurr < CYCLE_KROUFR_VERSION_OVERBOUGHT_LEVEL) {
+
+            latestCycleKroufrExtremeZoneReversal       = BEARISH_REVERSAL;
+            latestCycleKroufrExtremeZoneReversalTime   = getCurrentTime();
+            
+            //Invalidate the extreme zone after giving the signal as the signal must be back inside the bands
+            invalidateCycleKroufrExtremeZoneOnReversal();            
+            
+            return BEARISH_REVERSAL;
+         }       
+      } 
+
+      
+   }
+   else if(zone == BEARISH_EXTREME_ZONE) {
+     
+      if(checkPreviousBarClose) {
+        
+         double signalLevelCurr = getCycleKroufRLevel(fastMa, slowMa, crosses, CYCLE_KROUFR_VERSION_SIGNAL, CURRENT_BAR);
+         double signalLevelPrev = getCycleKroufRLevel(fastMa, slowMa, crosses, CYCLE_KROUFR_VERSION_SIGNAL, getPreviousBarIndex(CURRENT_BAR));
+         
+         if( (signalLevelCurr > CYCLE_KROUFR_VERSION_OVERSOLD_LEVEL) && (signalLevelPrev > CYCLE_KROUFR_VERSION_OVERSOLD_LEVEL)) {
+            
+            latestCycleKroufrExtremeZoneReversal       = BULLISH_REVERSAL;
+            latestCycleKroufrExtremeZoneReversalTime   = getCurrentTime(); 
+            
+            //Invalidate the extreme zone after giving the signal as the signal must be back inside the bands
+            invalidateCycleKroufrExtremeZoneOnReversal();    
+                        
+            return BULLISH_REVERSAL;
+         }          
+         
+      } 
+      else {
+          
+         double signalLevelCurr = getCycleKroufRLevel(fastMa, slowMa, crosses, CYCLE_KROUFR_VERSION_SIGNAL, CURRENT_BAR);
+         
+         if(signalLevelCurr > CYCLE_KROUFR_VERSION_OVERSOLD_LEVEL) {
+
+            latestCycleKroufrExtremeZoneReversal       = BULLISH_REVERSAL;
+            latestCycleKroufrExtremeZoneReversalTime   = getCurrentTime(); 
+
+            //Invalidate the extreme zone after giving the signal as the signal must be back inside the bands
+            invalidateCycleKroufrExtremeZoneOnReversal();                
+                        
+            return BULLISH_REVERSAL;
+         }
+      }      
+     
+   }   
+
+   return latestCycleKroufrExtremeZoneReversal;       
+}
+/** End - CYCLE_KROUFR_VERSION Level, zones, slope and reversal*/
+
+/** Start - QUANTILE_DSS Level and slope*/
+/**
+ * Retrieve the QUANTILE_DSS given buffer value and barIndex
+ *
+ * 0 = QUANTILE_DSS_SIGNAL, Never empty.
+ * 5 = QUANTILE_DSS_UPPER, Never empty
+ * 6 = QUANTILE_DSS_LOWER, Never empty
+ */
+double getQuantileDss(int length, int emaPeriod, int quanPeriod, int buffer, int barIndex) {
+
+   return NormalizeDouble(iCustom(Symbol(), Period(), QUANTILE_DSS, length, emaPeriod, quanPeriod, buffer, barIndex), Digits);
+}
+Slope getQuantileDssSlope(int length, int emaPeriod, int quanPeriod, int barIndex) {
+
+   double quantileDssSignalLevel= getQuantileDss(length, emaPeriod, quanPeriod, QUANTILE_DSS_SIGNAL, barIndex);
+   double quantileDssUpperLevel = getQuantileDss(length, emaPeriod, quanPeriod, QUANTILE_DSS_UPPER, barIndex);
+   double quantileDssLowerLevel = getQuantileDss(length, emaPeriod, quanPeriod, QUANTILE_DSS_LOWER, barIndex);
+   
+   if( quantileDssSignalLevel > quantileDssUpperLevel) {
+      
+      return BULLISH_SLOPE;
+   }
+   else if(quantileDssSignalLevel < quantileDssLowerLevel) {
+      
+      return BEARISH_SLOPE;
+   }
+   
+   return UNKNOWN_SLOPE;
+}
+/** End - QUANTILE_DSS Level and slope*/
+
 /** Start - JMA_BANDS Level*/
 /**
  * Retrieve the JMA_BANDS given price, buffer value and barIndex
@@ -5772,7 +7048,7 @@ double getJmaBandsLevel(int length, int buffer, int barIndex) {
 }
 /** End - JURIC_FILTER Level*/
 
-/** Start - EFT Level*/
+/** Start - EFT Level and slope*/
 /**
  * Retrieve the EFT given buffer value and barIndex
  *
@@ -5783,16 +7059,43 @@ double getJmaBandsLevel(int length, int buffer, int barIndex) {
  * Application: if Buffer0 > Buffer3 => Bullish, if Buffer3 > Buffer0 => Bearish
  * Oversold/Overbought Levels: 6-7, (-7)-(-6)
  */
-double getEftLevel(int buffer, int barIndex) {
-   
-   int length        = 10;         
-   double weight     = 1.5;               
-   double filter     = 1;                 
-   int filterPeriod  = 1;                 
-   int applyFilterTo = 2;            
-   return NormalizeDouble(iCustom(Symbol(), Period(), EFT, length, weight, filter, filterPeriod, applyFilterTo, buffer, barIndex), Digits);
+double getEftLevel(int length, int buffer, int barIndex) {
+     
+   int filterPeriod  = 1;           
+   double weight     = 0.5;               
+   //double filter     = 1;
+   //int applyFilterTo = 2;   
+   //return NormalizeDouble(iCustom(Symbol(), Period(), EFT, length, weight, filter, filterPeriod, applyFilterTo, buffer, barIndex), Digits);         
+   return NormalizeDouble(iCustom(Symbol(), Period(), EFT, length, filterPeriod, weight, buffer, barIndex), Digits);
 }
-/** End - EFT Level*/
+Slope getEftSlope(int length, int barIndex) {
+
+   if(latestEftSlopeTime == getCurrentTime()) {
+      
+      return latestEftSlope;
+   } 
+
+           
+   double slope = getEftLevel(length, EFT_SLOPE, barIndex);
+   double signalLine = getEftLevel(length, EFT_SIGNAL, barIndex);
+   double secondLine = getEftLevel(length, EFT_SECOND_LINE, barIndex);
+   
+   if( (latestEftSlope != BULLISH_SLOPE) && (slope == EMPTY_VALUE) && (signalLine > secondLine)) {
+     
+      latestEftSlope       = BULLISH_SLOPE;
+      latestEftSlopeTime   = getCurrentTime();     
+      return BULLISH_SLOPE;
+   }
+   else if( (latestEftSlope != BEARISH_SLOPE) && (slope != EMPTY_VALUE) && (signalLine < secondLine) ){
+      
+      latestEftSlope       = BEARISH_SLOPE;
+      latestEftSlopeTime   = getCurrentTime();       
+      return BEARISH_SLOPE;
+   }
+
+   return UNKNOWN_SLOPE;
+}
+/** End - EFT Level and slope*/
 
 /** Start - FIBO_BANDS Level and slope*/
 /**
@@ -5823,17 +7126,6 @@ int getFiboBandsLevelSlope_TODO(int barIndex) {
 /** End - FIBO_BANDS Level and slope*/
 
 /** END INDICATOR GENERIC LEVELS*/
-
-
-//TODO 27/06/2018
-//VOLATILITY_BANDS
-//POLYFIT_BANDS
-//DIMPA
-//Half Trend Channel Goes out of Price Zones. Reversal is eminent
-//-Indicator blip-bloop
-// MA(5) LW High/Low
-
-
 
 /** END NOLAG_MA REVERSALS DETECTIONS*/
 
@@ -5869,33 +7161,14 @@ void smoothedDigitalFilterLevelTest() {
    
    if(upperPrev == upper) {
       
-      Print("UPPER BANDS ARE FLAT at: " + (string)Time[CURRENT_BAR]);
+      Print("UPPER BANDS ARE FLAT at: " + (string)getCurrentTime());
    }
    else if(lowerPrev == lower) {
       
-      Print("LOWER BANDS ARE FLAT at: " + (string)Time[CURRENT_BAR]);
+      Print("LOWER BANDS ARE FLAT at: " + (string)getCurrentTime());
    }   
 }
 
-void getSomat3LevelTest() {
-   
-   //double upper = getSmoothedDigitalFilterLevel(2, 0);
-   //double lower = getSmoothedDigitalFilterLevel(3, 0);
-   
-   double slope = getSomat3Slope(0); 
-   double main = getSomat3Level(1, 0);
-   double lower = getSomat3Level(2, 0);
-   Print("Main value: " + (string)main);
-   
-   if(slope == 1) {
-        
-      Print("Bullish at: " + (string)Time[CURRENT_BAR]);
-   }
-   else if(slope == -1) {
-      
-      Print("Bearish at: " + (string)Time[CURRENT_BAR]);
-   }   
-}
 
 /** START TRANSITION DETECTIONS */
 /** START DYNAMIC_JURIK */
@@ -5925,8 +7198,8 @@ Transition getDynamicJurikAndVolitilityBandsTransition(bool checkCurrentBar) {
    if(rev == BEARISH_REVERSAL) {
       
       //DYNAMIC_MPA
-      double dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex);
-      double dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, previousBarIndex);      
+      double dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_UPPER, barIndex);
+      double dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_UPPER, previousBarIndex);      
       //VOLATILITY_BANDS      
       double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);
       double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, previousBarIndex);
@@ -5956,8 +7229,8 @@ Transition getDynamicJurikAndVolitilityBandsTransition(bool checkCurrentBar) {
          //Scan for suddent reversal - A cross of DYNAMIC_MPA and VOLATILITY_BANDS without the DYNAMIC_MPA flattening first
          
          //DYNAMIC_MPA
-         double dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex);
-         double dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, previousBarIndex);
+         double dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_UPPER, barIndex);
+         double dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_UPPER, previousBarIndex);
          //VOLATILITY_BANDS      
          double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);
          double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, previousBarIndex);
@@ -5982,133 +7255,6 @@ Transition getDynamicJurikAndVolitilityBandsTransition(bool checkCurrentBar) {
    return NO_TRANSITION;
 }
 /** END DYNAMIC_JURIK TRANSITION DETECTIONS */
-
-/** 
- * Only check if previous volitilityBandsLevel was outside dynamicMpaLevel and is now inside. 
- * When this happens, the dynamicMpaLevel should atleast have been flat for current and previous level, getDynamicMpaFlatter(true)
- */
-Transition getDynamicMpaAndVolitilityBandsReversal(int length, int volitilityLength, bool checkCurrentBar, bool checkPreviousVolitilityBandsLevels) {
-
-   Flatter flatter = getDynamicMpaFlatter(20, checkCurrentBar);
-   
-   int barIndex = 0;
-   if(checkCurrentBar) { // Option to check if current bar must be checked. If checkCurrentBar is true, current and the previous bars will be checked, 
-                         // Otherwise the previous 2 bars will checked without checking the current bar - this is more safe as the reversal is comfirmed - but a bit late! 
-      barIndex = CURRENT_BAR;
-   }
-   else {
-   
-      barIndex = CURRENT_BAR + 1;
-   }   
-   
-   int previousBarIndex = getPreviousBarIndex(barIndex);
-   
-   if(flatter == BEARISH_FLATTER) {
-      
-      //DYNAMIC_MPA
-      double dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex);
-      double dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, previousBarIndex);      
-      
-      //VOLATILITY_BANDS      
-      double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);
-      double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, previousBarIndex);
-      
-      if(checkPreviousVolitilityBandsLevels) { //Check previous VolitilityBandsLevels
-      
-         if( (volitilityBandsLevelPrev > dynamicMpaLevelPrev) && (dynamicMpaLevelCurr > volitilityBandsLevelCurr ) ) {
-            
-            return BULLISH_TO_BEARISH_TRANSITION;
-         }
-      }
-      else {// Dont check previous VolitilityBandsLevels
-         
-         if(dynamicMpaLevelCurr > volitilityBandsLevelCurr) {
-            
-            return BULLISH_TO_BEARISH_TRANSITION;
-         }      
-      }
-      
-   }
-   else if(flatter == BULLISH_FLATTER) { 
-     
-      //DYNAMIC_MPA
-      double dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, barIndex);
-      double dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, previousBarIndex);
-      
-      //VOLATILITY_BANDS      
-      double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, barIndex);
-      double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, previousBarIndex);
-      
-      if(checkPreviousVolitilityBandsLevels) { //Check previous VolitilityBandsLevels
-         
-         if( ( dynamicMpaLevelPrev > volitilityBandsLevelPrev) && (volitilityBandsLevelCurr > dynamicMpaLevelCurr) ) {
-            
-            return BEARISH_TO_BULLISH_TRANSITION;
-         } 
-      } 
-      else { // Dont check previous VolitilityBandsLevels
-         
-         if( volitilityBandsLevelCurr > dynamicMpaLevelCurr ) {
-            
-            return BEARISH_TO_BULLISH_TRANSITION;
-         }       
-      } 
-   }
-   else {
-         
-         //Scan for suddent reversal - A cross of DYNAMIC_MPA and VOLATILITY_BANDS without the DYNAMIC_MPA flattening first
-         
-          /*--BULLISH_TO_BEARISH--*/
-         //DYNAMIC_MPA
-         double dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex);
-         double dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, previousBarIndex);
-         
-         //VOLATILITY_BANDS      
-         double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);
-         double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, previousBarIndex);
-         
-         if(checkPreviousVolitilityBandsLevels) { //Check previous VolitilityBandsLevels
-            
-            if( (volitilityBandsLevelPrev > dynamicMpaLevelPrev) && (dynamicMpaLevelCurr > volitilityBandsLevelCurr ) ) {
-            
-               return SUDDEN_BULLISH_TO_BEARISH_TRANSITION;
-            }
-         }
-         else { // Dont check previous VolitilityBandsLevels
-            
-            if( dynamicMpaLevelCurr > volitilityBandsLevelCurr ) {
-            
-               return SUDDEN_BULLISH_TO_BEARISH_TRANSITION;
-            }         
-         }
-         
-         /*--BEARISH_TO_BULLISH--*/
-         //DYNAMIC_MPA
-         dynamicMpaLevelCurr = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, barIndex);
-         dynamicMpaLevelPrev = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, previousBarIndex);
-         
-         //VOLATILITY_BANDS      
-         volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, barIndex);
-         volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, previousBarIndex);
-         
-         if(checkPreviousVolitilityBandsLevels) { //Check previous VolitilityBandsLevels
-            
-            if( ( dynamicMpaLevelPrev > volitilityBandsLevelPrev) && (volitilityBandsLevelCurr > dynamicMpaLevelCurr) ) {
-            
-               return SUDDEN_BEARISH_TO_BULLISH_TRANSITION;
-            } 
-         } 
-         else { // Dont check previous VolitilityBandsLevels
-            if( ( dynamicMpaLevelPrev > volitilityBandsLevelPrev) && (volitilityBandsLevelCurr > dynamicMpaLevelCurr) ) {
-            
-               return SUDDEN_BEARISH_TO_BULLISH_TRANSITION;
-            }         
-         }                
-   }
-   
-   return NO_TRANSITION;
-}
-/** END TRANSITION DETECTIONS */
 
 /** 
  * Only check if previous volitilityBandsLevel was outside dynamicMpaLevel and is now inside. 
@@ -6199,7 +7345,7 @@ Transition getDynamicOfAveragesAndVolitilityBandsTransition(int volitilityLength
 /** START REVERSAL DETECTIONS */
 Reversal getT3OuterBandsReversal(bool checkCurrentBar) {
 
-   if(latestT3OuterBandsReversalTime == Time[CURRENT_BAR]) {
+   if(latestT3OuterBandsReversalTime == getCurrentTime()) {
       
       return CONTINUATION;
    } 
@@ -6236,7 +7382,7 @@ Reversal getT3OuterBandsReversal(bool checkCurrentBar) {
             && (t3BandSquaredLevelCurr > t3BandLevelCurr) && (t3BandSquaredLevelPrev > t3BandLevelPrev)) {
          
          latestT3OuterBandsReversal = BEARISH_REVERSAL;
-         latestT3OuterBandsReversalTime = Time[CURRENT_BAR];         
+         latestT3OuterBandsReversalTime = getCurrentTime();         
          return BEARISH_REVERSAL;
       }      
    //}
@@ -6254,7 +7400,7 @@ Reversal getT3OuterBandsReversal(bool checkCurrentBar) {
              &&(t3BandSquaredLevelCurr < t3BandLevelCurr) && (t3BandSquaredLevelPrev < t3BandLevelPrev)) {
          
          latestT3OuterBandsReversal = BULLISH_REVERSAL;
-         latestT3OuterBandsReversalTime = Time[CURRENT_BAR];
+         latestT3OuterBandsReversalTime = getCurrentTime();
          return BULLISH_REVERSAL;
       }      
    //}
@@ -6265,7 +7411,7 @@ Reversal getT3OuterBandsReversal(bool checkCurrentBar) {
 /** START REVERSAL DETECTIONS */
 Reversal getT3MiddleBandsReversal(bool checkCurrentBar) {
 
-   if(latestT3MiddleBandsReversalTime == Time[CURRENT_BAR]) {
+   if(latestT3MiddleBandsReversalTime == getCurrentTime()) {
       
       return CONTINUATION;
    } 
@@ -6297,7 +7443,7 @@ Reversal getT3MiddleBandsReversal(bool checkCurrentBar) {
             && (t3BandSquaredLevelCurr > t3BandLevelCurr) && (t3BandSquaredLevelPrev > t3BandLevelPrev)) {
          
          latestT3MiddleBandsReversal = BEARISH_REVERSAL;
-         latestT3MiddleBandsReversalTime = Time[CURRENT_BAR];
+         latestT3MiddleBandsReversalTime = getCurrentTime();
          return BEARISH_REVERSAL;
       }
       
@@ -6316,7 +7462,7 @@ Reversal getT3MiddleBandsReversal(bool checkCurrentBar) {
             && (t3BandSquaredLevelCurr < t3BandLevelCurr) && (t3BandSquaredLevelPrev < t3BandLevelPrev)) {
          
          latestT3MiddleBandsReversal = BULLISH_REVERSAL;
-         latestT3MiddleBandsReversalTime = Time[CURRENT_BAR];
+         latestT3MiddleBandsReversalTime = getCurrentTime();
          return BULLISH_REVERSAL;
       }      
    }
@@ -6324,7 +7470,7 @@ Reversal getT3MiddleBandsReversal(bool checkCurrentBar) {
    return CONTINUATION;
 }
 
-Reversal getDynamicPriceZonesAndJurikFilterReversal() {
+Reversal getDynamicPriceZonesAndJurikFilterReversal(int length) {
 
    Trend trend = getDynamicPriceZonesTrend();   
    if( trend == BULLISH_TREND ) {
@@ -6333,7 +7479,7 @@ Reversal getDynamicPriceZonesAndJurikFilterReversal() {
       double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, CURRENT_BAR + 1);
       
       //JURIK_FILTER
-      double jurikFilterBullishValuePrev  = getJurikFilterLevel(JURIK_FILTER_BULLISH_VALUE, CURRENT_BAR + 1);
+      double jurikFilterBullishValuePrev  = getJurikFilterLevel(length, JURIK_FILTER_BULLISH_VALUE, CURRENT_BAR + 1);
       
       if( (jurikFilterBullishValuePrev > zoneLevelPrev)) {
          
@@ -6347,7 +7493,7 @@ Reversal getDynamicPriceZonesAndJurikFilterReversal() {
       double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, CURRENT_BAR + 1);
       
       //JURIK_FILTER
-      double jurikFilterBearishValuePrev  = getJurikFilterLevel(JURIK_FILTER_BEARISH_VALUE, CURRENT_BAR + 1);
+      double jurikFilterBearishValuePrev  = getJurikFilterLevel(length, JURIK_FILTER_BEARISH_VALUE, CURRENT_BAR + 1);
       
       if( (zoneLevelPrev > jurikFilterBearishValuePrev)) {
          
@@ -6366,7 +7512,7 @@ Reversal getDynamicPriceZonesandDynamicMpaReversal(int length, int barIndex) {
       //DYNAMIC_PRICE_ZONE
       double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, barIndex);
       //DIMPA
-      double dynamicMpaUpperLevel   = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex);
+      double dynamicMpaUpperLevel   = getDynamicMpaLevel(length, DYNAMIC_MPA_UPPER, barIndex);
       double dynamicMpaSignalLevel  = getDynamicMpaLevel(length, DYNAMIC_MPA_SIGNAL, barIndex);
       
       if( (dynamicMpaUpperLevel > zoneLevelPrev) && (dynamicMpaSignalLevel > zoneLevelPrev) ) {
@@ -6417,7 +7563,7 @@ Reversal getDynamicPriceZonesandJmaBandsReversal(int barIndex) {//This will use 
          if(rev == BEARISH_REVERSAL) {
             
             latestDynamicPriceZonesandJmaBandsReversal = BEARISH_REVERSAL;
-            latestDynamicPriceZonesandJmaBandsReversalTime = Time[CURRENT_BAR];            
+            latestDynamicPriceZonesandJmaBandsReversalTime = getCurrentTime();            
             return BEARISH_REVERSAL;
          }                   
       }       
@@ -6437,7 +7583,7 @@ Reversal getDynamicPriceZonesandJmaBandsReversal(int barIndex) {//This will use 
          if(rev == BULLISH_REVERSAL) {
             
             latestDynamicPriceZonesandJmaBandsReversal = BULLISH_REVERSAL;
-            latestDynamicPriceZonesandJmaBandsReversalTime = Time[CURRENT_BAR];             
+            latestDynamicPriceZonesandJmaBandsReversalTime = getCurrentTime();             
             return BULLISH_REVERSAL;
          }         
       }
@@ -6482,7 +7628,7 @@ Reversal getDynamicPriceZonesAndMlsBandsReversal(int barIndex) {
 
 Reversal getNonLinearKalmanReversal(int nonLinearKalmanLength, bool checkCurrentBar) {
 
-   if(latestNonLinearKalmanSlopeTime == Time[CURRENT_BAR]) {
+   if(latestNonLinearKalmanSlopeTime == getCurrentTime()) {
       
       return CONTINUATION;
    } 
@@ -6510,7 +7656,7 @@ Reversal getNonLinearKalmanReversal(int nonLinearKalmanLength, bool checkCurrent
             && (slopeCurr == BULLISH_SLOPE) && (slopePrev == BULLISH_SLOPE) ) {
          
          latestNonLinearKalmanSlope = BULLISH_SLOPE;
-         latestNonLinearKalmanSlopeTime = Time[CURRENT_BAR];         
+         latestNonLinearKalmanSlopeTime = getCurrentTime();         
          return BEARISH_REVERSAL;
       }      
    //}
@@ -6519,7 +7665,7 @@ Reversal getNonLinearKalmanReversal(int nonLinearKalmanLength, bool checkCurrent
              && (slopeCurr == BEARISH_SLOPE) && (slopePrev == BEARISH_SLOPE) ) {
          
          latestNonLinearKalmanSlope = BULLISH_SLOPE;
-         latestNonLinearKalmanSlopeTime = Time[CURRENT_BAR];
+         latestNonLinearKalmanSlopeTime = getCurrentTime();
          return BULLISH_REVERSAL;
       }      
    //}
@@ -6565,9 +7711,9 @@ Reversal getDynamicMpaAndSomat3Reversal(int length,int barIndex) {
    if( trend == BULLISH_TREND ) {
       
       //SOMAT3
-      double somatLevel = getSomat3Level(SOMAT3_BULLISH_MAIN, barIndex);
+      double somatLevel = getSomat3Level(SOMAT3_MAIN, barIndex);
       //DIMPA
-      double dynamicMpaUpperLevel   = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex);
+      double dynamicMpaUpperLevel   = getDynamicMpaLevel(length, DYNAMIC_MPA_UPPER, barIndex);
       double dynamicMpaSignalLevel  = getDynamicMpaLevel(length, DYNAMIC_MPA_SIGNAL, barIndex);
       
       if( (somatLevel > dynamicMpaUpperLevel) && (somatLevel > dynamicMpaSignalLevel) ) {
@@ -6579,7 +7725,7 @@ Reversal getDynamicMpaAndSomat3Reversal(int length,int barIndex) {
    else if( trend == BEARISH_TREND ) {
       
       //SOMAT3
-      double somatLevel = getSomat3Level(SOMAT3_BULLISH_MAIN, barIndex);
+      double somatLevel = getSomat3Level(SOMAT3_MAIN, barIndex);
       //DIMPA
       double dynamicMpaLowerLevel   = getDynamicMpaLevel(length, DYNAMIC_MPA_LOWER, barIndex);  
       double dynamicMpaSignalLevel  = getDynamicMpaLevel(length, DYNAMIC_MPA_SIGNAL, barIndex);    
@@ -6593,67 +7739,307 @@ Reversal getDynamicMpaAndSomat3Reversal(int length,int barIndex) {
    return CONTINUATION;      
 }
 
-Cross getDynamicMpaAndNonLinearKalmanBandsCross(int dynamicMpaLength, int nonLinearKalmanBandLength, int barIndex) {
+//Diz = 5
+//NON_LINEAR_KALMAN(20)/DYNAMIC_MPA(20)/(15)
+//Change NON_LINEAR_KALMAN(20) color
+//FROM the Top/Bottom Cross
+//DYNAMIC_MPA_SIGNAL/DYNAMIC_MPA_MIDDLE CROSS
 
-   if(latestDynamicMpaAndNonLinearKalmanBandsCrossTime == Time[CURRENT_BAR]) {
-      
-      return latestDynamicMpaAndNonLinearKalmanBandsCross;
-   } 
+//Diz = 12
+//TODO - Dont wait for the two to cross NON_LINEAR_KALMAN(20)/DYNAMIC_MPA(20). But, wait for NON_LINEAR_KALMAN(20) to change color on current and prev, then wait for DYNAMIC_MPA_SIGNAL/DYNAMIC_MPA_UPPER or
+// DYNAMIC_MPA_SIGNAL/DYNAMIC_MPA_LOWER cross - 
+//follow same pattern on verifying the cross just happened
+Reversal getDynamicMpaAndNonLinearKalmanReversal(int dynamicMpaLength, int nonLinearKalmanLength, int barIndex) {
 
    Trend trend = getDynamicPriceZonesTrend();   
    if( trend == BULLISH_TREND ) {
       
+      //NON_LINEAR_KALMAN
+      double nonLinearKalmanLevel = getNonLinearKalmanLevel(nonLinearKalmanLength, NON_LINEAR_KALMAN_MAIN, barIndex);
+      
       //DIMPA
-      double dynamicSignalLevel = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_SIGNAL, barIndex);
-            
-      //NON_LINEAR_KALMAN_BANDS
-      double nonLinearKalmanBandsLevel = getNonLinearKalmanBandsLevel(nonLinearKalmanBandLength, NON_LINEAR_KALMAN_BANDS_MIDDLE, barIndex);
-
-      if(nonLinearKalmanBandsLevel > dynamicSignalLevel) {
+      double dynamicMpaUpperLevel   = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_UPPER, barIndex);
+      double dynamicMpaSignalLevel  = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_SIGNAL, barIndex);
+      
+      /*if( (somatLevel > dynamicMpaUpperLevel) && (somatLevel > dynamicMpaSignalLevel) ) {
          
-         latestDynamicMpaAndNonLinearKalmanBandsCross = BEARISH_CROSS;
-         latestDynamicMpaAndNonLinearKalmanBandsCrossTime = Time[CURRENT_BAR];       
-         return BEARISH_CROSS;
+         return BEARISH_REVERSAL;
+      }*/
+      
+   }
+   else if( trend == BEARISH_TREND ) {
+      
+      //NON_LINEAR_KALMAN
+      double nonLinearKalmanLevel = getNonLinearKalmanLevel(nonLinearKalmanLength, NON_LINEAR_KALMAN_MAIN, barIndex);
+      
+      //DIMPA
+      double dynamicMpaLowerLevel   = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_LOWER, barIndex);  
+      double dynamicMpaSignalLevel  = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_SIGNAL, barIndex);    
+      
+      /*if( (somatLevel < dynamicMpaLowerLevel) && (somatLevel < dynamicMpaSignalLevel) ) {
+         
+         return BULLISH_REVERSAL;
+      }*/      
+   }
+   
+   return CONTINUATION;      
+}
+
+Reversal getSomat3Reversal(bool checkPreviousBarClose) {
+  
+   if(latestSomat3ReversalTime == getCurrentTime()) {
+      return latestSomat3Reversal;
+   } 
+   
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getSomat3Slope(CURRENT_BAR);
+   
+   if(checkPreviousBarClose) {//Check previous(Current, Prev, Prev + 1) - 3 Candles will be involved
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the getSomat3Slope was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getSomat3Slope(barIndexForOppositeDirectionVerification);
+      
+      //Previous slope
+      Slope slopePrev = getSomat3Slope(getPreviousBarIndex(CURRENT_BAR) );
+      
+      //Check if current and previous slopes changed direction      
+      if(  (slopeCurr == slopePrev) // Current and previous slopes are BULLISH_SLOPE
+            )  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         if( (latestSomat3Reversal != BULLISH_REVERSAL) && (slopeCurr == BULLISH_SLOPE) ) {
+            
+            //Print("AT BULLISH");
+            
+            //Print("SLOPE is " + slopeCurr + " at " + getCurrentTime());
+            //Print("SLOPE was " + slopeForOppositeDirectionVerification + " at " + latestSomat3ReversalTime);            
+            
+            latestSomat3Reversal = BULLISH_REVERSAL;
+            latestSomat3ReversalTime = getCurrentTime();
+
+
+            //Print("CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+            return BULLISH_REVERSAL;
+         }         
+         else if( (latestSomat3Reversal != BEARISH_REVERSAL) && (slopeCurr == BEARISH_SLOPE) ) {
+            
+            //Print("AT BEARISH"); 
+
+            //Print("SLOPE is " + slopeCurr + " at " + getCurrentTime());
+            //Print("SLOPE was " + slopeForOppositeDirectionVerification + " at " + latestSomat3ReversalTime);             
+            
+            latestSomat3Reversal = BEARISH_REVERSAL;
+            latestSomat3ReversalTime = getCurrentTime(); 
+            
+            //Print("CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+            return BEARISH_REVERSAL;
+         } 
+         else {
+            
+            //Print("Here" + slopeCurr);
+         }            
+      }
+      else {
+         
+         //Print("Here" + slopeCurr);
+      }   
+   }
+   else {
+      barIndexForOppositeDirectionVerification = getPastBars(1);
+      
+      //To verify the getSomat3Slope was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getSomat3Slope(barIndexForOppositeDirectionVerification);
+
+      //Check if current and previous slopes changed direction      
+      /*if( slopeForOppositeDirectionVerification != slopeCurr)  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {*/
+         
+         if(slopeCurr == BULLISH_SLOPE) {
+         
+            latestSomat3Reversal = BULLISH_REVERSAL;
+            latestSomat3ReversalTime = getCurrentTime();  
+
+            //Print("CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+            return BULLISH_REVERSAL;
+         }         
+         else if(slopeCurr == BEARISH_SLOPE) {
+            
+            latestSomat3Reversal = BEARISH_REVERSAL;
+            latestSomat3ReversalTime = getCurrentTime(); 
+            
+            //Print("CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+            return BEARISH_REVERSAL;
+         }             
+      //}      
+      
+   }
+
+   return latestSomat3Reversal;       
+}
+
+Reversal getDynamicStepMaPdfReversal(int pdfMaLength, int pdfStepSize, bool checkPreviousBarClose) {
+  
+   if(latestDynamicStepMaPdfReversalTime == getCurrentTime()) {
+      return latestDynamicStepMaPdfReversal;
+   } 
+   
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getSomat3Slope(CURRENT_BAR);
+   
+   if(checkPreviousBarClose) {//Check previous(Current, Prev, Prev + 1) - 3 Candles will be involved
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the getDynamicStepMaPdfSlope was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getDynamicStepMaPdfSlope(pdfMaLength, pdfStepSize, barIndexForOppositeDirectionVerification);
+      
+      //Previous slope
+      Slope slopePrev = getDynamicStepMaPdfSlope(pdfMaLength, pdfStepSize, getPreviousBarIndex(CURRENT_BAR) );
+      
+      //Check if current and previous slopes changed direction      
+      if(  (slopeCurr == slopePrev) // Current and previous slopes are BULLISH_SLOPE
+            )  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         if( (latestDynamicStepMaPdfReversal != BULLISH_REVERSAL) && (slopeCurr == BULLISH_SLOPE) ) {
+            
+            //Print("AT BULLISH");
+            
+            //Print("SLOPE is " + slopeCurr + " at " + getCurrentTime());
+            //Print("SLOPE was " + slopeForOppositeDirectionVerification + " at " + latestSomat3ReversalTime);            
+            
+            latestDynamicStepMaPdfReversal = BULLISH_REVERSAL;
+            latestDynamicStepMaPdfReversalTime = getCurrentTime();
+
+
+            //Print("CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+            return BULLISH_REVERSAL;
+         }         
+         else if( (latestDynamicStepMaPdfReversal != BEARISH_REVERSAL) && (slopeCurr == BEARISH_SLOPE) ) {
+            
+            //Print("AT BEARISH"); 
+
+            //Print("SLOPE is " + slopeCurr + " at " + getCurrentTime());
+            //Print("SLOPE was " + slopeForOppositeDirectionVerification + " at " + latestSomat3ReversalTime);             
+            
+            latestDynamicStepMaPdfReversal = BEARISH_REVERSAL;
+            latestDynamicStepMaPdfReversalTime = getCurrentTime(); 
+            
+            //Print("CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+            return BEARISH_REVERSAL;
+         } 
+         else {
+            
+            //Print("Here" + slopeCurr);
+         }            
+      }
+      else {
+         
+         //Print("Here" + slopeCurr);
+      }   
+   }
+   else {
+      barIndexForOppositeDirectionVerification = getPastBars(1);
+      
+      //To verify the getDynamicStepMaPdfSlope was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getDynamicStepMaPdfSlope(pdfMaLength, pdfStepSize, barIndexForOppositeDirectionVerification);
+
+      //Check if current and previous slopes changed direction      
+      /*if( slopeForOppositeDirectionVerification != slopeCurr)  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {*/
+         
+         if(slopeCurr == BULLISH_SLOPE) {
+         
+            latestDynamicStepMaPdfReversal = BULLISH_REVERSAL;
+            latestDynamicStepMaPdfReversalTime = getCurrentTime();  
+
+            //Print("CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+            return BULLISH_REVERSAL;
+         }         
+         else if(slopeCurr == BEARISH_SLOPE) {
+            
+            latestDynamicStepMaPdfReversal = BEARISH_REVERSAL;
+            latestDynamicStepMaPdfReversalTime = getCurrentTime(); 
+            
+            //Print("CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+            return BEARISH_REVERSAL;
+         }             
+      //}      
+      
+   }
+
+   return latestDynamicStepMaPdfReversal;       
+}
+
+Reversal getDynamicPriceZonesAndSomat3Reversal(int barIndex) {
+
+   if(latestDynamicPriceZonesAndSomat3ReversalTime == getCurrentTime()) {
+      
+      return latestDynamicPriceZonesAndSomat3Reversal;
+   } 
+   
+   Slope slope = getSomat3Slope(barIndex);
+
+   Trend trend = getDynamicPriceZonesTrend();
+   if( trend == BULLISH_TREND ) {
+
+      //DYNAMIC_PRICE_ZONE
+      double zoneLevel  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, barIndex);
+      
+      //SOMAT3
+      double somatLevel = getSomat3Level(SOMAT3_MAIN, barIndex);
+      
+      if( (somatLevel > zoneLevel) && (slope == BEARISH_SLOPE) ) { //Only if SOMAT3 is BULLISH extreme and suddenly changes to BEARISH_SLOPE 
+
+         latestDynamicPriceZonesAndSomat3Reversal = BEARISH_REVERSAL;
+         latestDynamicPriceZonesAndSomat3ReversalTime = getCurrentTime();           
+         return BEARISH_REVERSAL;
       }
       
    }
    else if( trend == BEARISH_TREND ) {
       
-      //DIMPA
-      double dynamicSignalLevel = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_SIGNAL, barIndex);
-            
-      //NON_LINEAR_KALMAN_BANDS
-      double nonLinearKalmanBandsLevel = getNonLinearKalmanBandsLevel(nonLinearKalmanBandLength, NON_LINEAR_KALMAN_BANDS_MIDDLE, barIndex);
+      //DYNAMIC_PRICE_ZONE 
+      double zoneLevel  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, barIndex);
+      
+      //SOMAT3
+      double somatLevel = getSomat3Level(SOMAT3_MAIN, barIndex);
+      
+      if( (somatLevel < zoneLevel) && (slope == BULLISH_SLOPE)) { //Only if SOMAT3 is BEARISH extreme and suddenly changes to BULLISH_SLOPE  
 
-      if( nonLinearKalmanBandsLevel < dynamicSignalLevel ) {
-         
-         latestDynamicMpaAndNonLinearKalmanBandsCross = BULLISH_CROSS;
-         latestDynamicMpaAndNonLinearKalmanBandsCrossTime = Time[CURRENT_BAR];         
-         return BULLISH_CROSS;
+         latestDynamicPriceZonesAndSomat3Reversal = BULLISH_REVERSAL;
+         latestDynamicPriceZonesAndSomat3ReversalTime = getCurrentTime();          
+         return BULLISH_REVERSAL;
       }      
    }
    
-   return latestDynamicMpaAndNonLinearKalmanBandsCross;      
+   return latestDynamicPriceZonesAndSomat3Reversal;      
 }
 
-/**
- * All crosses must be verified - The pair(SOMAT3 and NON_LINEAR_KALMAN) must have been heading to the opposite direction of the cross before the cross happens.
- */
-Cross getSomat3AndNonLinearKalmanCross(int nonLinearKalmanLength,  bool checkPreviousBarClose, bool checkNonLinearKalmanSlope, int barIndex) {
+Cross getSomat3AndKalmanBandsCross(int dynamicMpaLength, int nonLinearKalmanBandLength, bool checkPreviousBarClose, int barIndex) {
+
+   /*if(latestDynamicMpaAndNonLinearKalmanBandsCrossTime == getCurrentTime()) {
+      
+      return latestDynamicMpaAndNonLinearKalmanBandsCross;
+   } */
 
    int barIndexForOppositeDirectionVerification = -1;
    Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
-   Slope slopeCurr = getSomat3AndNonLinearKalmanSlope(nonLinearKalmanLength, checkNonLinearKalmanSlope, CURRENT_BAR);
+   Slope slopeCurr = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, barIndex);
    
    if(checkPreviousBarClose) {
       
       barIndexForOppositeDirectionVerification = getPastBars(2);
       
-      //To verify the pair(SOMAT3 and NON_LINEAR_KALMAN) was heading to the opposite direction
-      slopeForOppositeDirectionVerification = getSomat3AndNonLinearKalmanSlope(nonLinearKalmanLength, checkNonLinearKalmanSlope, barIndexForOppositeDirectionVerification);
+      //To verify the pair(DIMPA and NON_LINEAR_KALMAN_BANDSs) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, barIndexForOppositeDirectionVerification);
       
       //Previous slope
-      Slope slopePrev = getSomat3AndNonLinearKalmanSlope(nonLinearKalmanLength, checkNonLinearKalmanSlope, getPreviousBarIndex(CURRENT_BAR));
+      Slope slopePrev = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, getPreviousBarIndex(CURRENT_BAR));
 
       //Check if current and previous slopes changed direction      
       if( ( (slopeCurr == BULLISH_SLOPE) && (slopePrev == BULLISH_SLOPE) ) // Current and previous slopes are BULLISH_SLOPE
@@ -6673,8 +8059,8 @@ Cross getSomat3AndNonLinearKalmanCross(int nonLinearKalmanLength,  bool checkPre
    
       barIndexForOppositeDirectionVerification = getPastBars(1);
       
-      //To verify the pair(SOMAT3 and NON_LINEAR_KALMAN) was heading to the opposite direction
-      slopeForOppositeDirectionVerification = getSomat3AndNonLinearKalmanSlope(nonLinearKalmanLength, checkNonLinearKalmanSlope, barIndexForOppositeDirectionVerification);
+      //To verify the pair(DIMPA and NON_LINEAR_KALMAN_BANDS) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, barIndexForOppositeDirectionVerification);
       
       //Check if current slope changed direction      
       if( (slopeCurr == BULLISH_SLOPE) 
@@ -6694,9 +8080,995 @@ Cross getSomat3AndNonLinearKalmanCross(int nonLinearKalmanLength,  bool checkPre
 
    return UNKNOWN_CROSS;      
 }
+Slope getSomat3AndKalmanBandsSlope(int somat3Length, int kalmanBandLength, int barIndex) {
+
+   Slope slope = getSomat3Slope(barIndex);
+   double somat3Level = getSomat3Level(SOMAT3_MAIN, barIndex);
+   if(slope == BULLISH_SLOPE) {
+      
+      double kalmanBandsLevel = getKalmanBandsLevel(kalmanBandLength,KALMAN_BAND_LOWER, barIndex);
+      if(kalmanBandsLevel > somat3Level) {
+      
+         return BULLISH_SLOPE;
+      }
+      
+   }
+   else if(slope == BEARISH_SLOPE) {
+   
+      double kalmanBandsLevel = getKalmanBandsLevel(kalmanBandLength,KALMAN_BAND_UPPER, barIndex);
+
+      if(kalmanBandsLevel < somat3Level) {
+      
+         return BEARISH_SLOPE;
+      }      
+   }
+
+   return UNKNOWN_SLOPE;
+}
+
+Cross getSomat3AndSeBandsCross(int dynamicMpaLength, int nonLinearKalmanBandLength, bool checkPreviousBarClose, int barIndex) {
+
+   /*if(latestDynamicMpaAndNonLinearKalmanBandsCrossTime == getCurrentTime()) {
+      
+      return latestDynamicMpaAndNonLinearKalmanBandsCross;
+   } */
+
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, barIndex);
+   
+   if(checkPreviousBarClose) {
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the pair(DIMPA and NON_LINEAR_KALMAN_BANDSs) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, barIndexForOppositeDirectionVerification);
+      
+      //Previous slope
+      Slope slopePrev = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, getPreviousBarIndex(CURRENT_BAR));
+
+      //Check if current and previous slopes changed direction      
+      if( ( (slopeCurr == BULLISH_SLOPE) && (slopePrev == BULLISH_SLOPE) ) // Current and previous slopes are BULLISH_SLOPE
+            && (slopeForOppositeDirectionVerification == BEARISH_SLOPE) )  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         return BULLISH_CROSS;
+      }
+      else if( ((slopeCurr == BEARISH_SLOPE) && (slopePrev == BEARISH_SLOPE) )// Current and previous slopes are BEARISH_SLOPE
+            && (slopeForOppositeDirectionVerification == BULLISH_SLOPE) )     // Last 2 bar index's should have been BULLISH_SLOPE to validate a BEARISH_CROSS
+            {
+      
+         return BEARISH_CROSS;           
+      }     
+   }
+   else {
+   
+      barIndexForOppositeDirectionVerification = getPastBars(1);
+      
+      //To verify the pair(DIMPA and NON_LINEAR_KALMAN_BANDS) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, barIndexForOppositeDirectionVerification);
+      
+      //Check if current slope changed direction      
+      if( (slopeCurr == BULLISH_SLOPE) 
+            && (slopeForOppositeDirectionVerification == BEARISH_SLOPE) ) 
+            {
+         
+         return BULLISH_CROSS;
+      }
+      else if( (slopeCurr == BEARISH_SLOPE) 
+            && (slopeForOppositeDirectionVerification == BULLISH_SLOPE) ) 
+            {
+      
+         return BEARISH_CROSS;           
+      }              
+   
+   }
+
+   return UNKNOWN_CROSS;      
+}
+Slope getSomat3AndSeBandsSlope(int somat3Length, int seBandsLength, int barIndex) {
+
+   Slope slope = getSomat3Slope(barIndex);
+   double somat3Level = getSomat3Level(SOMAT3_MAIN, barIndex);
+   double seBandsLevel = getSeBandsLevel(seBandsLength, SE_BAND_MAIN, barIndex);
+   if(slope == BULLISH_SLOPE) {
+      
+      
+      if(seBandsLevel > somat3Level) {
+      
+         return BULLISH_SLOPE;
+      }
+      
+   }
+   else if(slope == BEARISH_SLOPE) {
+   
+      if(seBandsLevel < somat3Level) {
+      
+         return BEARISH_SLOPE;
+      }      
+   }
+
+   return UNKNOWN_SLOPE;
+}
+
+Cross getSomat3AndPolyfitBandsCross(int dynamicMpaLength, int nonLinearKalmanBandLength, bool checkPreviousBarClose, int barIndex) {
+
+   /*if(latestDynamicMpaAndNonLinearKalmanBandsCrossTime == getCurrentTime()) {
+      
+      return latestDynamicMpaAndNonLinearKalmanBandsCross;
+   } */
+
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, barIndex);
+   
+   if(checkPreviousBarClose) {
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the pair(DIMPA and NON_LINEAR_KALMAN_BANDSs) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, barIndexForOppositeDirectionVerification);
+      
+      //Previous slope
+      Slope slopePrev = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, getPreviousBarIndex(CURRENT_BAR));
+
+      //Check if current and previous slopes changed direction      
+      if( ( (slopeCurr == BULLISH_SLOPE) && (slopePrev == BULLISH_SLOPE) ) // Current and previous slopes are BULLISH_SLOPE
+            && (slopeForOppositeDirectionVerification == BEARISH_SLOPE) )  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         return BULLISH_CROSS;
+      }
+      else if( ((slopeCurr == BEARISH_SLOPE) && (slopePrev == BEARISH_SLOPE) )// Current and previous slopes are BEARISH_SLOPE
+            && (slopeForOppositeDirectionVerification == BULLISH_SLOPE) )     // Last 2 bar index's should have been BULLISH_SLOPE to validate a BEARISH_CROSS
+            {
+      
+         return BEARISH_CROSS;           
+      }     
+   }
+   else {
+   
+      barIndexForOppositeDirectionVerification = getPastBars(1);
+      
+      //To verify the pair(DIMPA and NON_LINEAR_KALMAN_BANDS) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, barIndexForOppositeDirectionVerification);
+      
+      //Check if current slope changed direction      
+      if( (slopeCurr == BULLISH_SLOPE) 
+            && (slopeForOppositeDirectionVerification == BEARISH_SLOPE) ) 
+            {
+         
+         return BULLISH_CROSS;
+      }
+      else if( (slopeCurr == BEARISH_SLOPE) 
+            && (slopeForOppositeDirectionVerification == BULLISH_SLOPE) ) 
+            {
+      
+         return BEARISH_CROSS;           
+      }              
+   
+   }
+
+   return UNKNOWN_CROSS;      
+}
+Slope getSomat3AndPolyfitBandsSlope(int somat3Length, int polyfitBandsLength, int barIndex) {
+
+   Slope slope = getSomat3Slope(barIndex);
+   double somat3Level = getSomat3Level(SOMAT3_MAIN, 0);
+   
+   if(slope == BULLISH_SLOPE) {
+      
+      double polyfitBandsLevel = getPolyfitBandsLevel(polyfitBandsLength, POLYFIT_BAND_SECOND_LOWER, 0);
+      if(polyfitBandsLevel > somat3Level) {
+      
+         return BULLISH_SLOPE;
+      }
+      
+   }
+   else if(slope == BEARISH_SLOPE) {
+   
+      double polyfitBandsLevel = getPolyfitBandsLevel(polyfitBandsLength, POLYFIT_BAND_SECOND_UPPER, 0);
+      if(polyfitBandsLevel < somat3Level) {
+      
+         return BEARISH_SLOPE;
+      }      
+   }
+
+   return UNKNOWN_SLOPE;
+}
+
+Cross getDynamicMpaCross(int dynamicMpaLength, bool checkPreviousBarClose) {
+  
+   if(latestDynamicMpaCrossTime == getCurrentTime()) {
+      
+      return latestDynamicMpaCross;
+   } 
+
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getDynamicMpaSlope(dynamicMpaLength, CURRENT_BAR);
+   
+   if(checkPreviousBarClose) {//Check previous(Current, Prev, Prev + 1) - 3 Candles will be involved
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the DIMPA was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getDynamicMpaSlope(dynamicMpaLength, barIndexForOppositeDirectionVerification);
+      
+      //Previous slope
+      Slope slopePrev = getDynamicMpaSlope(dynamicMpaLength, getPreviousBarIndex(CURRENT_BAR));
+
+      //Check if current and previous slopes changed direction      
+      if( ( (slopeCurr == slopePrev) // Current and previous slopes are BULLISH_SLOPE
+            && (slopeForOppositeDirectionVerification != slopeCurr) ))  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         if(slopeCurr == BULLISH_SLOPE) {
+            latestDynamicMpaCrossTime = getCurrentTime();  
+
+            Print("CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+            return BULLISH_CROSS;
+         }         
+         else if(slopeCurr == BEARISH_SLOPE) {
+            
+            latestDynamicMpaCrossTime = getCurrentTime(); 
+            
+            Print("CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+            return BEARISH_CROSS;
+         }
+         else if(slopeCurr == NEW_BEARISH_SLOPE) { 
+            
+            latestDynamicMpaCrossTime = getCurrentTime(); 
+            
+            Print("CHANGING DIRECTION to NEW_BEARISH_SLOPE at " + convertCurrentTimeToString());                  
+            return BEARISH_CROSS;         
+         }
+         else if(slopeCurr == NEW_BULLISH_SLOPE) { 
+            
+            latestDynamicMpaCrossTime = getCurrentTime(); 
+            Print("CHANGING DIRECTION to NEW_BULLISH_SLOPE at " + convertCurrentTimeToString());                  
+            return BULLISH_CROSS;         
+         }         
+         //latestDynamicMpaCross = BULLISH_CROSS;
+               
+         /*Print("CURRENT SLOPE " + slopeCurr + " @ " + convertCurrentTimeToString() );
+         Print("PREV SLOPE " + slopePrev + " @ " + convertCurrentTimeToString() );
+         Print("CHANGING DIRECTION at " + convertCurrentTimeToString()); */        
+         
+      }
+      /*else if( ((slopeCurr == BEARISH_SLOPE) && (slopePrev == BEARISH_SLOPE) )// Current and previous slopes are BEARISH_SLOPE
+            && (slopeForOppositeDirectionVerification == BULLISH_SLOPE) )     // Last 2 bar index's should have been BULLISH_SLOPE to validate a BEARISH_CROSS
+            {
+      
+         return BEARISH_CROSS;           
+      } */    
+   }
+   else {//Check current - 2 Candles(Current and Prev) will be involved
+      
+      barIndexForOppositeDirectionVerification = getPastBars(1);
+      
+      //To verify the DIMPA was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getDynamicMpaSlope(dynamicMpaLength, barIndexForOppositeDirectionVerification);
+      
+      //Check if current slope changed direction      
+      if(slopeCurr != slopeForOppositeDirectionVerification) {
+         Print("slopeCurr " + (string)slopeCurr);
+         Print("slopeForOppositeDirectionVerification " + (string)slopeForOppositeDirectionVerification);
+         Print("CHANGING DIRECTION at " + convertCurrentTimeToString());
+         latestDynamicMpaCross = BULLISH_CROSS;
+         latestDynamicMpaCrossTime = getCurrentTime();         
+         return BULLISH_CROSS;
+      }
+      /*else if( (slopeCurr == BEARISH_SLOPE) 
+            && (slopeForOppositeDirectionVerification == BULLISH_SLOPE) ) 
+            {
+      
+         return BEARISH_CROSS;           
+      }*/              
+   
+   }
+
+   return latestDynamicMpaCross;       
+}
+Slope getDynamicMpaSlope(int dynamicMpaLength, int barIndex) {
+
+   double dynamicMpaSignal = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_SIGNAL, barIndex);
+   double dynamicMpaUpper  = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_UPPER, barIndex);    
+   double dynamicMpaLower  = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_LOWER, barIndex); 
+   double dynamicMpaMiddle = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_MIDDLE, barIndex);       
+
+   if(dynamicMpaSignal > dynamicMpaUpper) {//Extreme Bullish - Above DYNAMIC_MPA_UPPER
+
+      return BULLISH_SLOPE;
+   } 
+   else if(dynamicMpaSignal < dynamicMpaLower) { //Extreme Bearish - Below DYNAMIC_MPA_LOWER
+   
+      return BEARISH_SLOPE;
+   }  
+   else if( (dynamicMpaSignal < dynamicMpaUpper) && (dynamicMpaSignal > dynamicMpaLower)) { //New Bearish - Between DYNAMIC_MPA_LOWER and DYNAMIC_MPA_UPPER
+   
+      //Here we might have to check the Flat, or Slope?
+      Flatter flatter = getDynamicMpaFlatter(dynamicMpaLength, false); //Check last closed bars - secured      
+      if(flatter == BEARISH_FLATTER) {
+         return NEW_BEARISH_SLOPE;
+      }
+      else if(flatter == BULLISH_FLATTER) {
+         return NEW_BULLISH_SLOPE;
+      }      
+      
+   }      
+   
+   return UNKNOWN_SLOPE;       
+}
+
+Cross getDynamicMpaAndNonLinearKalmanBandsCross(int dynamicMpaLength, int nonLinearKalmanBandLength, bool checkPreviousBarClose, int barIndex) {
+
+   /*if(latestDynamicMpaAndNonLinearKalmanBandsCrossTime == getCurrentTime()) {
+      
+      return latestDynamicMpaAndNonLinearKalmanBandsCross;
+   } */
+
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, barIndex);
+   
+   if(checkPreviousBarClose) {
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the pair(DIMPA and NON_LINEAR_KALMAN_BANDSs) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, barIndexForOppositeDirectionVerification);
+      
+      //Previous slope
+      Slope slopePrev = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, getPreviousBarIndex(CURRENT_BAR));
+
+      //Check if current and previous slopes changed direction      
+      if( ( (slopeCurr == BULLISH_SLOPE) && (slopePrev == BULLISH_SLOPE) ) // Current and previous slopes are BULLISH_SLOPE
+            && (slopeForOppositeDirectionVerification == BEARISH_SLOPE) )  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         return BULLISH_CROSS;
+      }
+      else if( ((slopeCurr == BEARISH_SLOPE) && (slopePrev == BEARISH_SLOPE) )// Current and previous slopes are BEARISH_SLOPE
+            && (slopeForOppositeDirectionVerification == BULLISH_SLOPE) )     // Last 2 bar index's should have been BULLISH_SLOPE to validate a BEARISH_CROSS
+            {
+      
+         return BEARISH_CROSS;           
+      }     
+   }
+   else {
+   
+      barIndexForOppositeDirectionVerification = getPastBars(1);
+      
+      //To verify the pair(DIMPA and NON_LINEAR_KALMAN_BANDS) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getDynamicMpaAndNonLinearKalmanBandsSlope(dynamicMpaLength, nonLinearKalmanBandLength, barIndexForOppositeDirectionVerification);
+      
+      //Check if current slope changed direction      
+      if( (slopeCurr == BULLISH_SLOPE) 
+            && (slopeForOppositeDirectionVerification == BEARISH_SLOPE) ) 
+            {
+         
+         return BULLISH_CROSS;
+      }
+      else if( (slopeCurr == BEARISH_SLOPE) 
+            && (slopeForOppositeDirectionVerification == BULLISH_SLOPE) ) 
+            {
+      
+         return BEARISH_CROSS;           
+      }              
+   
+   }
+
+   return UNKNOWN_CROSS;      
+}
+Slope getDynamicMpaAndNonLinearKalmanBandsSlope(int dynamicMpaLength, int nonLinearKalmanBandLength, int barIndex) {
+
+   //DIMPA
+   double dynamicMpaLevel = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_SIGNAL, barIndex);
+
+   //NON_LINEAR_KALMAN_BANDS
+   double nonLinearKalmanBandsLevel = getNonLinearKalmanBandsLevel(nonLinearKalmanBandLength, NON_LINEAR_KALMAN_BANDS_MIDDLE, barIndex);     
+
+   if(dynamicMpaLevel > nonLinearKalmanBandsLevel) {
+
+      return BULLISH_SLOPE;
+   }
+   else if(dynamicMpaLevel < nonLinearKalmanBandsLevel) {
+   
+      return BEARISH_SLOPE;
+   }
+
+   return UNKNOWN_SLOPE;
+}
+
+Cross getDynamicMpaSignalLevelAndVolitilityBandsCross(int dynamicMpaLength, int volitilityLength, bool checkPreviousBarClose) {
+  
+   if(latestDynamicMpaSignalLevelAndVolitilityBandsCrossTime == getCurrentTime()) {
+      return latestDynamicMpaSignalLevelAndVolitilityBandsCross;
+   } 
+
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getDynamicMpaSignalLevelAndVolitilityBandsSlope(dynamicMpaLength, volitilityLength, CURRENT_BAR);
+   
+   if(checkPreviousBarClose) {//Check previous(Current, Prev, Prev + 1) - 3 Candles will be involved
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the getDynamicMpaSignalLevelAndVolitilityBandsSlope was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getDynamicMpaSignalLevelAndVolitilityBandsSlope(dynamicMpaLength, volitilityLength, barIndexForOppositeDirectionVerification);
+      
+      //Previous slope
+      Slope slopePrev = getDynamicMpaSignalLevelAndVolitilityBandsSlope(dynamicMpaLength, volitilityLength, getPreviousBarIndex(CURRENT_BAR) );
+
+      //Check if current and previous slopes changed direction      
+      if( ( (slopeCurr == slopePrev) // Current and previous slopes are BULLISH_SLOPE
+            && (slopeForOppositeDirectionVerification != slopeCurr) ))  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         if(slopeCurr == BULLISH_SLOPE) {
+            latestDynamicMpaSignalLevelAndVolitilityBandsCrossTime = getCurrentTime();  
+
+            //Print("CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+            return BULLISH_CROSS;
+         }         
+         else if(slopeCurr == BEARISH_SLOPE) {
+            
+            latestDynamicMpaSignalLevelAndVolitilityBandsCrossTime = getCurrentTime(); 
+            
+            //Print("CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+            return BEARISH_CROSS;
+         }             
+      }   
+   }
+
+   return latestDynamicMpaSignalLevelAndVolitilityBandsCross;       
+}
+Slope getDynamicMpaSignalLevelAndVolitilityBandsSlope(int dynamicMpaLength, int volitilityLength, int barIndex) {
+
+   //DIMPA
+   double dynamicMpaSignal = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_SIGNAL, barIndex);
+   
+   //VOLATILITY_BANDS
+   double volitilityBandsLowerLevel = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, barIndex);
+   double volitilityBandsUpperLevel = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);       
+
+   if( (dynamicMpaSignal < volitilityBandsUpperLevel) && (dynamicMpaSignal < volitilityBandsLowerLevel) ) {//Extreme Bullish - Above DYNAMIC_MPA_UPPER
+
+      return BULLISH_SLOPE;
+   } 
+   else if( (dynamicMpaSignal > volitilityBandsUpperLevel) && (dynamicMpaSignal > volitilityBandsLowerLevel) ) { //Extreme Bearish - Below DYNAMIC_MPA_LOWER
+   
+      return BEARISH_SLOPE;
+   }
+   
+   return UNKNOWN_SLOPE;       
+}
+
+Cross getDynamicMpaAndVolitilityBandsCross(int dynamicMpaLength, int volitilityLength, bool checkPreviousBarClose, bool checkBothVolitilityBands) {
+  
+   if(latestDynamicMpaAndVolitilityBandsCrossTime == getCurrentTime()) {
+      return latestDynamicMpaAndVolitilityBandsCross;
+   } 
+
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getDynamicMpaAndVolitilityBandsSlope(dynamicMpaLength, volitilityLength, checkBothVolitilityBands, CURRENT_BAR);
+   
+   if(checkPreviousBarClose) {//Check previous(Current, Prev, Prev + 1) - 3 Candles will be involved
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the getDynamicMpaAndVolitilityBandsSlope was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getDynamicMpaAndVolitilityBandsSlope(dynamicMpaLength, volitilityLength, checkBothVolitilityBands, barIndexForOppositeDirectionVerification);
+      
+      //Previous slope
+      Slope slopePrev = getDynamicMpaAndVolitilityBandsSlope(dynamicMpaLength, volitilityLength, checkBothVolitilityBands, getPreviousBarIndex(CURRENT_BAR) );
+
+      //Check if current and previous slopes changed direction      
+      if( ( (slopeCurr == slopePrev) // Current and previous slopes are BULLISH_SLOPE
+            && (slopeForOppositeDirectionVerification != slopeCurr) ))  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         if(slopeCurr == BULLISH_SLOPE) {
+            latestDynamicMpaAndVolitilityBandsCrossTime = getCurrentTime();  
+
+            //Print("CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+            return BULLISH_CROSS;
+         }         
+         else if(slopeCurr == BEARISH_SLOPE) {
+            
+            latestDynamicMpaAndVolitilityBandsCrossTime = getCurrentTime(); 
+            
+            //Print("CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+            return BEARISH_CROSS;
+         }
+         else if(slopeCurr == NEW_BEARISH_SLOPE) { 
+            
+            latestDynamicMpaCrossTime = getCurrentTime(); 
+            
+            //Print("CHANGING DIRECTION to NEW_BEARISH_SLOPE at " + convertCurrentTimeToString());                  
+            return BEARISH_CROSS;         
+         }
+         else if(slopeCurr == NEW_BULLISH_SLOPE) { 
+            
+            latestDynamicMpaCrossTime = getCurrentTime(); 
+            //Print("CHANGING DIRECTION to NEW_BULLISH_SLOPE at " + convertCurrentTimeToString());                  
+            return BULLISH_CROSS;         
+         }                       
+      }   
+   }
+
+   return latestDynamicMpaAndVolitilityBandsCross;        
+}
+Slope getDynamicMpaAndVolitilityBandsSlope(int dynamicMpaLength, int volitilityLength, bool checkBothVolitilityBands, int barIndex) {
+
+   //DIMPA
+   double dynamicMpaSignal = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_SIGNAL, barIndex);
+   double dynamicMpaUpper  = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_UPPER, barIndex);
+   double dynamicMpaLower  = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_LOWER, barIndex);
+   double dynamicMpaMiddle = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_MIDDLE, barIndex);
+   
+   //VOLATILITY_BANDS
+   double volitilityBandsLowerLevel = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, barIndex);
+   double volitilityBandsUpperLevel = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);       
+
+   if(checkBothVolitilityBands) {
+      if( (dynamicMpaUpper < volitilityBandsUpperLevel) && (dynamicMpaUpper < volitilityBandsLowerLevel) ) {//Extreme Bullish - Both VOLATILITY_BANDS above DYNAMIC_MPA_UPPER
+   
+         return BULLISH_SLOPE;
+      } 
+      else if( (dynamicMpaLower > volitilityBandsUpperLevel) && (dynamicMpaLower > volitilityBandsLowerLevel) ) { //Extreme Bearish - Both VOLATILITY_BANDS below DYNAMIC_MPA_LOWER
+      
+         return BEARISH_SLOPE;
+      }//Straight Bullish/Bearish test above
+   }
+   else { //Only check DYNAMIC_MPA_UPPER - BULLISH, or DYNAMIC_MPA_LOWER - BEARISH
+      
+         if( dynamicMpaUpper < volitilityBandsUpperLevel) {//Bullish - DYNAMIC_MPA_UPPER above DYNAMIC_MPA_UPPER
+      
+            return BULLISH_SLOPE;
+         } 
+         else if( dynamicMpaLower > volitilityBandsLowerLevel) { //Bearish - VOLATILITY_BAND_UPPER below DYNAMIC_MPA_LOWER
+            
+            return BEARISH_SLOPE;
+         } 
+         //VOLATILITY_BANDs roaming between DYNAMIC_MPA_LOWER and DYNAMIC_MPA_UPPER - NO USE FOR NOW - 04/08/2018
+         else if( (volitilityBandsUpperLevel < dynamicMpaUpper) && (volitilityBandsLowerLevel > dynamicMpaLower)) { //ALL VOLATILITY_BANDs Between DYNAMIC_MPA_LOWER and DYNAMIC_MPA_UPPER
+         
+            //Here we might have to check the Flat, or Slope?
+            Flatter flatter = getDynamicMpaFlatter(dynamicMpaLength, false); //false = Check last closed bars - secured      
+            if(flatter == BEARISH_FLATTER) {
+               return NEW_BEARISH_SLOPE;
+            }
+            else if(flatter == BULLISH_FLATTER) {
+               return NEW_BULLISH_SLOPE;
+            }      
+            
+         }               
+   }
+   
+ 
+   
+   return UNKNOWN_SLOPE;       
+}
+Slope getDynamicMpaAndVolitilityBandsConsolidationSlope(int dynamicMpaLength, int volitilityLength, int barIndex) {
+
+   //DIMPA
+   double dynamicMpaSignal = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_SIGNAL, barIndex);
+   double dynamicMpaUpper  = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_UPPER, barIndex);
+   double dynamicMpaLower  = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_LOWER, barIndex);
+   double dynamicMpaMiddle = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_MIDDLE, barIndex);
+   
+   //VOLATILITY_BANDS
+   double volitilityBandsLowerLevel = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, barIndex);
+   double volitilityBandsUpperLevel = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);       
+
+   //Consolidation State
+   if( (dynamicMpaUpper < volitilityBandsUpperLevel) && (dynamicMpaUpper > volitilityBandsLowerLevel) ) { // DYNAMIC_MPA_UPPER is between the VOLATILITY_BAND - Consolidation
+      
+      return BULLISH_CONSOLIDATION_SLOPE;
+   }
+   else if( (dynamicMpaLower > volitilityBandsLowerLevel) && (dynamicMpaLower < volitilityBandsUpperLevel) ) { // DYNAMIC_MPA_LOWER is between the VOLATILITY_BAND - Consolidation
+      
+      return BEARISH_CONSOLIDATION_SLOPE;
+   }
+
+   return UNKNOWN_SLOPE;       
+}
+
+/** 
+ * Only check if previous volitilityBandsLevel was outside dynamicMpaLevel and is now inside. 
+ * When this happens, the dynamicMpaLevel should atleast have been flat for current and previous level, getDynamicMpaFlatter(true)
+ */
+Transition getDynamicMpaAndVolitilityBandsReversal(int dynamicMpaLength, int volitilityLength, bool checkCurrentBar, bool checkPreviousVolitilityBandsLevels) {
+
+   Flatter flatter = getDynamicMpaFlatter(20, checkCurrentBar);
+   
+   int barIndex = 0;
+   if(checkCurrentBar) { // Option to check if current bar must be checked. If checkCurrentBar is true, current and the previous bars will be checked, 
+                         // Otherwise the previous 2 bars will checked without checking the current bar - this is more safe as the reversal is comfirmed - but a bit late! 
+      barIndex = CURRENT_BAR;
+   }
+   else {
+   
+      barIndex = CURRENT_BAR + 1;
+   }   
+   
+   int previousBarIndex = getPreviousBarIndex(barIndex);
+   
+   if(flatter == BEARISH_FLATTER) {
+      
+      //DYNAMIC_MPA
+      double dynamicMpaLevelCurr = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_UPPER, barIndex);
+      double dynamicMpaLevelPrev = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_UPPER, previousBarIndex);      
+      
+      //VOLATILITY_BANDS      
+      double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);
+      double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, previousBarIndex);
+      
+      if(checkPreviousVolitilityBandsLevels) { //Check previous VolitilityBandsLevels
+      
+         if( (volitilityBandsLevelPrev > dynamicMpaLevelPrev) && (dynamicMpaLevelCurr > volitilityBandsLevelCurr ) ) {
+            
+            return BULLISH_TO_BEARISH_TRANSITION;
+         }
+      }
+      else {// Dont check previous VolitilityBandsLevels
+         
+         if(dynamicMpaLevelCurr > volitilityBandsLevelCurr) {
+            
+            return BULLISH_TO_BEARISH_TRANSITION;
+         }      
+      }
+      
+   }
+   else if(flatter == BULLISH_FLATTER) { 
+     
+      //DYNAMIC_MPA
+      double dynamicMpaLevelCurr = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_LOWER, barIndex);
+      double dynamicMpaLevelPrev = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_LOWER, previousBarIndex);
+      
+      //VOLATILITY_BANDS      
+      double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, barIndex);
+      double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, previousBarIndex);
+      
+      if(checkPreviousVolitilityBandsLevels) { //Check previous VolitilityBandsLevels
+         
+         if( ( dynamicMpaLevelPrev > volitilityBandsLevelPrev) && (volitilityBandsLevelCurr > dynamicMpaLevelCurr) ) {
+            
+            return BEARISH_TO_BULLISH_TRANSITION;
+         } 
+      } 
+      else { // Dont check previous VolitilityBandsLevels
+         
+         if( volitilityBandsLevelCurr > dynamicMpaLevelCurr ) {
+            
+            return BEARISH_TO_BULLISH_TRANSITION;
+         }       
+      } 
+   }
+   else {
+         
+         //Scan for suddent reversal - A cross of DYNAMIC_MPA and VOLATILITY_BANDS without the DYNAMIC_MPA flattening first
+         
+          /*--BULLISH_TO_BEARISH--*/
+         //DYNAMIC_MPA
+         double dynamicMpaLevelCurr = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_UPPER, barIndex);
+         double dynamicMpaLevelPrev = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_UPPER, previousBarIndex);
+         
+         //VOLATILITY_BANDS      
+         double volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, barIndex);
+         double volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_UPPER, previousBarIndex);
+         
+         if(checkPreviousVolitilityBandsLevels) { //Check previous VolitilityBandsLevels
+            
+            if( (volitilityBandsLevelPrev > dynamicMpaLevelPrev) && (dynamicMpaLevelCurr > volitilityBandsLevelCurr ) ) {
+            
+               return SUDDEN_BULLISH_TO_BEARISH_TRANSITION;
+            }
+         }
+         else { // Dont check previous VolitilityBandsLevels
+            
+            if( dynamicMpaLevelCurr > volitilityBandsLevelCurr ) {
+            
+               return SUDDEN_BULLISH_TO_BEARISH_TRANSITION;
+            }         
+         }
+         
+         /*--BEARISH_TO_BULLISH--*/
+         //DYNAMIC_MPA
+         dynamicMpaLevelCurr = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_LOWER, barIndex);
+         dynamicMpaLevelPrev = getDynamicMpaLevel(dynamicMpaLength, DYNAMIC_MPA_LOWER, previousBarIndex);
+         
+         //VOLATILITY_BANDS      
+         volitilityBandsLevelCurr = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, barIndex);
+         volitilityBandsLevelPrev = getVolitilityBandsLevel(volitilityLength, VOLATILITY_BAND_LOWER, previousBarIndex);
+         
+         if(checkPreviousVolitilityBandsLevels) { //Check previous VolitilityBandsLevels
+            
+            if( ( dynamicMpaLevelPrev > volitilityBandsLevelPrev) && (volitilityBandsLevelCurr > dynamicMpaLevelCurr) ) {
+            
+               return SUDDEN_BEARISH_TO_BULLISH_TRANSITION;
+            } 
+         } 
+         else { // Dont check previous VolitilityBandsLevels
+            if( ( dynamicMpaLevelPrev > volitilityBandsLevelPrev) && (volitilityBandsLevelCurr > dynamicMpaLevelCurr) ) {
+            
+               return SUDDEN_BEARISH_TO_BULLISH_TRANSITION;
+            }         
+         }                
+   }
+   
+   return NO_TRANSITION;
+}
+
+
+Cross getRsiomaBandsCross(int length, bool checkPreviousBarClose) {
+  
+   if(latestRsiomaBandsCrossTime == getCurrentTime()) {
+      return latestRsiomaBandsCross;
+   } 
+
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getRsiomaBandsSlope(length, CURRENT_BAR);
+   
+   if(checkPreviousBarClose) {//Check previous(Current, Prev, Prev + 1) - 3 Candles will be involved
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the getRsiomaBandsSlope was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getRsiomaBandsSlope(length, barIndexForOppositeDirectionVerification);
+      
+      //Previous slope
+      Slope slopePrev = getRsiomaBandsSlope(length, getPreviousBarIndex(CURRENT_BAR) );
+
+      //Check if current and previous slopes changed direction      
+      if( ( (slopeCurr == slopePrev) // Current and previous slopes are BULLISH_SLOPE
+            && (slopeForOppositeDirectionVerification != slopeCurr) ))  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         if(slopeCurr == BULLISH_SLOPE) {
+            latestRsiomaBandsCrossTime = getCurrentTime();  
+
+            Print("CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+            return BULLISH_CROSS;
+         }         
+         else if(slopeCurr == BEARISH_SLOPE) {
+            
+            latestRsiomaBandsCrossTime = getCurrentTime(); 
+            
+            Print("CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+            return BEARISH_CROSS;
+         }             
+      }   
+   }
+
+   return latestRsiomaBandsCross;       
+}
+
+Cross getEftCross(int length, bool checkPreviousBarClose) {
+  
+   if(latestEftCrossTime == getCurrentTime()) {
+      return latestEftCross;
+   } 
+
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getEftSlope(length, CURRENT_BAR);
+   
+   if(checkPreviousBarClose) {//Check previous(Current, Prev, Prev + 1) - 3 Candles will be involved
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the getEftSlope was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getEftSlope(length, barIndexForOppositeDirectionVerification);
+      
+      //Previous slope
+      Slope slopePrev = getEftSlope(length, getPreviousBarIndex(CURRENT_BAR) );
+      //Check if current and previous slopes changed direction      
+      if( ( (slopeCurr == slopePrev) // Current and previous slopes are BULLISH_SLOPE
+            && (slopeForOppositeDirectionVerification != slopeCurr) ))  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         if(slopeCurr == BULLISH_SLOPE) {
+            
+            latestEftCrossTime = getCurrentTime();  
+
+            Print("CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+            return BULLISH_CROSS;
+         }         
+         else if(slopeCurr == BEARISH_SLOPE) {
+            
+            latestEftCrossTime = getCurrentTime(); 
+            
+            Print("CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+            return BEARISH_CROSS;
+         }             
+      }   
+   }
+   else {
+      
+      barIndexForOppositeDirectionVerification = getPastBars(1);
+      
+      //To verify the getEftSlope was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getEftSlope(length, barIndexForOppositeDirectionVerification);
+              
+      if( slopeForOppositeDirectionVerification != slopeCurr ) {
+
+         if(slopeCurr == BULLISH_SLOPE) {
+            
+            latestEftCrossTime = getCurrentTime();  
+
+            Print("CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+            return BULLISH_CROSS;
+         }         
+         else if(slopeCurr == BEARISH_SLOPE) {
+            
+            latestEftCrossTime = getCurrentTime(); 
+            
+            Print("CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+            return BEARISH_CROSS;
+         }             
+      }   
+   }   
+
+   return latestQuantileDssCross;       
+}
+
+
+Cross getQuantileDssCross(int length, int emaPeriod, int quanPeriod, bool checkPreviousBarClose, int barIndex) {
+  
+   if(latestQuantileDssCrossTime == getCurrentTime()) {
+      return latestQuantileDssCross;
+   } 
+
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getQuantileDssSlope(length, emaPeriod, quanPeriod, CURRENT_BAR);
+   
+   if(checkPreviousBarClose) {//Check previous(Current, Prev, Prev + 1) - 3 Candles will be involved
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the getQuantileDssSlope was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getQuantileDssSlope(length, emaPeriod, quanPeriod, barIndexForOppositeDirectionVerification);
+      
+      //Previous slope
+      Slope slopePrev = getQuantileDssSlope(length, emaPeriod, quanPeriod, getPreviousBarIndex(CURRENT_BAR) );
+      //Check if current and previous slopes changed direction      
+      if( ( (slopeCurr == slopePrev) // Current and previous slopes are BULLISH_SLOPE
+            && (slopeForOppositeDirectionVerification != slopeCurr) ))  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         if(slopeCurr == BULLISH_SLOPE) {
+            latestQuantileDssCrossTime = getCurrentTime();  
+
+            Print("CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+            return BULLISH_CROSS;
+         }         
+         else if(slopeCurr == BEARISH_SLOPE) {
+            
+            latestQuantileDssCrossTime = getCurrentTime(); 
+            
+            Print("CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+            return BEARISH_CROSS;
+         }             
+      }   
+   }
+   else {
+      
+      barIndexForOppositeDirectionVerification = getPastBars(1);
+      
+      //To verify the getQuantileDssSlope was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getQuantileDssSlope(length, emaPeriod, quanPeriod, barIndexForOppositeDirectionVerification);
+           
+      if( slopeForOppositeDirectionVerification != slopeCurr ) {
+         
+         if(slopeCurr == BULLISH_SLOPE) {
+            latestQuantileDssCrossTime = getCurrentTime();  
+
+            Print("CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+            return BULLISH_CROSS;
+         }         
+         else if(slopeCurr == BEARISH_SLOPE) {
+            
+            latestQuantileDssCrossTime = getCurrentTime(); 
+            
+            Print("CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+            return BEARISH_CROSS;
+         }             
+      }   
+   }   
+
+   return latestQuantileDssCross;       
+}
+
+/**
+ * All crosses must be verified - The pair(SOMAT3 and NON_LINEAR_KALMAN) must have been heading to the opposite direction of the cross before the cross happens.
+ */
+Cross getSomat3AndNonLinearKalmanCross(int nonLinearKalmanLength,  bool checkNonLinearKalmanSlope, bool checkPreviousBarClose) {
+
+   Print("In getSomat3AndNonLinearKalmanCross");
+   if(latestSomat3AndNonLinearKalmanCrossTime == getCurrentTime()) {
+      return latestSomat3AndNonLinearKalmanCross;
+   } 
+
+   int barIndexForOppositeDirectionVerification = -1;
+   Slope slopeForOppositeDirectionVerification  = UNKNOWN_SLOPE;
+   Slope slopeCurr = getSomat3AndNonLinearKalmanSlope(nonLinearKalmanLength, checkNonLinearKalmanSlope, CURRENT_BAR);
+   
+   if(checkPreviousBarClose) {//Check previous(Current, Prev, Prev + 1) - 3 Candles will be involved
+      
+      barIndexForOppositeDirectionVerification = getPastBars(2);
+      
+      //To verify the pair(SOMAT3 and NON_LINEAR_KALMAN) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getSomat3AndNonLinearKalmanSlope(nonLinearKalmanLength, checkNonLinearKalmanSlope, barIndexForOppositeDirectionVerification);
+      
+      //Previous slope
+      Slope slopePrev = getSomat3AndNonLinearKalmanSlope(nonLinearKalmanLength, checkNonLinearKalmanSlope, getPreviousBarIndex(CURRENT_BAR));
+
+      //Check if current and previous slopes changed direction           
+      if( ( (slopeCurr == slopePrev) // Current and previous slopes are BULLISH_SLOPE
+            && (slopeForOppositeDirectionVerification != slopeCurr) ))  // Last 2 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+         if(slopeCurr == BULLISH_SLOPE) {
+            
+            latestSomat3AndNonLinearKalmanCross = BULLISH_CROSS; 
+            latestSomat3AndNonLinearKalmanCrossTime = getCurrentTime(); 
+             
+
+            Print("PREV BAR: CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+            return BULLISH_CROSS;
+         }         
+         else if(slopeCurr == BEARISH_SLOPE) {
+            
+            latestSomat3AndNonLinearKalmanCross = BEARISH_CROSS; 
+            latestSomat3AndNonLinearKalmanCrossTime = getCurrentTime(); 
+            
+            Print("PREV BAR: CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+            return BEARISH_CROSS;
+         }                            
+      }     
+   }
+   else {
+   
+      barIndexForOppositeDirectionVerification = getPastBars(1);
+      
+      //To verify the pair(SOMAT3 and NON_LINEAR_KALMAN) was heading to the opposite direction
+      slopeForOppositeDirectionVerification = getSomat3AndNonLinearKalmanSlope(nonLinearKalmanLength, checkNonLinearKalmanSlope, barIndexForOppositeDirectionVerification);
+      
+      //Check if current slope changed direction      
+      if( ( (slopeForOppositeDirectionVerification != slopeCurr) ))  // Last 1 bar index's should have been BEARISH_SLOPE to validate a BULLISH_CROSS
+            {
+         
+            if(slopeCurr == BULLISH_SLOPE) {
+               
+               latestSomat3AndNonLinearKalmanCross = BULLISH_CROSS; 
+               latestSomat3AndNonLinearKalmanCrossTime = getCurrentTime(); 
+   
+               Print("CURRENT BAR: CHANGING DIRECTION BULLISH_CROSS at " + convertCurrentTimeToString());                 
+               return BULLISH_CROSS;
+            }         
+            else if(slopeCurr == BEARISH_SLOPE) {
+               
+               latestSomat3AndNonLinearKalmanCross = BEARISH_CROSS; 
+               latestSomat3AndNonLinearKalmanCrossTime = getCurrentTime(); 
+               
+               Print("CURRENT BAR: CHANGING DIRECTION to BEARISH_CROSS at " + convertCurrentTimeToString());                  
+               return BEARISH_CROSS;
+            }                       
+      }              
+   
+   }
+
+   return UNKNOWN_CROSS;      
+}
 Slope getSomat3AndNonLinearKalmanSlope(int nonLinearKalmanLength, bool checkNonLinearKalmanSlope, int barIndex) {
 
-   double somat3Level  = getSomat3Level(SOMAT3_BULLISH_MAIN, barIndex);
+   double somat3Level  = getSomat3Level(SOMAT3_MAIN, barIndex);
    double nonLinearKalmanLevel  = getNonLinearKalmanLevel(nonLinearKalmanLength, NON_LINEAR_KALMAN_MAIN, barIndex);   
 
    if(somat3Level < nonLinearKalmanLevel) {
@@ -6715,6 +9087,68 @@ Slope getSomat3AndNonLinearKalmanSlope(int nonLinearKalmanLength, bool checkNonL
       if(checkNonLinearKalmanSlope) { // More strick if checkNonLinearKalmanSlope==true
          
          return getNonLinearKalmanSlope(nonLinearKalmanLength, barIndex);
+      }
+      else {
+         
+         return BEARISH_SLOPE;
+      }
+   }
+
+   return UNKNOWN_SLOPE;      
+}
+
+Slope getSomat3AndHullMaSlope(int hullMaLength, bool checkHullMaSlope, int barIndex) {
+
+   double somat3Level  = getSomat3Level(SOMAT3_MAIN, barIndex);
+   double hullMaLevel  = getHullMaLevel(hullMaLength, HULL_MA_MAIN_VALUE, barIndex);  
+
+   if(somat3Level < hullMaLevel) {
+
+      if(checkHullMaSlope) { // More strict if checkHullMaSlope==true
+         
+         return getHullMaSlope(hullMaLength, barIndex);
+      }
+      else {
+         
+         return BULLISH_SLOPE;
+      }   
+   }
+   else if(somat3Level > hullMaLevel) {
+   
+      if(checkHullMaSlope) { // More strict if checkHullMaSlope==true
+         
+         return getHullMaSlope(hullMaLength, barIndex);
+      }
+      else {
+         
+         return BEARISH_SLOPE;
+      }
+   }
+
+   return UNKNOWN_SLOPE;      
+}
+
+Slope getSomat3AndJurikFilterSlope(int jurikFilterLength, bool checkJurikFilterSlope, int barIndex) {
+
+   double somat3Level  = getSomat3Level(SOMAT3_MAIN, barIndex);
+   double jurikFilterLevel  = getJurikFilterLevel(jurikFilterLength, JURIK_FILTER_MAIN_VALUE, barIndex);  
+
+   if(somat3Level < jurikFilterLevel) {
+
+      if(checkJurikFilterSlope) { // More strict if checkJurikFilterSlope==true
+         
+         return getJurikFilterSlope(jurikFilterLength, barIndex);
+      }
+      else {
+         
+         return BULLISH_SLOPE;
+      }   
+   }
+   else if(somat3Level > jurikFilterLevel) {
+   
+      if(checkJurikFilterSlope) { // More strict if checkJurikFilterSlope==true
+         
+         return getJurikFilterSlope(jurikFilterLength, barIndex);
       }
       else {
          
@@ -6785,7 +9219,7 @@ Cross getSomat3AndVolitilityBandsCross(int volitilityBandsLength,  bool checkPre
 }
 Slope getSomat3AndVolitilityBandsSlope(int volitilityBandsLength, int barIndex) {
 
-   double somat3Level  = getSomat3Level(SOMAT3_BULLISH_MAIN, barIndex);
+   double somat3Level  = getSomat3Level(SOMAT3_MAIN, barIndex);
    double volitilityBandsLowerLevel  = getVolitilityBandsLevel(volitilityBandsLength, VOLATILITY_BAND_LOWER, barIndex);   
    double volitilityBandsUpperLevel  = getVolitilityBandsLevel(volitilityBandsLength, VOLATILITY_BAND_UPPER, barIndex);   
                                   
@@ -6894,40 +9328,6 @@ Slope getNonLinearKalmanAndVolitilityBandsSlope(int nonLinearKalmanLength, int v
    return UNKNOWN_SLOPE;    
 }
 
-Reversal getDynamicPriceZonesAndSomat3Reversal() {
-
-   Trend trend = getDynamicPriceZonesTrend();   
-   if( trend == BULLISH_TREND ) {
-      
-      //DYNAMIC_PRICE_ZONE
-      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, CURRENT_BAR + 1);
-      
-      //SOMAT3
-      double somatLevel = getSomat3Level(SOMAT3_BULLISH_MAIN, CURRENT_BAR + 1);
-      
-      if( (somatLevel > zoneLevelPrev)) {
-         
-         return BEARISH_REVERSAL;
-      }
-      
-   }
-   else if( trend == BEARISH_TREND ) {
-      
-      //DYNAMIC_PRICE_ZONE
-      double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, CURRENT_BAR + 1);
-      
-      //SOMAT3
-      double somatLevel = getSomat3Level(SOMAT3_BULLISH_MAIN, CURRENT_BAR + 1);
-      
-      if( (zoneLevelPrev > somatLevel)) {
-         
-         return BULLISH_REVERSAL;
-      }      
-   }
-   
-   return CONTINUATION;      
-}
-
 Reversal getDynamicPriceZonesAndNonLinearKalmanBandsReversal(int nonLinearKalmanBandLength) {
 
    Trend trend = getDynamicPriceZonesTrend();   
@@ -6941,7 +9341,7 @@ Reversal getDynamicPriceZonesAndNonLinearKalmanBandsReversal(int nonLinearKalman
       
       if( ( ( latestNonLinearKalmanBandsReversal != BEARISH_REVERSAL) && (nonLinearKalmanBandsLevel > zoneLevelPrev) ) ) {
          
-         latestNonLinearKalmanBandsReversalTime = Time[CURRENT_BAR];
+         latestNonLinearKalmanBandsReversalTime = getCurrentTime();
          latestNonLinearKalmanBandsReversal = BEARISH_REVERSAL;
          return BEARISH_REVERSAL;
       }
@@ -6957,7 +9357,7 @@ Reversal getDynamicPriceZonesAndNonLinearKalmanBandsReversal(int nonLinearKalman
       
       if( ( (latestNonLinearKalmanBandsReversal != BULLISH_REVERSAL) && (zoneLevelPrev > nonLinearKalmanBandsLevel) )) {
          
-         latestNonLinearKalmanBandsReversalTime = Time[CURRENT_BAR];
+         latestNonLinearKalmanBandsReversalTime = getCurrentTime();
          latestNonLinearKalmanBandsReversal = BULLISH_REVERSAL;
          return BULLISH_REVERSAL;
       }      
@@ -7000,40 +9400,6 @@ Reversal getDynamicPriceZonesAndVolitilityBandsReversal(int volitilityLength, in
    return CONTINUATION;      
 }
 
-Reversal getDynamicPriceZonesAndSomat3Reversal(int barIndex) {
-
-   Trend trend = getDynamicPriceZonesTrend();   
-   if( trend == BULLISH_TREND ) {
-      
-      //DYNAMIC_PRICE_ZONE
-      double zoneLevel  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, barIndex);
-      
-      //SOMAT3
-      double somatLevel = getSomat3Level(SOMAT3_BULLISH_MAIN, barIndex);
-      
-      if( (somatLevel > zoneLevel)) {
-         
-         return BEARISH_REVERSAL;
-      }
-      
-   }
-   else if( trend == BEARISH_TREND ) {
-      
-      //DYNAMIC_PRICE_ZONE
-      double zoneLevel  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, barIndex);
-      
-      //SOMAT3
-      double somatLevel = getSomat3Level(SOMAT3_BULLISH_MAIN, barIndex);
-      
-      if( (zoneLevel > somatLevel)) {
-         
-         return BULLISH_REVERSAL;
-      }      
-   }
-   
-   return CONTINUATION;      
-}
-
 Reversal getDynamicPriceZonesAndHullMaReversal(int length, int barIndex) {
 
    Trend trend = getDynamicPriceZonesTrend();   
@@ -7043,7 +9409,7 @@ Reversal getDynamicPriceZonesAndHullMaReversal(int length, int barIndex) {
       double zoneLevel  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, barIndex);
       
       //HULL_MA
-      double maLevel = getHullMaLevel(length, LINEAR_MA_BULLISH_VALUE, barIndex);
+      double maLevel = getHullMaLevel(length, HULL_MA_MAIN_VALUE, barIndex);
       
       if( (maLevel > zoneLevel)) {
          
@@ -7057,7 +9423,7 @@ Reversal getDynamicPriceZonesAndHullMaReversal(int length, int barIndex) {
       double zoneLevel  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_LOWER_LEVEL, barIndex);
       
       //HULL_MA
-      double maLevel = getHullMaLevel(length, LINEAR_MA_BULLISH_VALUE, barIndex);
+      double maLevel = getHullMaLevel(length, HULL_MA_MAIN_VALUE, barIndex);
       
       if( (zoneLevel > maLevel)) {
          
@@ -7148,31 +9514,6 @@ Reversal getDynamicPriceZonesAndDonchianChannelReversal() {
 }
 /** END REVERSAL DETECTIONS */
 
-
-string getTime(int barIndex){
-   return (string)iTime(Symbol(), CURRENT_TIMEFRAME, barIndex);
-}
-
-string getCurrentTime(){
-   return (string)iTime(Symbol(), CURRENT_TIMEFRAME, 0);
-}
-
-/**
- * This is just to avoid working with numeric directly
- */
-int getPastBars(int barIndex){
-   return (barIndex);
-}
-
-int getPreviousBarIndex(int barIndex){
-   return (barIndex + 1);
-}
-
-
-double getPreviousPriceClose(int barIndex){
-   return iClose(Symbol(), CURRENT_TIMEFRAME, barIndex);
-}
-
 /** START STRATEGIES */
 Signal getDynamicPriceZonesAndDynamicMpaAndVolitilityBandsSignal(int length, int barIndex) { 
 
@@ -7182,7 +9523,7 @@ Signal getDynamicPriceZonesAndDynamicMpaAndVolitilityBandsSignal(int length, int
       //DYNAMIC_PRICE_ZONE
       double zoneLevelPrev  = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_UPPER_LEVEL, barIndex);
       //DYNAMIC_MPA
-      double dynamicMpaLevel   = getDynamicMpaLevel(length, DYNAMIC_MPA_MAIN, barIndex);
+      double dynamicMpaLevel   = getDynamicMpaLevel(length, DYNAMIC_MPA_UPPER, barIndex);
       
       if( (dynamicMpaLevel > zoneLevelPrev) ) {
          
@@ -7329,15 +9670,15 @@ Trend getDynamicPriceZonesAndMainStochTrend(bool checkPreviousBar) {
 
 void getDynamicPriceZonesAndJurikFilterReversalTest() {
 
-   Reversal rev = getDynamicPriceZonesAndJurikFilterReversal();
+   Reversal rev = getDynamicPriceZonesAndJurikFilterReversal(15);
    
    if(rev == BEARISH_REVERSAL) {
    
       if(latestSignal != SELL_SIGNAL) {
          
          latestSignal = SELL_SIGNAL;
-         latestSignalTime = Time[CURRENT_BAR];
-         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestSignalTime = getCurrentTime();
+         Print("BEARISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }    
       
    }
@@ -7346,36 +9687,12 @@ void getDynamicPriceZonesAndJurikFilterReversalTest() {
       if( latestSignal != BUY_SIGNAL ) {      
          
          latestSignal = BUY_SIGNAL;
-         latestSignalTime = Time[CURRENT_BAR];
-         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestSignalTime = getCurrentTime();
+         Print("BULLISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }
    }   
 }
 
-void getDynamicPriceZonesAndSomat3ReversalTest() {
-
-   Reversal rev = getDynamicPriceZonesAndSomat3Reversal();
-   
-   if(rev == BEARISH_REVERSAL) {
-   
-      if(latestSignal != SELL_SIGNAL) {
-         
-         latestSignal = SELL_SIGNAL;
-         latestSignalTime = Time[CURRENT_BAR];
-         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
-      }    
-      
-   }
-   else if(rev == BULLISH_REVERSAL) {
-      
-      if( latestSignal != BUY_SIGNAL ) {      
-         
-         latestSignal = BUY_SIGNAL;
-         latestSignalTime = Time[CURRENT_BAR];
-         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
-      }
-   }   
-}
 
 void getDynamicPriceZonesAndLinearMaReversalTest() {
 
@@ -7386,8 +9703,8 @@ void getDynamicPriceZonesAndLinearMaReversalTest() {
       if(latestSignal != SELL_SIGNAL) {
          
          latestSignal = SELL_SIGNAL;
-         latestSignalTime = Time[CURRENT_BAR];
-         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestSignalTime = getCurrentTime();
+         Print("BEARISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }    
       
    }
@@ -7396,8 +9713,8 @@ void getDynamicPriceZonesAndLinearMaReversalTest() {
       if( latestSignal != BUY_SIGNAL ) {      
          
          latestSignal = BUY_SIGNAL;
-         latestSignalTime = Time[CURRENT_BAR];
-         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestSignalTime = getCurrentTime();
+         Print("BULLISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }
    }   
 }
@@ -7411,8 +9728,8 @@ void getDynamicPriceZonesAndHullMaReversalTest() {
       if(latestSignal != SELL_SIGNAL) {
          
          latestSignal = SELL_SIGNAL;
-         latestSignalTime = Time[CURRENT_BAR];
-         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestSignalTime = getCurrentTime();
+         Print("BEARISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }    
       
    }
@@ -7421,8 +9738,8 @@ void getDynamicPriceZonesAndHullMaReversalTest() {
       if( latestSignal != BUY_SIGNAL ) {      
          
          latestSignal = BUY_SIGNAL;
-         latestSignalTime = Time[CURRENT_BAR];
-         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestSignalTime = getCurrentTime();
+         Print("BULLISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }
    }   
 }
@@ -7433,15 +9750,15 @@ void getDynamicMpaReversalTest() {
    
    if(flatter == BEARISH_FLATTER) {
    
-      if(latestDynamicMpaFlatterTime == Time[CURRENT_BAR]) {
-         Print("BEARISH FLATTER at: " + getCurrentTime());
+      if(latestDynamicMpaFlatterTime == getCurrentTime()) {
+         Print("BEARISH FLATTER at: " + convertCurrentTimeToString());
       }    
       
    }
    else if(flatter == BULLISH_FLATTER) {
       //Print("BULLISH_FLATTER");
-      if(latestDynamicMpaFlatterTime == Time[CURRENT_BAR]) {
-         Print("BULLISH FLATTER at: " + getCurrentTime());
+      if(latestDynamicMpaFlatterTime == getCurrentTime()) {
+         Print("BULLISH FLATTER at: " + convertCurrentTimeToString());
       } 
    }     
 }
@@ -7454,14 +9771,14 @@ void getDynamicOfAveragesReversalTest() {
    
       if(latestDynamicOfAveragesFlatter != BEARISH_FLATTER) {
          
-         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+         Print("BEARISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }          
    }
    else if(flatter == BULLISH_FLATTER) {
       
       if( latestDynamicOfAveragesFlatter != BULLISH_FLATTER ) {      
 
-         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+         Print("BULLISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }
    }  
 }
@@ -7475,8 +9792,8 @@ void getMainStochReversalTest() {
       if(latestSignal != SELL_SIGNAL) {
          
          latestSignal = SELL_SIGNAL;
-         latestSignalTime = Time[CURRENT_BAR];
-         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestSignalTime = getCurrentTime();
+         Print("BEARISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }    
       
    }
@@ -7485,8 +9802,8 @@ void getMainStochReversalTest() {
       if( latestSignal != BUY_SIGNAL ) {      
          
          latestSignal = BUY_SIGNAL;
-         latestSignalTime = Time[CURRENT_BAR];
-         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestSignalTime = getCurrentTime();
+         Print("BULLISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }
    }  
 }
@@ -7500,8 +9817,8 @@ void getDimpaAndSomat3ReversalTest() {
       if(latestSignal != SELL_SIGNAL) {
          
          latestSignal = SELL_SIGNAL;
-         latestSignalTime = Time[CURRENT_BAR];
-         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestSignalTime = getCurrentTime();
+         Print("BEARISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }    
       
    }
@@ -7510,8 +9827,8 @@ void getDimpaAndSomat3ReversalTest() {
       if( latestSignal != BUY_SIGNAL ) {      
          
          latestSignal = BUY_SIGNAL;
-         latestSignalTime = Time[CURRENT_BAR];
-         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestSignalTime = getCurrentTime();
+         Print("BULLISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }
    }   
 }
@@ -7525,8 +9842,8 @@ void getDynamicPriceZonesAndVolitilityBandsReversalTest() {
       if(latestSignal != SELL_SIGNAL) {
          
          latestSignal = SELL_SIGNAL;
-         latestSignalTime = Time[CURRENT_BAR];
-         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestSignalTime = getCurrentTime();
+         Print("BEARISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }    
       
    }
@@ -7535,8 +9852,8 @@ void getDynamicPriceZonesAndVolitilityBandsReversalTest() {
       if( latestSignal != BUY_SIGNAL ) {      
          
          latestSignal = BUY_SIGNAL;
-         latestSignalTime = Time[CURRENT_BAR];
-         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestSignalTime = getCurrentTime();
+         Print("BULLISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }
    }   
 }
@@ -7547,21 +9864,21 @@ void getDynamicPriceZonesAndMlsBandsReversalTest() {
    
    if(rev == BEARISH_REVERSAL) {
    
-      if(latestMlsBandsSignalTime != Time[CURRENT_BAR]) {
+      if(latestMlsBandsSignalTime != getCurrentTime()) {
          
          latestMlsBandsSignal = SELL_SIGNAL;
-         latestMlsBandsSignalTime = Time[CURRENT_BAR];
-         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestMlsBandsSignalTime = getCurrentTime();
+         Print("BEARISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }    
       
    }
    else if(rev == BULLISH_REVERSAL) {
       
-      if( latestMlsBandsSignalTime != Time[CURRENT_BAR] ) {      
+      if( latestMlsBandsSignalTime != getCurrentTime() ) {      
          
          latestMlsBandsSignal = BUY_SIGNAL;
-         latestMlsBandsSignalTime = Time[CURRENT_BAR];
-         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestMlsBandsSignalTime = getCurrentTime();
+         Print("BULLISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }
    }   
 }
@@ -7572,21 +9889,21 @@ void getDynamicPriceZonesAndSrBandsReversalTest() {
    
    if(rev == BEARISH_REVERSAL) {
    
-      if(latestSrBandsSignalTime != Time[CURRENT_BAR]) {
+      if(latestSrBandsSignalTime != getCurrentTime()) {
          
          latestSrBandsSignal = SELL_SIGNAL;
-         latestSrBandsSignalTime = Time[CURRENT_BAR];
-         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestSrBandsSignalTime = getCurrentTime();
+         Print("BEARISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }    
       
    }
    else if(rev == BULLISH_REVERSAL) {
       
-      if( latestSrBandsSignalTime != Time[CURRENT_BAR] ) {      
+      if( latestSrBandsSignalTime != getCurrentTime() ) {      
          
          latestSrBandsSignal = BUY_SIGNAL;
-         latestSrBandsSignalTime = Time[CURRENT_BAR];
-         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+         latestSrBandsSignalTime = getCurrentTime();
+         Print("BULLISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
       }
    }   
 }
@@ -7601,17 +9918,17 @@ void getJurikFilterSlopeTest(){
    //double upper = getSmoothedDigitalFilterLevel(2, 0);
    //double lower = getSmoothedDigitalFilterLevel(3, 0);
    
-   Slope slope = getJurikFilterSlope(CURRENT_BAR + 1);
+   Slope slope = getJurikFilterSlope(15, CURRENT_BAR + 1);
    
    if( (slope == BULLISH_SLOPE) && (latestJurikSlope != BULLISH_SLOPE) ) {
       
       latestJurikSlope = BULLISH_SLOPE;
-      Print("BULLISH SLOPE " + getCurrentTime());
+      Print("BULLISH SLOPE " + convertCurrentTimeToString());
    }
    else if( (slope == BEARISH_SLOPE) && (latestJurikSlope != BEARISH_SLOPE)) {
       
       latestJurikSlope = BEARISH_SLOPE;
-      Print("BEARISH SLOPE " + getCurrentTime());
+      Print("BEARISH SLOPE " + convertCurrentTimeToString());
    }
 }
 
@@ -7625,12 +9942,12 @@ void getHullMaSlopeTest(){
    if( (slope == BULLISH_SLOPE) && (latestHmaSlope != BULLISH_SLOPE) ) {
       
       latestHmaSlope = BULLISH_SLOPE;
-      //Print("BULLISH SLOPE " + getCurrentTime());
+      //Print("BULLISH SLOPE " + convertCurrentTimeToString());
    }
    else if( (slope == BEARISH_SLOPE) && (latestHmaSlope != BEARISH_SLOPE)) {
       
       latestHmaSlope = BEARISH_SLOPE;
-      //Print("BEARISH SLOPE " + getCurrentTime());
+      //Print("BEARISH SLOPE " + convertCurrentTimeToString());
    }
 }
 
@@ -7663,10 +9980,10 @@ void getT3OuterBandsReversalTest() {
    Reversal rev = getT3OuterBandsReversal(true);
    
    if(rev == BEARISH_REVERSAL) {
-         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+         Print("BEARISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
    }
    else if(rev == BULLISH_REVERSAL) {
-      Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+      Print("BULLISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
    }   
 }
 
@@ -7675,10 +9992,10 @@ void getT3CrossSignalTest() {
    Signal signal = getT3CrossSignal(true);
    
    if(signal == BUY_SIGNAL) {
-         Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+         Print("BULLISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
    }
    else if(signal == SELL_SIGNAL) {
-      Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+      Print("BEARISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
    }   
 }
 
@@ -7687,10 +10004,10 @@ void getJmaBandsLevelCrossReversalTest() {
    Reversal rev = getJmaBandsLevelCrossReversal();
    
    if(rev == BEARISH_REVERSAL) {
-         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+         Print("BEARISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
    }
    else if(rev == BULLISH_REVERSAL) {
-      Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+      Print("BULLISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
    }  
 }
 
@@ -7699,10 +10016,10 @@ void getDynamicPriceZonesandJmaBandsReversalTest() {
    Reversal rev = getDynamicPriceZonesandJmaBandsReversal(CURRENT_BAR);
    
    if(rev == BEARISH_REVERSAL) {
-         Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+         Print("BEARISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
    }
    else if(rev == BULLISH_REVERSAL) {
-      Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+      Print("BULLISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
    }  
 }
 
@@ -7736,17 +10053,17 @@ void getDynamicOfAveragesShortTermTrendTest() {
    Trend trend = getDynamicOfAveragesShortTermTrend(20);
    
    if(trend == BULLISH_SHORT_TERM_TREND) {
-      Print("In a BULLISH_SHORT_TERM_TREND MODE at " + getCurrentTime() );
+      Print("In a BULLISH_SHORT_TERM_TREND MODE at " + convertCurrentTimeToString() );
    }
    else if(trend == BEARISH_SHORT_TERM_TREND) {
-      Print("In a BEARISH_SHORT_TERM_TREND MODE at " + getCurrentTime() );
+      Print("In a BEARISH_SHORT_TERM_TREND MODE at " + convertCurrentTimeToString() );
    }  
 }
 
 //This is concrete - Uses previous close of VolitilityBands. A bit late - needs to be optimised
 void getDynamicMpaAndVolitilityBandsReversalTest() {
 
-   if(latestTransitionTime != Time[CURRENT_BAR]) { //Allow only 1 signal per candle
+   if(latestTransitionTime != getCurrentTime()) { //Allow only 1 signal per candle
      
       Transition transition = getDynamicMpaAndVolitilityBandsReversal(20, 20, false, true);
       
@@ -7754,34 +10071,34 @@ void getDynamicMpaAndVolitilityBandsReversalTest() {
       
          if(latestTransition != BULLISH_TO_BEARISH_TRANSITION) {
             
-            latestTransitionTime = Time[CURRENT_BAR];
+            latestTransitionTime = getCurrentTime();
             latestTransition = BULLISH_TO_BEARISH_TRANSITION;
-            Print("BULLISH_TO_BEARISH_TRANSITION at: " + getCurrentTime());
+            Print("BULLISH_TO_BEARISH_TRANSITION at: " + convertCurrentTimeToString());
          }          
       }
       else if(transition == BEARISH_TO_BULLISH_TRANSITION) {
          
          if( latestTransition != BEARISH_TO_BULLISH_TRANSITION ) {      
             
-            latestTransitionTime = Time[CURRENT_BAR];
+            latestTransitionTime = getCurrentTime();
             latestTransition = BEARISH_TO_BULLISH_TRANSITION;
-            Print("BEARISH_TO_BULLISH_TRANSITION at: " + getCurrentTime());
+            Print("BEARISH_TO_BULLISH_TRANSITION at: " + convertCurrentTimeToString());
          }
       }
       else if(transition == SUDDEN_BULLISH_TO_BEARISH_TRANSITION) {
          if( latestTransition != SUDDEN_BULLISH_TO_BEARISH_TRANSITION ) {      
             
-            latestTransitionTime = Time[CURRENT_BAR];
+            latestTransitionTime = getCurrentTime();
             latestTransition = SUDDEN_BULLISH_TO_BEARISH_TRANSITION;
-            Print("SUDDEN_BULLISH_TO_BEARISH_TRANSITION at: " + getCurrentTime());
+            Print("SUDDEN_BULLISH_TO_BEARISH_TRANSITION at: " + convertCurrentTimeToString());
          }   
       }
       else if(transition == SUDDEN_BEARISH_TO_BULLISH_TRANSITION) {
          if( latestTransition != SUDDEN_BEARISH_TO_BULLISH_TRANSITION ) {      
             
-            latestTransitionTime = Time[CURRENT_BAR];
+            latestTransitionTime = getCurrentTime();
             latestTransition = SUDDEN_BEARISH_TO_BULLISH_TRANSITION;
-            Print("SUDDEN_BEARISH_TO_BULLISH_TRANSITION at: " + getCurrentTime());
+            Print("SUDDEN_BEARISH_TO_BULLISH_TRANSITION at: " + convertCurrentTimeToString());
          }   
       }
    }   
@@ -7793,49 +10110,25 @@ void getDynamicPriceZonesAndNonLinearKalmanBandsReversalTest() {
    Reversal rev = getDynamicPriceZonesAndNonLinearKalmanBandsReversal(15); 
    
    if(rev == BEARISH_REVERSAL) {   
-      Print("BEARISH REVERSAL SIGNAL at: " + getCurrentTime());
+      Print("BEARISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
    }
    else if(rev == BULLISH_REVERSAL) {
-      Print("BULLISH REVERSAL SIGNAL at: " + getCurrentTime());
+      Print("BULLISH REVERSAL SIGNAL at: " + convertCurrentTimeToString());
    }   
 }
 
-void invalidateNonLinearKalmanBandsReversal(int nonLinearKalmanBandLength) {
-
-   if(latestNonLinearKalmanBandsReversal == BEARISH_REVERSAL) {
-   
-      double dynamicPriceZonesLevel    = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL, CURRENT_BAR);
-      //If the NON_LINEAR_KALMAN_BANDS_LOWER crosses down the DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL - we can no longer call this a BEARISH_REVERSAL.
-      double nonLinearKalmanBandsLevel = getNonLinearKalmanBandsLevel(nonLinearKalmanBandLength, NON_LINEAR_KALMAN_BANDS_LOWER, CURRENT_BAR);
-      if( dynamicPriceZonesLevel > nonLinearKalmanBandsLevel) {
-         
-         latestNonLinearKalmanBandsReversal = UNKNOWN;
-      } 
-   }
-   
-   if( latestNonLinearKalmanBandsReversal == BULLISH_REVERSAL ) {      
-         
-      double dynamicPriceZonesLevel    = getDynamicPriceZonesLevel(DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL, CURRENT_BAR);
-      //If the NON_LINEAR_KALMAN_BANDS_UPPER crosses up the DYNAMIC_PRICE_ZONE_MIDDLE_LEVEL - we can no longer call this a BULLISH_REVERSAL.    
-      double nonLinearKalmanBandsLevel = getNonLinearKalmanBandsLevel(nonLinearKalmanBandLength, NON_LINEAR_KALMAN_BANDS_UPPER, CURRENT_BAR); 
-      if( dynamicPriceZonesLevel < nonLinearKalmanBandsLevel) {
-         
-         latestNonLinearKalmanBandsReversal = UNKNOWN;
-      }       
-   }   
-}
 
 //LATEST TESTS
 void getDynamicMpaAndNonLinearKalmanBandsCrossTest() {
 
    //Use 15 for getDynamicPriceZonesAndNonLinearKalmanBandsReversal and 20 Dimpa getDynamicMpaAndNonLinearKalmanBandsCross
-   Cross cross = getDynamicMpaAndNonLinearKalmanBandsCross(20, 20, CURRENT_BAR + 1); 
+   Cross cross = getDynamicMpaAndNonLinearKalmanBandsCross(20, 20, true, CURRENT_BAR + 1); 
    
    if(cross == BEARISH_CROSS) {
    
       if(latestDynamicMpaAndNonLinearKalmanBandsCross != BEARISH_CROSS) {
          
-         Print("BEARISH CROSS SIGNAL at: " + getCurrentTime());
+         Print("BEARISH CROSS SIGNAL at: " + convertCurrentTimeToString());
       }    
       
    }
@@ -7843,20 +10136,59 @@ void getDynamicMpaAndNonLinearKalmanBandsCrossTest() {
       
       if( latestDynamicMpaAndNonLinearKalmanBandsCross != BULLISH_CROSS ) {      
          
-         Print("BULLISH CROSS SIGNAL at: " + getCurrentTime());
+         Print("BULLISH CROSS SIGNAL at: " + convertCurrentTimeToString());
       }
    }   
 }
 
-void getSomat3AndNonLinearKalmanCrossSlopeTest() {
+void getSomat3AndNonLinearKalmanCrossTest() {
+
+   if(latestSomat3AndNonLinearKalmanCrossTime == getCurrentTime()) {
+      
+      return;
+   }
+
+   Cross cross = getSomat3AndNonLinearKalmanCross(20, true, true); 
+   
+   if(cross == BEARISH_CROSS) {
+   
+      if(latestDynamicMpaAndNonLinearKalmanBandsCross != BEARISH_CROSS) {
+         
+         Print("BEARISH CROSS SIGNAL at: " + convertCurrentTimeToString());
+      }    
+      
+   }
+   else if(cross == BULLISH_CROSS) {
+      
+      if( latestDynamicMpaAndNonLinearKalmanBandsCross != BULLISH_CROSS ) {      
+         
+         Print("BULLISH CROSS SIGNAL at: " + convertCurrentTimeToString());
+      }
+   }   
+}
+
+
+void getDynamicMpaAndNonLinearKalmanBandsSlopeTest() {
+
+   Slope slope = getDynamicMpaAndNonLinearKalmanBandsSlope(20, 20, CURRENT_BAR+1);
+   
+   if(slope == BEARISH_SLOPE) {
+      Print("BEARISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
+   }
+   else if(slope == BULLISH_SLOPE) {
+      Print("BULLISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
+   }   
+}
+
+void getSomat3AndNonLinearKalmanSlopeTest() {
 
    Slope slope = getSomat3AndNonLinearKalmanSlope(20, true, CURRENT_BAR);
    
    if(slope == BEARISH_SLOPE) {
-      Print("BEARISH SLOPE SIGNAL at: " + getCurrentTime());
+      Print("BEARISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
    }
    else if(slope == BULLISH_SLOPE) {
-      Print("BULLISH SLOPE SIGNAL at: " + getCurrentTime());
+      Print("BULLISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
    }   
 }
 
@@ -7865,10 +10197,10 @@ void getNonLinearKalmanAndVolitilityBandsSlopeTest() {
    Slope slope = getNonLinearKalmanAndVolitilityBandsSlope(20, 20, true, CURRENT_BAR);
    
    if(slope == BEARISH_SLOPE) {
-      Print("BEARISH SLOPE SIGNAL at: " + getCurrentTime());
+      Print("BEARISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
    }
    else if(slope == BULLISH_SLOPE) {
-      Print("BULLISH SLOPE SIGNAL at: " + getCurrentTime());
+      Print("BULLISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
    }   
 }
 
@@ -7877,9 +10209,1072 @@ void getSomat3AndVolitilityBandsSlopeTest() {
    Slope slope = getSomat3AndVolitilityBandsSlope(20, CURRENT_BAR);
    
    if(slope == BEARISH_SLOPE) {
-      Print("BEARISH SLOPE SIGNAL at: " + getCurrentTime());
+      Print("BEARISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
    }
    else if(slope == BULLISH_SLOPE) {
-      Print("BULLISH SLOPE SIGNAL at: " + getCurrentTime());
+      Print("BULLISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
    }   
 }
+
+void getDynamicMpaAndSlopeTest() {
+
+   Slope slope = getDynamicMpaSlope(20, CURRENT_BAR + 1);
+   
+   if(slope == BEARISH_SLOPE) {
+      Print("BEARISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
+   }
+   else if(slope == BULLISH_SLOPE) {
+      Print("BULLISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
+   }   
+}
+
+void getDynamicMpaCrossTest() {
+
+   Cross cross = getDynamicMpaCross(20, true);
+   
+   if(cross == BEARISH_CROSS) {   
+      //Print("BEARISH CROSS SIGNAL at: " + convertCurrentTimeToString());
+   }
+   else if(cross == BULLISH_CROSS) {
+      //Print("BULLISH CROSS SIGNAL at: " + convertCurrentTimeToString());
+   }   
+}
+
+
+
+void getDynamicMpaSignalLevelAndVolitilityBandsSlopeTest() {
+
+   Slope slope = getDynamicMpaSignalLevelAndVolitilityBandsSlope(20, 20, CURRENT_BAR);
+   
+   if(slope == BEARISH_SLOPE) {
+      Print("BEARISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
+   }
+   else if(slope == BULLISH_SLOPE) {
+      Print("BULLISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
+   }    
+}
+
+void getDynamicMpaAndVolitilityBandsSlopeTest() {
+
+   Slope slope = getDynamicMpaAndVolitilityBandsSlope(15, 20, false, CURRENT_BAR);
+   
+   if(slope == BEARISH_SLOPE) {
+      Print("BEARISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
+   }
+   else if(slope == BULLISH_SLOPE) {
+      Print("BULLISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
+   }    
+}
+
+void getDynamicMpaSignalLevelAndVolitilityBandsCrossTest() {
+
+   Cross cross = getDynamicMpaSignalLevelAndVolitilityBandsCross(20, 20, true);
+   
+   if(cross == BEARISH_CROSS) {   
+      Print("BEARISH CROSS SIGNAL at: " + convertCurrentTimeToString());
+   }
+   else if(cross == BULLISH_CROSS) {
+      Print("BULLISH CROSS SIGNAL at: " + convertCurrentTimeToString());
+   }   
+}
+
+void getDynamicMpaAndVolitilityBandsCrossTest() {
+
+   Cross cross = getDynamicMpaAndVolitilityBandsCross(15, 20, true, false);
+   
+   if(cross == BEARISH_CROSS) {   
+      Print("BEARISH CROSS SIGNAL at: " + convertCurrentTimeToString());
+   }
+   else if(cross == BULLISH_CROSS) {
+      Print("BULLISH CROSS SIGNAL at: " + convertCurrentTimeToString());
+   }   
+}
+
+int getDynamicMpaAndVolitilityBandsCombinedCrossTest() {
+
+   if(dynamicMpaAndVolitilityBandsCombinedCrossTime == getCurrentTime()) {
+      
+      return -1;;
+   }
+   
+   Reversal rev = getDynamicMpaAndSomat3Reversal(20, CURRENT_BAR);
+   
+   if(rev == BEARISH_REVERSAL) {
+   
+      if(latestSignal != SELL_SIGNAL) {
+         
+         latestSignal = SELL_SIGNAL;
+         latestSignalTime = getCurrentTime();
+         
+         return OP_SELL;
+      }    
+      
+   }
+   else if(rev == BULLISH_REVERSAL) {
+      
+      if( latestSignal != BUY_SIGNAL ) {      
+         
+         latestSignal = BUY_SIGNAL;
+         latestSignalTime = getCurrentTime();
+         
+         return OP_BUY;
+      }
+   }  
+
+      
+      
+   
+   
+   /*
+   Cross dynamicMpaAndVolitilityBandsCross      = getDynamicMpaAndVolitilityBandsCross(15, 20, true, false);
+   Cross mpaSignalLevelAndVolitilityBandsCross  = getDynamicMpaSignalLevelAndVolitilityBandsCross(20, 20, true);
+      
+   if( (dynamicMpaAndVolitilityBandsCombinedCross != BEARISH_CROSS) && ((dynamicMpaAndVolitilityBandsCross == BEARISH_CROSS) || (mpaSignalLevelAndVolitilityBandsCross == BEARISH_CROSS)) ) {   
+      
+      dynamicMpaAndVolitilityBandsCombinedCross = BEARISH_CROSS;
+      dynamicMpaAndVolitilityBandsCombinedCrossTime = getCurrentTime();
+      
+      //Print("BEARISH CROSS SIGNAL at: " + convertCurrentTimeToString());
+      return OP_SELL;
+   }
+   else if( (dynamicMpaAndVolitilityBandsCombinedCross != BULLISH_CROSS) && ((dynamicMpaAndVolitilityBandsCross == BULLISH_CROSS) || (mpaSignalLevelAndVolitilityBandsCross == BULLISH_CROSS)) ) {
+      
+      dynamicMpaAndVolitilityBandsCombinedCross = BULLISH_CROSS;
+      dynamicMpaAndVolitilityBandsCombinedCrossTime = getCurrentTime();
+      //Print("BULLISH CROSS SIGNAL at: " + convertCurrentTimeToString());
+      return OP_BUY;
+   }*/
+   
+   return -1;   
+}
+
+
+
+
+
+/*
+TODO - 04/08/2018:
+1. ADD TEST FOR getDynamicMpaAndVolitilityBandsCross. 
+2. Replace getDynamicMpaAndVolitilityBandsReversal implementation with getDynamicMpaAndVolitilityBandsSlope implementation(new method)
+3. Combine/ Compare getDynamicMpaSignalLevelAndVolitilityBandsCrossTest(getDynamicMpaSignalLevelAndVolitilityBandsCross) and getDynamicMpaAndVolitilityBandsSlopeTest(getDynamicMpaAndVolitilityBandsSlope)
+
+*/
+
+//SOMAT Crosses
+// - Jurik(10), HMA(15), NonLinear Kalman(20)
+//TODO
+
+
+void getRsiomaBandsSlopeTest() {
+
+   Slope slope = getRsiomaBandsSlope(20, CURRENT_BAR);
+   
+   if(slope == BEARISH_SLOPE) {
+      Print("BEARISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
+   }
+   else if(slope == BULLISH_SLOPE) {
+      Print("BULLISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
+   }    
+}
+
+void getRsiomaBandsCrossTest() {
+
+   Cross cross = getRsiomaBandsCross(30, true);
+   
+   if(cross == BEARISH_CROSS) {   
+      //Print("BEARISH CROSS SIGNAL at: " + convertCurrentTimeToString());
+   }
+   else if(cross == BULLISH_CROSS) {
+      //Print("BULLISH CROSS SIGNAL at: " + convertCurrentTimeToString());
+   }   
+}
+
+void getQuantileDssSlopeTest() {
+
+   Slope slope = getQuantileDssSlope(10, 12, 5, CURRENT_BAR);
+   
+   if(slope == BEARISH_SLOPE) {
+      Print("BEARISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
+   }
+   else if(slope == BULLISH_SLOPE) {
+      Print("BULLISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
+   }    
+}
+
+void getQuantileDssCrosstTest() {
+
+   Cross cross = getQuantileDssCross(10, 12, 5, true, CURRENT_BAR);
+   
+   if(cross == BEARISH_CROSS) {   
+      //Print("BEARISH CROSS SIGNAL at: " + convertCurrentTimeToString());
+   }
+   else if(cross == BULLISH_CROSS) {
+      //Print("BULLISH CROSS SIGNAL at: " + convertCurrentTimeToString());
+   }   
+}
+
+int StrategyTester() {
+
+   //Reversal rev = getSomat3Reversal(true);
+   Cross cross = getSomat3AndNonLinearKalmanCross(20, true, true);
+   
+   if(cross == BEARISH_CROSS) {
+   
+      if(latestSignal != SELL_SIGNAL) {
+         
+         latestSignal = SELL_SIGNAL;
+         latestSignalTime = getCurrentTime();
+         
+         return OP_SELL;
+      }    
+      
+   }
+   else if(cross == BULLISH_CROSS) {
+      
+      if( latestSignal != BUY_SIGNAL ) {      
+         
+         latestSignal = BUY_SIGNAL;
+         latestSignalTime = getCurrentTime();
+         
+         return OP_BUY;
+      }
+   }   
+
+   /*if(rev == BEARISH_REVERSAL) {
+   
+      if(latestSignal != SELL_SIGNAL) {
+         
+         latestSignal = SELL_SIGNAL;
+         latestSignalTime = getCurrentTime();
+         
+         return OP_SELL;
+      }    
+      
+   }
+   else if(rev == BULLISH_REVERSAL) {
+      
+      if( latestSignal != BUY_SIGNAL ) {      
+         
+         latestSignal = BUY_SIGNAL;
+         latestSignalTime = getCurrentTime();
+         
+         return OP_BUY;
+      }
+   }*/  
+   
+   return -1; 
+}
+
+void getSomat3SlopeTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      return;
+   }
+   
+   int latestDynamicOfAveragesReversalBarShift = iBarShift(Symbol(), Period(), latestDynamicOfAveragesReversalTime);
+   int currentBarShift = iBarShift(Symbol(), Period(), CURRENT_BAR);   
+   
+   double slope = getSomat3Slope(2); //For some reason the previous bar is 2 not 1, Same as STEPPED_TTA?
+
+   if(latestSignal != BUY_SIGNAL && slope == BULLISH_SLOPE) {
+   
+      int latestSignalTimeBarShift = iBarShift(Symbol(), Period(), latestSignalTime);
+      currentBarShift = iBarShift(Symbol(), Period(), CURRENT_BAR);  
+      
+      Print("==========================================");  
+      
+      if( (latestSignalTimeBarShift - currentBarShift) < 2 ) {
+         
+         Print("Fake signal at " + (string)getCurrentTime());
+      }
+            
+      Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && slope == BEARISH_SLOPE) {
+   
+      int latestSignalTimeBarShift = iBarShift(Symbol(), Period(), latestSignalTime);
+      currentBarShift = iBarShift(Symbol(), Period(), CURRENT_BAR);        
+      
+      Print("==========================================");
+      
+      if( (latestSignalTimeBarShift - currentBarShift) < 2 ) {
+         
+         Print("Fake signal at " + (string)getCurrentTime());
+      }      
+      
+      Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }
+}
+
+void getDynamicStepMaPdfSlopeTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      return;
+   }
+   
+   int latestDynamicOfAveragesReversalBarShift = iBarShift(Symbol(), Period(), latestDynamicOfAveragesReversalTime);
+   int currentBarShift = iBarShift(Symbol(), Period(), CURRENT_BAR);   
+   
+   Slope slope = getDynamicStepMaPdfSlope(10, 15, 2); //For some reason the previous bar is 2 not 1, Same as STEPPED_TTA?
+
+   if(latestSignal != BUY_SIGNAL && slope == BULLISH_SLOPE) {
+   
+      int latestSignalTimeBarShift = iBarShift(Symbol(), Period(), latestSignalTime);
+      currentBarShift = iBarShift(Symbol(), Period(), CURRENT_BAR);  
+      
+      Print("==========================================");  
+      
+      if( (latestSignalTimeBarShift - currentBarShift) < 2 ) {
+         
+         //Print("Fake signal at " + (string)getCurrentTime());
+      }
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && slope == BEARISH_SLOPE) {
+   
+      int latestSignalTimeBarShift = iBarShift(Symbol(), Period(), latestSignalTime);
+      currentBarShift = iBarShift(Symbol(), Period(), CURRENT_BAR);        
+      
+      Print("==========================================");
+      
+      if( (latestSignalTimeBarShift - currentBarShift) < 2 ) {
+         
+         //Print("Fake signal at " + (string)getCurrentTime());
+      }      
+      
+      //Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }
+}
+
+void getDynamicStepMaPdfCrossTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      return;
+   }
+   
+   Cross cross = getDynamicStepMaPdfCross(10, 5, 10, CURRENT_BAR);
+
+   if(latestSignal != BUY_SIGNAL && cross == BULLISH_CROSS) {
+      
+      Print("==========================================");  
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && cross == BEARISH_CROSS) {
+   
+      int latestSignalTimeBarShift = iBarShift(Symbol(), Period(), latestSignalTime);
+
+      Print("==========================================");
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }
+}
+
+void getSteppedTtaSlopeTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      return;
+   }
+   
+      int latestDynamicOfAveragesReversalBarShift = iBarShift(Symbol(), Period(), latestDynamicOfAveragesReversalTime);
+      int currentBarShift = iBarShift(Symbol(), Period(), CURRENT_BAR);   
+   
+   Slope slope = getSteppedTtaSlope(5, 1, 1); //For some reason the previous bar is 2 not 1, Same as SOMAT3?
+
+   if(latestSignal != BUY_SIGNAL && slope == BULLISH_SLOPE) {
+   
+      int latestSignalTimeBarShift = iBarShift(Symbol(), Period(), latestSignalTime);
+      currentBarShift = iBarShift(Symbol(), Period(), CURRENT_BAR);  
+      
+      Print("==========================================");  
+      
+      if( (latestSignalTimeBarShift - currentBarShift) < 2 ) {
+         
+         //Print("Fake signal at " + (string)getCurrentTime());
+      }
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && slope == BEARISH_SLOPE) {
+   
+      int latestSignalTimeBarShift = iBarShift(Symbol(), Period(), latestSignalTime);
+      currentBarShift = iBarShift(Symbol(), Period(), CURRENT_BAR);        
+      
+      Print("==========================================");
+      
+      if( (latestSignalTimeBarShift - currentBarShift) < 2 ) {
+         
+         //Print("Fake signal at " + (string)getCurrentTime());
+      }      
+      
+      //Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }
+}
+
+void getSuperTrendSlopeTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      return;
+   }
+   
+      int latestDynamicOfAveragesReversalBarShift = iBarShift(Symbol(), Period(), latestDynamicOfAveragesReversalTime);
+      int currentBarShift = iBarShift(Symbol(), Period(), CURRENT_BAR);   
+   
+   double slope = getSuperTrendSlope(0); 
+
+   if(latestSignal != BUY_SIGNAL && slope == BULLISH_SLOPE) {
+   
+      int latestSignalTimeBarShift = iBarShift(Symbol(), Period(), latestSignalTime);
+      currentBarShift = iBarShift(Symbol(), Period(), CURRENT_BAR);  
+      
+      Print("==========================================");  
+      
+      if( (latestSignalTimeBarShift - currentBarShift) < 2 ) {
+         
+         //Print("Fake signal at " + (string)getCurrentTime());
+      }
+            
+      Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && slope == BEARISH_SLOPE) {
+   
+      int latestSignalTimeBarShift = iBarShift(Symbol(), Period(), latestSignalTime);
+      currentBarShift = iBarShift(Symbol(), Period(), CURRENT_BAR);        
+      
+      Print("==========================================");
+      
+      if( (latestSignalTimeBarShift - currentBarShift) < 2 ) {
+         
+         //Print("Fake signal at " + (string)getCurrentTime());
+      }      
+      
+      Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }
+}
+
+void getSomat3AndKalmanBandsSlopeTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      return;
+   }
+   
+   double slope = getSomat3AndKalmanBandsSlope(10, 15, 1); 
+
+   if(latestSignal != BUY_SIGNAL && slope == BULLISH_SLOPE) {
+        
+      Print("==========================================");  
+            
+      Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && slope == BEARISH_SLOPE) {
+         
+      Print("==========================================");
+            
+      Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }
+}
+
+void getSomat3AndSeBandsSlopeTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      return;
+   }
+   
+   double slope = getSomat3AndSeBandsSlope(10, 10, 1); 
+
+   if(latestSignal != BUY_SIGNAL && slope == BULLISH_SLOPE) {
+        
+      Print("==========================================");  
+            
+      Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && slope == BEARISH_SLOPE) {
+         
+      Print("==========================================");
+            
+      Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }
+}
+
+void getSomat3AndPolyfitBandsSlopeTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      return;
+   }
+   
+   double slope = getSomat3AndPolyfitBandsSlope(10, 10, 1); 
+
+   if(latestSignal != BUY_SIGNAL && slope == BULLISH_SLOPE) {
+        
+      Print("==========================================");  
+            
+      Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && slope == BEARISH_SLOPE) {
+         
+      Print("==========================================");
+            
+      Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }
+}
+
+void getVidyaZonesLevelTest() {
+
+   double levels = getVidyaZonesLevel(15, 15, VIDYA_ZONE_MIDDLE, getPreviousBarIndex(CURRENT_BAR)); 
+   double priceClosePrev = getPriceClose(getPreviousBarIndex(CURRENT_BAR));
+
+
+   if(priceClosePrev > levels) {         
+      Print("=================VIDYA is BULLISH=========================");
+   }
+   else if(priceClosePrev < levels) {         
+      Print("=================VIDYA is BEARISH=========================");
+   }
+}
+
+void getStepRSIFloatingLevelTest() {
+
+   //TODO - ADD the test for getStepRSIFloatingExtremeZone
+   
+   double signal = getStepRSIFloatingLevel(10, 10, 15, 49, FLOATED_STEPPED_RSI_SIGNAL, CURRENT_BAR);
+   double fast = getStepRSIFloatingLevel(10, 10, 15, 49, FLOATED_STEPPED_RSI_FAST, CURRENT_BAR); 
+   double slow = getStepRSIFloatingLevel(10, 10, 15, 49, FLOATED_STEPPED_RSI_SLOW, CURRENT_BAR);
+   double priceClosePrev = getPriceClose(getPreviousBarIndex(CURRENT_BAR));
+
+
+   if(signal > fast && signal > slow) {         
+      Print("=================FLOATED_STEPPED_RSI is BULLISH=========================");
+   }
+   else if(signal < fast && signal < slow) {         
+      Print("=================FLOATED_STEPPED_RSI is BEARISH=========================");
+   }
+}
+void getStepRSIFloatingSlopeReversalTest() {
+
+   Reversal rev = getStepRSIFloatingSlopeReversal(0);
+   
+   /*if(latestSignal != BUY_SIGNAL && rev == BULLISH_REVERSAL) {
+        
+      Print("==========================================");  
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && rev == BEARISH_REVERSAL) {
+         
+      Print("==========================================");
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }*/     
+}
+void getStepRSIFloatingExtremeZoneTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      return;
+   }
+
+   Zones zone = getStepRSIFloatingExtremeZone(10, 10, 15, 49, getPreviousBarIndex(CURRENT_BAR)); 
+   if( latestSignal != SELL_SIGNAL && zone == BULLISH_EXTREME_ZONE) {      
+   
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("=================BULLISH_EXTREME_ZONE=========================@" + (string)getCurrentTime());
+   }
+   else if(latestSignal != BUY_SIGNAL && zone == BEARISH_EXTREME_ZONE)  {       
+
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();   
+      Print("=================BEARISH_EXTREME_ZONE=========================@" + (string)getCurrentTime());
+   }
+}
+void getStepRSIFloatingSlopeTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      return;
+   }
+   
+   double slope = getStepRSIFloatingSlope(CURRENT_BAR); 
+
+   if(latestSignal != BUY_SIGNAL && slope == BULLISH_SLOPE) {
+        
+      Print("==========================================");  
+            
+      Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && slope == BEARISH_SLOPE) {
+         
+      Print("==========================================");
+            
+      Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }
+}
+void getDynamicRsxOmaExtremeZoneTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      
+      return;
+   }
+
+   Zones zone = getDynamicRsxOmaExtremeZone(getPreviousBarIndex(CURRENT_BAR)); 
+   /*if( latestSignal != SELL_SIGNAL && zone == BULLISH_EXTREME_ZONE) {      
+   
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime(); 
+      double upperLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_UPPER, CURRENT_BAR);   
+      double signalLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, CURRENT_BAR);
+      Print("lowerLevel: " + upperLevel);
+      Print("signalLevel: " + signalLevel);
+      Print("=================BULLISH_EXTREME_ZONE=========================@" + (string)getCurrentTime());
+   }
+   else if(latestSignal != BUY_SIGNAL && zone == BEARISH_EXTREME_ZONE)  {*/       
+   if(zone == BEARISH_EXTREME_ZONE)  { 
+
+ 
+      double lowerLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_LOWER, CURRENT_BAR);   
+      double signalLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, CURRENT_BAR);
+      if(signalLevel > lowerLevel) {
+      
+         latestSignal = BUY_SIGNAL;
+         latestSignalTime = getCurrentTime();         
+         
+         Print("Trigger happy :)");
+         Print("lowerLevel: " + (string)lowerLevel);
+         Print("signalLevel: " + (string)signalLevel);      
+      }
+      
+      Print("=================BEARISH_EXTREME_ZONE=========================@" + (string)getCurrentTime());
+   }
+}
+
+void getDynamicRsxOmaExtremeZoneReversalTest() {
+
+   Reversal rev = getDynamicRsxOmaExtremeZoneReversal(false);
+   
+   if(latestSignal != BUY_SIGNAL && rev == BULLISH_REVERSAL) {
+        
+      Print("==========================================");  
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && rev == BEARISH_REVERSAL) {
+         
+      Print("==========================================");
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }     
+}
+
+void getCycleKroufrExtremeZoneReversalTest() {
+
+   Reversal rev = getCycleKroufrExtremeZoneReversal(15, 16, 21, false);
+   
+   if(latestSignal != BUY_SIGNAL && rev == BULLISH_REVERSAL) {
+        
+      Print("==========================================");  
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && rev == BEARISH_REVERSAL) {
+         
+      Print("==========================================");
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }     
+}
+
+void getRsiomaBandsZoneReversalTest() {
+
+   Reversal rev = getRsiomaBandsZoneReversal(30, false);
+   
+   if(latestSignal != BUY_SIGNAL && rev == BULLISH_REVERSAL) {
+        
+      Print("==========================================");  
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && rev == BEARISH_REVERSAL) {
+         
+      Print("==========================================");
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }     
+}
+
+void getCycleKroufRLevelExtremeZoneTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      
+      return;
+   }
+
+   Zones zone = getCycleKroufrExtremeZone(15, 16, 21, CURRENT_BAR);
+   if( latestSignal != SELL_SIGNAL && zone == BULLISH_EXTREME_ZONE) {      
+   
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime(); 
+      double upperLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_UPPER, CURRENT_BAR);   
+      double signalLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, CURRENT_BAR);
+
+      Print("=================BULLISH_EXTREME_ZONE=========================@" + (string)getCurrentTime());
+   }
+   else if(latestSignal != BUY_SIGNAL && zone == BEARISH_EXTREME_ZONE)  {      
+
+      double lowerLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_LOWER, CURRENT_BAR);   
+      double signalLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, CURRENT_BAR);
+      if(signalLevel > lowerLevel) {
+      
+         latestSignal = BUY_SIGNAL;
+         latestSignalTime = getCurrentTime();         
+      }
+      
+      Print("=================BEARISH_EXTREME_ZONE=========================@" + (string)getCurrentTime());
+   }
+}
+
+void getRsiomaBandsZonesTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      
+      return;
+   }
+
+   Zones zone = getRsiomaBandsZones(30, CURRENT_BAR + 1);
+   if( latestSignal != SELL_SIGNAL && zone == BULLISH_ZONE) {      
+   
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime(); 
+      double upperLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_UPPER, CURRENT_BAR);   
+      double signalLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, CURRENT_BAR);
+
+      Print("=================BULLISH_EXTREME_ZONE=========================@" + (string)getCurrentTime());
+   }
+   else if(latestSignal != BUY_SIGNAL && zone == BEARISH_ZONE)  {      
+
+      double lowerLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_LOWER, CURRENT_BAR);   
+      double signalLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, CURRENT_BAR);
+      if(signalLevel > lowerLevel) {
+      
+         latestSignal = BUY_SIGNAL;
+         latestSignalTime = getCurrentTime();         
+      }
+      
+      Print("=================BEARISH_EXTREME_ZONE=========================@" + (string)getCurrentTime());
+   }
+   else if(latestSignal != BUY_SIGNAL && zone == TRANSITION_ZONE)  {      
+
+      double lowerLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_LOWER, CURRENT_BAR);   
+      double signalLevel = getDynamicRsxOmaLevel(DYNAMIC_RSX_OMA_SIGNAL, CURRENT_BAR);
+      if(signalLevel > lowerLevel) {
+      
+         //latestSignal = BUY_SIGNAL;
+         latestSignalTime = getCurrentTime();         
+      }
+      
+      Print("=================TRANSITION_ZONE=========================@" + (string)getCurrentTime());
+   }   
+
+}
+
+void getCycleKroufRLevelSlopeTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      return;
+   }
+   
+   Slope slope = getCycleKroufRLevelSlope(15, 16, 21); 
+
+   if(latestSignal != BUY_SIGNAL && slope == BULLISH_SLOPE) {
+        
+      Print("==========================================");  
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      //latestSignal = BUY_SIGNAL;
+      //latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && slope == BEARISH_SLOPE) {
+         
+      Print("==========================================");
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      //latestSignal = SELL_SIGNAL;
+      //latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }
+}
+
+void getDynamicRsxOmaLevelSlopeTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      return;
+   }
+   
+   Slope slope = getDynamicRsxOmaLevelSlope(); 
+
+   if(latestSignal != BUY_SIGNAL && slope == BULLISH_SLOPE) {
+        
+      Print("==========================================");  
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      //latestSignal = BUY_SIGNAL;
+      //latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && slope == BEARISH_SLOPE) {
+         
+      Print("==========================================");
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      //latestSignal = SELL_SIGNAL;
+      //latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }
+}
+
+
+void getBBnStochOfRsiSlopeTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      return;
+   }
+   
+   double slope = getBBnStochOfRsiSlope(CURRENT_BAR); 
+
+   if(latestSignal != BUY_SIGNAL && slope == BULLISH_SLOPE) {
+        
+      Print("==========================================");  
+            
+      Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && slope == BEARISH_SLOPE) {
+         
+      Print("==========================================");
+            
+      Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }
+}
+
+void getDynamicPriceZonesAndSomat3ReversalTest() {
+
+   Reversal rev = getDynamicPriceZonesAndSomat3Reversal(CURRENT_BAR);
+   
+   if(latestSignal != BUY_SIGNAL && rev == BULLISH_REVERSAL) {
+        
+      Print("==========================================");  
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && rev == BEARISH_REVERSAL) {
+         
+      Print("==========================================");
+            
+      //Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }     
+}
+
+
+//getEftCrossTest and getEftSlopeTest must yield the same results - Avoid entries against the extreme conditions, if OS - dont sell, if OB - don't but
+void getEftCrossTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      return;
+   }
+   
+   Slope slope = getEftSlope(10, CURRENT_BAR);//getEftCrossTest
+
+   if(latestSignal != BUY_SIGNAL && slope == BULLISH_SLOPE) {
+      
+      Print("==========================================");
+      Print("Prev: " + getSignalDescription(latestSignal));      
+      Print("Bullish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();           
+      Print("==========================================");
+   }
+   else if(latestSignal != SELL_SIGNAL && slope == BEARISH_SLOPE) {
+      
+      Print("==========================================");
+      Print("Prev: " + getSignalDescription(latestSignal));
+      Print("Bearish at: " + convertTimeToString(CURRENT_BAR));
+      latestSignal = SELL_SIGNAL;
+      latestSignalTime = getCurrentTime();       
+      Print("==========================================");
+   }  
+}
+void getEftSlopeTest() {
+
+   if(latestSignalTime == getCurrentTime()) {
+      
+      return;
+   }   
+
+   Slope slope = getEftSlope(10, CURRENT_BAR);
+   
+   if(slope == BEARISH_SLOPE) {
+
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();     
+      Print("BEARISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
+   }
+   else if(slope == BULLISH_SLOPE) {
+      
+      latestSignal = BUY_SIGNAL;
+      latestSignalTime = getCurrentTime();   
+      Print("BULLISH SLOPE SIGNAL at: " + convertCurrentTimeToString());
+   }    
+}
+
+/* Library */
+
+//TODO - 15-08-2018
+//USE SMOOTHED DIGITAL FILTER AS A LEADING INDICATOR
+
+//TODO 27/06/2018
+//VOLATILITY_BANDS
+//POLYFIT_BANDS
+//DIMPA
+//Half Trend Channel Goes out of Price Zones. Reversal is eminent
+//-Indicator blip-bloop
+// MA(5) LW High/Low
+
+
+//FIX For some reason the previous bar is 2 not 1, both SOMAT3 and STEPPED_TTA
+
+//TODO 17-08-2018 @05:32. ADD the test for getStepRSIFloatingExtremeZone
