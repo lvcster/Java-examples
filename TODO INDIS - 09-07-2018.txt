@@ -715,4 +715,5 @@ https://www.fxdd.com/mt/en
 
 
 TERMS
-Recover Factor = Max Profit/Max DD
+Recover Factor = Max Profit/Max DD. Atleast 2
+Profit factor = atleast 1.6
