@@ -712,3 +712,7 @@ Scite-Mql: http://ylw633.github.io/scite-mql/
 
 DATA
 https://www.fxdd.com/mt/en
+
+
+TERMS
+Recover Factor = Max Profit/Max DD
