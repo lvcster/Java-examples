@@ -723,3 +723,6 @@ TERMS
 Recover Factor = Max Profit/Max DD. Atleast > 2
 Profit factor > 1.6
 DD < 15%
+
+MORE INDICATORS
+https://www.forexfactory.com/showthread.php?t=246111
