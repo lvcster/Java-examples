@@ -716,6 +716,9 @@ https://www.fxdd.com/mt/en
 STEP AND FILTER CASE STUDYD - 08/09/2018
 https://forex-station.com/viewtopic.php?t=8418142&p=1295378720#p1295378720
 
+MONEY MANAGEMENT
+Calc lot size: https://mql4tradingautomation.com/mql4-calculate-position-size/#comment-86
+
 TERMS
 Recover Factor = Max Profit/Max DD. Atleast > 2
 Profit factor > 1.6
