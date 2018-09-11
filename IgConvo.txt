@@ -1,0 +1,229 @@
+The agent ended your chat session.
+ 
+
+Vijay
+Hello Elvis
+
+Vijay
+For security purposes could you please confirm your date of birth and address? I’ll then be able to look into your account.
+
+Elvis Hlongwane
+1983/06/20
+
+Elvis Hlongwane
+Unit 28 Crescendo Complex, Midrand, 1687
+
+Vijay
+Thanks for the details
+
+Vijay
+I see that funds has been posted to your CFD account
+
+Elvis Hlongwane
+I want it to be posted to MT4 Account
+
+Vijay
+OK. As I see your MT4 is in $ so it will be converted at spot rate plus 0.3% IG conversion charges
+
+Vijay
+Please confirm if you wish to proceed so that I will instruct our client money team to process it
+
+Elvis Hlongwane
+How much will that rate work out to?
+
+Elvis Hlongwane
+USD/ZAR is currently sitting at 15.1204
+
+Vijay
+At the moment the conversion rate is at 15.12 ZAR so including IG charge it will be 15.42 ZAR
+
+Elvis Hlongwane
+Ok. What is the formular for my future considerations?
+
+Vijay
+IG conversion charge would be 0.3% so it would be 15.16 ZAR
+
+Vijay
+Sorry for the wrong figure earlier
+
+Elvis Hlongwane
+15.12 + (15.12*0.3)?
+
+Vijay
+Exactly you are right
+
+Vijay
+It would be around 15.16
+
+Elvis Hlongwane
+Cool. Please go ahead.
+
+Vijay
+Thanks for the confirmation
+
+Elvis Hlongwane
+"At the moment the conversion rate is at 15.12", Is this on IG's website?
+
+Vijay
+It will be underlying market rate
+
+Elvis Hlongwane
+Where do I see it as a user/client?
+
+Vijay
+You can just google the FX pair as USD/ZAR
+
+Vijay
+I have received a communication from the team
+
+Vijay
+We cannot process this transfer due to regulations
+
+Vijay
+We cannot transfer funds from domestic account to other accounts
+
+Vijay
+Please confirm if you have initiated the EFT transfer to MT4
+
+Elvis Hlongwane
+I followed the guideline to deposit
+
+Elvis Hlongwane
+Nowhere I specified CFD
+
+Vijay
+Can you please send us the screenshot of the transaction
+
+Vijay
+You can send us the screenshot to helpdesk.za@ig.com
+
+Elvis Hlongwane
+what screen shot?
+
+Elvis Hlongwane
+I followed...https://www.ig.com/za/myig/live/HYR7H/payments/deposit
+
+Vijay
+Screenshot of the transaction to IG or statement showing transaction to IG
+
+Elvis Hlongwane
+"How to Pay Us"
+
+Elvis Hlongwane
+I made an EFT from my bank
+
+Elvis Hlongwane
+"Please quote your IG account number, IG username or your IG account name as a reference so that we can process your request as quickly as possible."
+
+Vijay
+Please confirm which account number you have mentioned as reference?
+
+Elvis Hlongwane
+'elvish' was my ref as per instructions
+
+Elvis Hlongwane
+I used username as ref
+
+Vijay
+Please confirm if you have transferred EF to our Lloyds account?
+
+Elvis Hlongwane
+Standard Bank
+Account: IG Markets
+Branch code: 009953
+Account number: 0281473153
+
+Vijay
+Thanks for the confirmation
+
+Vijay
+If you wish to deposit funds to an international account, you have to use our Lloyds bank account
+
+Vijay
+If it is Standard bank then it will be posted to domestic account
+
+Elvis Hlongwane
+As you can see from the link: https://www.ig.com/za/myig/live/HYR7H/payments/deposit
+
+Elvis Hlongwane
+there's no Lloyds there
+
+Elvis Hlongwane
+I wnat to deposit to MT4 account
+
+Vijay
+Please use these bank details
+
+Vijay
+LLOYDS US Dollar	
+Account Name:	IG Markets Limited	
+Bank Name:	Lloyds Bank	
+Address:	39 Threadneedle Street	
+London EC2R 8AU	
+Sort Code:	30-96-34	
+Account Number:	11368109	
+IBAN	GB90LOYD30963411368109	
+BIC	LOYDGB21013	
+ 
+Elvis Hlongwane
+Ay.
+
+Elvis Hlongwane
+I doubt if I will be able to do that from FNB
+
+Vijay
+You can do that using FNB
+
+Vijay
+I will send you the step by step procedure PDF file
+
+Vijay
+Please follow that file to fund your account
+
+Elvis Hlongwane
+Where are you sending it to, my email?
+
+Vijay
+I have send the email to your registered email address
+
+Vijay
+Please check your email
+
+Elvis Hlongwane
+Can I ask that the other deposit be reversed, please
+
+Vijay
+Please go to My IG>.Live accounts>.withdraw funds and place a request
+
+Elvis Hlongwane
+Will it also be posible to close the CFD accounts, I don't want them.
+
+Vijay
+To close your accounts, you need to send us an email
+
+Vijay
+You can close your CFD account
+
+Elvis Hlongwane
+How?
+
+Vijay
+Please send us an email request to helpdesk.za@ig.com
+
+Elvis Hlongwane
+Are you able to send me the copy of our conversation?
+
+Vijay
+Sure.
+
+Vijay
+Is there anything else I can help you with?
+
+Elvis Hlongwane
+No. Thanks for your assistance. Please forward me a copy of the conversion.
+
+Vijay
+I will do that. It’s a pleasure. If you need any more assistance, please feel free to contact us and we’ll be happy to help. Have a great day.
+
+Elvis Hlongwane
+Sharp.
