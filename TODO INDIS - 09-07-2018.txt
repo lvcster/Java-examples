@@ -1,7 +1,8 @@
-=====================12-09-2018============
+=====================13-09-2018============
 Atom - Install Package keyword:mql4
 CCI-Smoothed and TDI Pro
 https://forex-station.com/viewtopic.php?f=578480&t=8472608&start=60
+https://forex-station.com/viewtopic.php?f=578480&t=8472182&start=400,  Needs fine tuning
 =====================11-09-2018============
 Stochastic of ocn nma
 https://forex-station.com/viewtopic.php?f=578480&t=8412468&p=1295378834#p1295378834. DONE, Relook again later when we rolling.
