@@ -3,6 +3,9 @@ RSX range expansion index (MT5 => MT4 Case study)
 rsx range expansion index - cb.mq4: https://forex-station.com/viewtopic.php?f=578480&p=1295379171#p1295379171
 RSX range expansion index - cb.mq5  https://www.mql5.com/en/code/22379
 
+rsx of alb average.mq4 - https://forex-station.com/viewtopic.php?f=578480&t=8431109&p=1295379242#p1295379242
+RSX of alb average.mq5 - https://www.mql5.com/en/code/22397
+
 Do you see this, is it like "sure money"?
 https://forex-station.com/viewtopic.php?t=8423458&p=1295379190#p1295379190
 
