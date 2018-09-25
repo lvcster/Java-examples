@@ -1,3 +1,6 @@
+======================25-09-2018=============
+adaptive Gann High-Low activator jma Heiken Ashi arrows-2: Pluggable?
+https://forex-station.com/app.php/attach/file/3281594 
 ======================19-09-2018=============
 RSX range expansion index (MT5 => MT4 Case study)
 rsx range expansion index - cb.mq4: https://forex-station.com/viewtopic.php?f=578480&p=1295379171#p1295379171
