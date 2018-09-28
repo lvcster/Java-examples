@@ -770,6 +770,10 @@ Traffic Monitoring
 RENKO SYSTEM
 https://forex-station.com/viewtopic.php?f=578480&t=8472991
 
+CASE STUDY
+ADDING ARROWS
+https://forex-station.com/viewtopic.php?f=578480&t=8418142&start=4090 (Dynamic zone bb stops line (alerts + arrows).mq4)
+https://forex-station.com/viewtopic.php?f=578480&t=8418142&start=4100( Dynamic zone bb stops line (alerts).mq4)
 
 ACADEMIC RESOURCES
 https://www.semanticscholar.org/paper/Risk-Assessment-for-Banking-Systems-Elsinger-Lehar/43f361ff7de6501c2bcffcd358fd3a8ba83bfd04
