@@ -2,6 +2,8 @@
 ======================01-10-2018=============
 ATR - Stops1.01 (mtf + alerts).mq4
 https://forex-station.com/viewtopic.php?f=578480&p=1295379760#p1295379760: Pluggable?
+Stoch Velocity
+https://forex-station.com/viewtopic.php?p=1295379772#p1295379772
 ======================25-09-2018=============
 adaptive Gann High-Low activator jma Heiken Ashi arrows-2: Pluggable?
 https://forex-station.com/app.php/attach/file/3281594 
