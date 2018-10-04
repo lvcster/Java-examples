@@ -1,0 +1,20 @@
+DJANGO
+https://docs.djangoproject.com/en/2.1/
+
+WEB SERVICES
+https://www.django-rest-framework.org/
+https://opensource.com/article/17/3/writing-web-service-using-python-flask
+https://www.codementor.io/sagaragarwal94/building-a-basic-restful-api-in-python-58k02xsiq
+https://www.pythonforbeginners.com/python-on-the-web/how-to-access-various-web-services-in-python
+https://www.bogotobogo.com/python/python_http_web_services.php
+https://dzone.com/articles/restful-web-services-with-python-flask
+https://technology.amis.nl/2018/01/26/automate-batch-calls-to-soap-and-rest-webservices-using-simple-python-scripts/
+
+FLASK
+Organizing your project: http://exploreflask.com/en/latest/organizing.html
+Blueprints: http://flask.pocoo.org/docs/0.12/blueprints/
+
+ORM
+https://www.fullstackpython.com/object-relational-mappers-orms.html
+https://www.sqlalchemy.org/
+https://ponyorm.com/
