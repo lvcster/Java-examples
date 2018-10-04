@@ -1,5 +1,7 @@
 
 ======================04-10-2018=============
+Must Do todayhttps://forex-station.com/viewtopic.php?t=8419029&p=1295379902#p1295379902
+
 Adding RSI averages to the  'RSI + Bollinger bands 1.03 (lines + alerts + arrows + mtf).mq4'. Looks good
 https://forex-station.com/viewtopic.php?f=578480&t=8418142&start=4100
 ======================01-10-2018=============
@@ -788,6 +790,9 @@ CASE STUDY
 *ADDING ARROWS
 https://forex-station.com/viewtopic.php?f=578480&t=8418142&start=4090 (Dynamic zone bb stops line (alerts + arrows).mq4)
 https://forex-station.com/viewtopic.php?f=578480&t=8418142&start=4100( Dynamic zone bb stops line (alerts).mq4)
+
+ON Zero lag - Hull moving average.mq4
+https://forex-station.com/viewtopic.php?f=578480&p=1295379902#p1295379902
 *ADDING TIM MORRIS
 https://forex-station.com/viewtopic.php?f=578480&t=8466839&start=60
 
