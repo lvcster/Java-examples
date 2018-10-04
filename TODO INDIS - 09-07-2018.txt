@@ -2,6 +2,8 @@
 ======================04-10-2018=============
 Must Do todayhttps://forex-station.com/viewtopic.php?t=8419029&p=1295379902#p1295379902
 
+Laguerre RSI: PLUGGABLE? Test
+
 Adding RSI averages to the  'RSI + Bollinger bands 1.03 (lines + alerts + arrows + mtf).mq4'. Looks good
 https://forex-station.com/viewtopic.php?f=578480&t=8418142&start=4100
 ======================01-10-2018=============
@@ -11,7 +13,7 @@ https://forex-station.com/viewtopic.php?f=578480&p=1295379760#p1295379760: Plugg
 Stoch Velocity
 https://forex-station.com/viewtopic.php?p=1295379772#p1295379772
 ======================25-09-2018=============
-adaptive Gann High-Low activator jma Heiken Ashi arrows-2: Pluggable?
+adaptive Gann High-Low activator jma Heiken Ashi arrows-2: PLUGGABLE?
 https://forex-station.com/app.php/attach/file/3281594 
 ======================25-09-2018=============
 
