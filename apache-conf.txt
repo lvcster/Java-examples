@@ -1,0 +1,2 @@
+https://serverfault.com/questions/842497/disable-direct-ip-access-in-apache/842524
+https://serverfault.com/questions/607137/restrict-direct-ip-access-to-website

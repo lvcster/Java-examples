@@ -18,3 +18,61 @@ ORM
 https://www.fullstackpython.com/object-relational-mappers-orms.html
 https://www.sqlalchemy.org/
 https://ponyorm.com/
+
+
+
+
+
+CONDA
+Creating new project virtual env: (Recommendated for self contained - and not to run into issus with packages)
+conda create --MyDjangoProjectEnv django
+activate MyDjangoProjectEnv
+
+Working with DJagno
+conda install django / pip install django
+django-admin startproject first_project
+
+Run server
+cd first_project\
+python manage.py runserver
+
+Creating the app
+C:\..\first_project> python manage.py startup first_app
+Open settings.py and add first_app in INSTALLED_APPS
+
+=============================
+Python For Finance
+
+https://stackoverflow.com/questions/44810875/how-to-draw-a-classic-stock-chart-with-matplotlib
+https://www.quora.com/What-are-some-Python-libraries-for-building-chart-patterns-for-stocks-data
+https://blog.modeanalytics.com/python-interactive-plot-libraries/
+https://towardsdatascience.com/stock-analysis-in-python-a0054e2c1a4c
+https://ntguardian.wordpress.com/2016/09/19/introduction-stock-market-data-python-1/
+https://www.datacamp.com/courses
+https://plot.ly/python/candlestick-charts/
+https://facebook.github.io/prophet/docs/quick_start.html
+https://www.quandl.com/tools/python
+https://pythonprogramming.net/last-price-stock-chart-matplotlib-tutorial/
+https://www.datacamp.com/community/tutorials/finance-python-trading
+=============================
+
+=============================
+INDEXING
+http://lucene.apache.org/pylucene/#news20090108
+https://pypi.org/project/Whoosh/
+https://opensourceforu.com/2016/10/file-search-with-python/
+https://stackoverflow.com/questions/532312/python-file-indexing-and-searching
+=============================
+
+
+=============================
+PYTHON VS JAVA
+http://home.wlu.edu/~lambertk/pythontojava/
+https://www.py4j.org/
+============================
+
+
+TOOLS
+http://www.pythontutor.com/
+https://www.datacamp.com/community/tutorials/data-science-python-ide?utm_source=adwords_ppc&utm_campaignid=1455363063&utm_adgroupid=65083631748&utm_device=c&utm_keyword=&utm_matchtype=b&utm_network=g&utm_adpostion=1t2&utm_creative=278443377077&utm_targetid=dsa-473406587035&utm_loc_interest_ms=&utm_loc_physical_ms=1028684&gclid=CjwKCAjwq57cBRBYEiwAdpx0veQsIHOfJF9QDuYiBlokYKwuwSeDHxLwzuF57ZrHWj2fZrCJkp9ErxoCQjQQAvD_BwE
+
