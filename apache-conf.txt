@@ -2,3 +2,4 @@ https://serverfault.com/questions/842497/disable-direct-ip-access-in-apache/8425
 https://serverfault.com/questions/607137/restrict-direct-ip-access-to-website
 
 https://www.digicert.com/csr-ssl-installation/apache-openssl.htm
+https://helpdesk.ssls.com/hc/en-us/articles/203482651-How-to-install-a-SSL-certificate-on-Apache
