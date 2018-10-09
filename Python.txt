@@ -75,4 +75,12 @@ https://www.py4j.org/
 TOOLS
 http://www.pythontutor.com/
 https://www.datacamp.com/community/tutorials/data-science-python-ide?utm_source=adwords_ppc&utm_campaignid=1455363063&utm_adgroupid=65083631748&utm_device=c&utm_keyword=&utm_matchtype=b&utm_network=g&utm_adpostion=1t2&utm_creative=278443377077&utm_targetid=dsa-473406587035&utm_loc_interest_ms=&utm_loc_physical_ms=1028684&gclid=CjwKCAjwq57cBRBYEiwAdpx0veQsIHOfJF9QDuYiBlokYKwuwSeDHxLwzuF57ZrHWj2fZrCJkp9ErxoCQjQQAvD_BwE
+https://cookiecutter-django.readthedocs.io/en/latest/
+https://djangopackages.org/grids/g/cookiecutters/
+
+BOOKS
+DJANGO BEST PRACTICES
+http://bedford-computing.co.uk/learning/wp-content/uploads/2016/08/Daniel-Roy-Greenfeld-Audrey-Roy-Greenfeld-Two-Scoops-of-Django_-Best-Practices-for-Django-1.8-Two-Scoops-Press-2015.pdf
+http://www.pallier.org/lectures/AIP2016/books/Beginning_Python_from_Novice_to_pro.pdf
+http://www.freetechbooks.com/python-f6.html
 
