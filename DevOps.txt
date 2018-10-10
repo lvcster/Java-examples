@@ -1,0 +1,6 @@
+https://www.sonarsource.com/products/sonarqube/
+https://docs.sonarqube.org/display/PLUG/SonarJava
+https://www.sonarqube.org/
+https://docs.sonarqube.org/display/SONAR/Analyzing+Source+Code
+https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner
+https://www.sonarqube.org/downloads/
