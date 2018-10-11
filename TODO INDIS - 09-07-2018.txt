@@ -1,8 +1,13 @@
 
 ======================10-10-2018=============
 Looks good, check 
+Rsi hull_parabolic.mq4: 
+https://forex-station.com/viewtopic.php?f=578480&p=1295379561
+
 https://forex-station.com/app.php/attach/file/3230272
+
 https://forex-station.com/app.php/attach/file/3304355
+
 https://forex-station.com/app.php/attach/file/3325618
 
 TDI OnChart
