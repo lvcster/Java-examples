@@ -835,3 +835,9 @@ https://forex-station.com/viewtopic.php?f=578480&t=8466839&start=60
 ACADEMIC RESOURCES
 https://www.semanticscholar.org/paper/Risk-Assessment-for-Banking-Systems-Elsinger-Lehar/43f361ff7de6501c2bcffcd358fd3a8ba83bfd04
 https://www.math.kth.se/matstat/seminarier/reports/
+
+Singular Spectrum Analysis
+==========================
+http://www.jds-online.com/files/JDS-396.pdf
+https://www.researchgate.net/publication/260124592_Singular_Spectrum_Analysis_for_Time_Series/download
+https://www.researchgate.net/publication/267723014_A_Brief_Introduction_to_Singular_Spectrum_Analysis
