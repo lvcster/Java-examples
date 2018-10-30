@@ -1,5 +1,5 @@
 ======================19-10-2018=============
-
+Channel https://www.mql5.com/en/code/7315
 MUST DO URGENTLY(Noted below, but must be done here): https://www.mql5.com/en/forum/175037/page410 Confidence bands of averages
 EMA LEVELS
 https://forex-station.com/viewtopic.php?t=8413502&p=1295381151#p1295381151
