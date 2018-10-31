@@ -25,6 +25,9 @@ CONVERT TO MT4 https://www.mql5.com/en/code/22966
 Spike Candidate + MTF case study: https://forex-station.com/viewtopic.php?f=578480&t=8416798&start=1980
 Check some polyfits below, especially dynamic one
 
+Reg
+https://www.mql5.com/en/forum/185114/page2
+
 ======================10-10-2018=============
 Looks good, check 
 
