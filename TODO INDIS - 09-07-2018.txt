@@ -92,6 +92,9 @@ RSX of alb average.mq5 - https://www.mql5.com/en/code/22397
 
 TRY CONVERTING THIS
 ----------------------
+Super trend - simple: LOOKS VERY SIMPLE TO CONVERT
+https://www.mql5.com/en/code/23030
+
 LOOKS GOOD: Instantaneous trend line - levels: https://www.mql5.com/en/code/22556
 and Relative price channel: https://www.mql5.com/en/code/22576
 and ATR adaptive Laguerre filter levels.mq5" https://www.mql5.com/en/code/22597
