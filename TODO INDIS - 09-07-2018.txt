@@ -2,10 +2,10 @@
 
 MACD-OsMA on Chart MTF 2 [mladen+TT]:  https://forex-station.com/viewtopic.php?f=578480&t=8420451&start=230
 
-https://www.mql5.com/en/code/7518
-https://www.mql5.com/en/code/7508
 BANDS AND sto_cci_rsi_2.01.mq4: MUST DO URGENTLY(Noted below, but must be done here): https://www.mql5.com/en/forum/175037/page410 Confidence bands of averages
 BANDS + EXTRAPOLATOR: https://forex-station.com/viewtopic.php?f=578480&t=8433048&start=30
+https://www.mql5.com/en/code/7518
+https://www.mql5.com/en/code/7508
 
 https://forex-station.com/viewtopic.php?f=578480&t=8413428&start=810
 https://forex-station.com/viewtopic.php?f=578480&t=8413428&start=790
