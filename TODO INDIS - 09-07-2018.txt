@@ -95,6 +95,12 @@ TRY CONVERTING THIS
 Super trend - simple: LOOKS VERY SIMPLE TO CONVERT
 https://www.mql5.com/en/code/23030
 
+Corrected volume weighted moving average and Volume weighted moving average
+https://www.mql5.com/en/code/23076 and https://www.mql5.com/en/code/23075
+
+Corrected generalized double DEMA and  Corrected generalized DEMA
+https://www.mql5.com/en/code/23064 and https://www.mql5.com/en/code/23063
+
 LOOKS GOOD: Instantaneous trend line - levels: https://www.mql5.com/en/code/22556
 and Relative price channel: https://www.mql5.com/en/code/22576
 and ATR adaptive Laguerre filter levels.mq5" https://www.mql5.com/en/code/22597
