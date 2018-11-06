@@ -1,8 +1,9 @@
 ======================19-10-2018=============
 Fibo Channels
 PhD Papaya: https://forex-station.com/viewtopic.php?f=578480&t=8413428&start=1050
-https://forex-station.com/viewtopic.php?t=8415735&p=1295381541#p1295381541
-https://forex-station.com/viewtopic.php?f=578480&t=8472182&start=440
+KAGI and 'rsi - floating levels - advanced divergence 2'(Attractive settings): https://forex-station.com/viewtopic.php?f=578480&t=8413428&p=1295381553#p1295381553
+ibochannels: https://forex-station.com/viewtopic.php?t=8415735&p=1295381541#p1295381541 DONE, Relook in future.
+SVS_Trend: https://forex-station.com/viewtopic.php?f=578480&t=8472182&start=440,  DONE, Relook in future.
 
 FIBO BANDS: https://forex-station.com/app.php/attach/file/3333468
 
@@ -894,6 +895,10 @@ https://forex-station.com/viewtopic.php?f=578480&t=8466839&start=60
 
 *ADDING DIVERGENCE 
 https://forex-station.com/viewtopic.php?f=578480&t=8416995&start=450
+
+*SOMOOTHING
+Dynamic zone rsiv
+Dynamic zone rsiv - smoothed
 
 ACADEMIC RESOURCES
 https://www.semanticscholar.org/paper/Risk-Assessment-for-Banking-Systems-Elsinger-Lehar/43f361ff7de6501c2bcffcd358fd3a8ba83bfd04
