@@ -838,6 +838,10 @@ https://pdfs.semanticscholar.org/3c75/45daaa4baf12328bd09eb5e67f87cb4aa966.pdf
 https://www.business.uq.edu.au/sites/default/files/pitchingpaper_internet_appendix_a65_financialliteracy_letter_27november2015.pdf
 http://www.scientificpapers.org/economics/introduction-to-the-foreign-exchange-market/ => http://www.scientificpapers.org/wp-content/files/1120_Introduction_to_the_foreign_exchange_market.pdf
 
+ADDING T3 CASE STUDY
+Composite t3 rsi (mtf)(In my indicator - no source) and composite_rsi(https://forex-station.com/viewtopic.php?t=8413428&start=590) 
+
+
 FIBO CASE STUDY
 https://www.mql5.com/en/code/21516 - Does not have buffer. See if it can be added
 
