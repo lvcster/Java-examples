@@ -100,6 +100,9 @@ RSX of alb average.mq5 - https://www.mql5.com/en/code/22397
 
 TRY CONVERTING THIS
 ----------------------
+TRIX candles with Keltner channel: 
+https://www.mql5.com/en/code/23096, LOOKS VERY GOOD BUT HARD TO CONVERT
+
 Super trend - simple: LOOKS VERY SIMPLE TO CONVERT
 https://www.mql5.com/en/code/23030
 
