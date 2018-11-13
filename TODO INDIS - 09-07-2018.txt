@@ -121,9 +121,12 @@ and ATR adaptive Laguerre filter levels.mq5" https://www.mql5.com/en/code/22597
 Laguerre RSI - no gamma: https://www.mql5.com/en/code/22563
 Corrected T3 - EMA deviations: https://www.mql5.com/en/code/22523
 
-Trading the trend, Convert to MT4
+Trading the trend, Convert to MT4, same as Perfect trend line?
 https://www.mql5.com/en/code/21992(Onchart)
 https://www.mql5.com/en/code/21993(Histo)
+
+Perfect trend line
+https://www.mql5.com/en/code/23142
 
 Stochastic volatility
 https://www.mql5.com/en/code/20523
