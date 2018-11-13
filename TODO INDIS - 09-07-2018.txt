@@ -102,11 +102,12 @@ RSX of alb average.mq5 - https://www.mql5.com/en/code/22397
 
 TRY CONVERTING THIS
 ----------------------
+Super trend - simple: LOOKS VERY SIMPLE TO CONVERT
+Filtered averages https://www.mql5.com/en/code/23030 LOOKS GOOD
+
+https://www.mql5.com/en/code/23176 LOOKS VERY SIMPLE TO CONVERT
 TRIX candles with Keltner channel: 
 https://www.mql5.com/en/code/23096, LOOKS VERY GOOD BUT HARD TO CONVERT
-
-Super trend - simple: LOOKS VERY SIMPLE TO CONVERT
-https://www.mql5.com/en/code/23030
 
 Corrected volume weighted moving average and Volume weighted moving average
 https://www.mql5.com/en/code/23076 and https://www.mql5.com/en/code/23075
