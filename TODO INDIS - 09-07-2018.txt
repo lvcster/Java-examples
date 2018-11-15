@@ -102,6 +102,8 @@ RSX of alb average.mq5 - https://www.mql5.com/en/code/22397
 
 TRY CONVERTING THIS
 ----------------------
+Rocket RSI: https://www.mql5.com/en/code/23226 LOOKS VERY INTERESTING
+
 Super trend - simple: LOOKS VERY SIMPLE TO CONVERT
 Filtered averages https://www.mql5.com/en/code/23030 LOOKS GOOD
 
