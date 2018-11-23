@@ -1,0 +1,11 @@
+https://github.com/Motion-Project/motion
+
+https://www.bouvet.no/bouvet-deler/utbrudd/building-a-motion-activated-security-camera-with-the-raspberry-pi-zero
+
+https://pimylifeup.com/raspberry-pi-webcam-server/
+
+https://www.instructables.com/id/How-to-Make-Raspberry-Pi-Webcam-Server-and-Stream-/
+
+https://www.raspberrypi.org/forums/viewtopic.php?t=18314
+
+https://lb.raspberrypi.org/forums/viewtopic.php?t=166287
