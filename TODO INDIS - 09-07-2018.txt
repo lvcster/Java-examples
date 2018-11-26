@@ -1,15 +1,13 @@
 ======================19-10-2018=============
-https://www.mql5.com/en/forum/175037/page938
-https://forex-station.com/app.php/attach/file/3324239
-
-What is this, :), https://forex-station.com/viewtopic.php?p=1295382091#p1295382091
+https://www.mql5.com/en/forum/175037/page938. DONE, INC'ED
+Volatility Pivot: https://forex-station.com/viewtopic.php?p=1295382091#p1295382091. DONE, INC'ED
 
 XO at the bottom https://forex-station.com/viewtopic.php?t=8472218
 
-Some Chandes, https://forex-station.com/viewtopic.php?p=1295382091#p1295382091
+Some Chandes, https://forex-station.com/viewtopic.php?p=1295382091#p1295382091. DONE, INC'ED
 
 Some channels
-For now focus on Starch bands => https://www.mql5.com/en/forum/173470/page7
+For now focus on Starch bands => https://www.mql5.com/en/forum/173470/page7. DONE, Relook Carefully
 
 Also compare Starch bands 4 and 5, https://www.mql5.com/en/code/16864. For learning purposes
 Also S-Line for MT5 - I will most def need it
