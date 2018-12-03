@@ -1,3 +1,18 @@
+======================QUICK TEST, 03-12-2018=============
+
+SuperTrend nrp (new format): https://forex-station.com/viewtopic.php?f=579496&t=8472182&start=270
+
+Chande_Kroll_Stop_v1: https://forex-station.com/viewtopic.php?f=579496&t=8472182&start=460
+
+jurik trend envelopes mtf alerts: https://forex-station.com/viewtopic.php?f=579496&t=8472182&start=330
+
+MT4-LevelStop-Reverse-averages mtf: https://forex-station.com/app.php/attach/file/3310085 or http://www.yellowfx.com/mt4-levelstop-reverse-vb0-2-indicator.htm
+
+simple trend and UniTrend: https://forex-station.com/viewtopic.php?f=579496&t=8472182&start=170
+
+======================QUICK TESTS 03-12-2018, 03-12-2018=============
+
+
 ======================03-12-2018=============
 CASE STUDY: USING CLASSES AND PDF CALC
 ---------------------------------------
