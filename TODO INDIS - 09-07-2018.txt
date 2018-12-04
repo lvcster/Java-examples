@@ -1,15 +1,4 @@
 ======================QUICK TEST, 03-12-2018=============
-
-https://forexdl.com/locsignal-macddoublepike/
-FIBS: https://www.mql5.com/en/code/10214 or https://forex-station.com/app.php/attach/file/3310918
-https://www.mql5.com/en/code/10267
-https://forexdl.com/levels/
-https://forexdl.com/vinini-consttickheikenashi-r/
-https://forexdl.com/valasholic13-v2-5/
-https://forexdl.com/prevdayandfloatingpivot/
-https://forexdl.com/supersr-6/
-https://www.mql5.com/en/code/10029
-
 Regressions
 https://www.mql5.com/en/code/10194
 https://www.mql5.com/en/code/8125
