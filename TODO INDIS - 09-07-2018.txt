@@ -1,5 +1,9 @@
 ======================QUICK TEST, 03-12-2018=============
+step - vhf - adaptive vma: https://forex-station.com/viewtopic.php?f=579496&p=1295382932#p1295382932
+
 Regressions
+https://forex-station.com/viewtopic.php?f=579496&p=1295382932#p1295382932
+
 https://www.mql5.com/en/code/10194
 https://www.mql5.com/en/code/8125
 
