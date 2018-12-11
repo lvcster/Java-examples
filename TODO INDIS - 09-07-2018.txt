@@ -146,6 +146,8 @@ RSX range expansion index - cb.mq5  https://www.mql5.com/en/code/22379
 rsx of alb average.mq4 - https://forex-station.com/viewtopic.php?f=578480&t=8431109&p=1295379242#p1295379242
 RSX of alb average.mq5 - https://www.mql5.com/en/code/22397
 
+BB stops - Hull average: https://www.mql5.com/en/code/23597, LOOKS GOOD
+
 TRY CONVERTING THIS
 ----------------------
 Rocket RSI: https://www.mql5.com/en/code/23226 LOOKS VERY INTERESTING
