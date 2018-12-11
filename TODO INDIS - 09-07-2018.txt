@@ -1,5 +1,11 @@
 =====================SUPPORT AND RESISTENCE=========================
 https://forex-station.com/app.php/attach/file/3317310
+
+--TMA BANDS tpl from MrTools
+https://www.mql5.com/en/forum/179876/page29#comment_4428122
+  https://www.mql5.com/en/forum/180002/page2 - DStoch Channel
+--TMA BANDS tpl from MrTools
+
 https://forex-station.com/viewtopic.php?f=579496&t=8472583&start=20
 https://forex-station.com/viewtopic.php?f=579496&t=8472762&start=270
 
@@ -186,7 +192,8 @@ Phase change index 2
 https://www.mql5.com/en/code/23593
 
 CONVERTED BY MrTools
-Schaff trend cycle - CCI.mq5 https://www.mql5.com/en/code/23547 here https://forex-station.com/viewtopic.php?f=579496&t=8425652&start=80
+Schaff trend cycle - CCI.mq5 https://www.mql5.com/en/code/23547 here https://forex-station.com/viewtopic.php?f=579496&t=8425652&start=80. 
+Try this https://www.mql5.com/en/code/23543 (Schaff trend cycle - Hull) with ref to above
 
 Stochastic volatility
 https://www.mql5.com/en/code/20523
@@ -705,11 +712,6 @@ https://forex-station.com/viewtopic.php?p=1295375218#p1295375218
 This e.g. uses RSI, regular vs NMA
 https://www.mql5.com/en/forum/181228
 --CASE STUDY NMA APPLICATION
-
---TMA BANDS tpl from MrTools
-https://www.mql5.com/en/forum/179876/page29#comment_4428122
-  https://www.mql5.com/en/forum/180002/page2 - DStoch Channel
---TMA BANDS tpl from MrTools
 
 SMOOTHED MOM X6 or X3 - Worth looking at
 https://forex-station.com/app.php/attach/file/3325321
