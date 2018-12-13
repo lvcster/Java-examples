@@ -1,5 +1,6 @@
 =====================SUPPORT AND RESISTENCE=========================
 https://forex-station.com/app.php/attach/file/3317310
+precision trend 2.3 with S/R: https://forex-station.com/viewtopic.php?p=1295383355#p1295383355
 
 --TMA BANDS tpl from MrTools
 https://www.mql5.com/en/forum/179876/page29#comment_4428122
