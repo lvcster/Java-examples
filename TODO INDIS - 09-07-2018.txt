@@ -221,6 +221,9 @@ Jurik smooth on chart generic trend(MT5) - https://www.mql5.com/en/code/22396
 Momentum of average
 https://www.mql5.com/en/code/22745
 
+FIBS
+GannZIGZAG_HTF_Fibo: https://www.mql5.com/ru/code/23875
+
 ======================19-09-2018=============
 Do you see this, is it like "sure money"?
 https://forex-station.com/viewtopic.php?t=8423458&p=1295379190#p1295379190
