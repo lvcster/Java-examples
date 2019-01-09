@@ -1,5 +1,18 @@
 2019
 =============================================
+======================RE - QUICK TEST, 03-12-2018=============
+step - vhf - adaptive vma: https://forex-station.com/viewtopic.php?f=579496&p=1295382932#p1295382932 (MT5 version - https://www.mql5.com/en/code/22874 ) for conversion case study
+http://fxprosystems.com/hybrid-trader/
+
+Regressions
+https://www.mql5.com/en/code/10194
+https://www.mql5.com/en/code/8125
+
+jurik trend envelopes mtf alerts: https://forex-station.com/viewtopic.php?f=579496&t=8472182&start=330 REDO, CAN BE MADE SIMILAR TO SOMAT3
+
+MT4-LevelStop-Reverse-averages mtf: https://forex-station.com/app.php/attach/file/3310085 or http://www.yellowfx.com/mt4-levelstop-reverse-vb0-2-indicator.htm
+======================RE - QUICK TESTS 03-12-2018, 03-12-2018=============
+
 Perfect Match? LOOKS LIKE IT - REDO
 https://forex-station.com/viewtopic.php?f=579496&t=8417039&start=220
 
@@ -25,21 +38,6 @@ extra:
 https://www.mql5.com/en/code/11675
 https://www.mql5.com/en/code/11677
 =====================SUPPORT AND RESISTENCE=========================
-
-======================QUICK TEST, 03-12-2018=============
-step - vhf - adaptive vma: https://forex-station.com/viewtopic.php?f=579496&p=1295382932#p1295382932
-http://fxprosystems.com/hybrid-trader/
-
-Regressions
-https://www.mql5.com/en/code/10194
-https://www.mql5.com/en/code/8125
-
-jurik trend envelopes mtf alerts: https://forex-station.com/viewtopic.php?f=579496&t=8472182&start=330 REDO, CAN BE MADE SIMILAR TO SOMAT3
-
-MT4-LevelStop-Reverse-averages mtf: https://forex-station.com/app.php/attach/file/3310085 or http://www.yellowfx.com/mt4-levelstop-reverse-vb0-2-indicator.htm
-
-======================QUICK TESTS 03-12-2018, 03-12-2018=============
-
 
 ======================03-12-2018=============
 CASE STUDY: USING CLASSES AND PDF CALC
