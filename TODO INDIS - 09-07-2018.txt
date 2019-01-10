@@ -2,6 +2,9 @@
 =============================================
 
 ======================TEST, 03-12-2018===================================================
+Fourier Extrapolation
+https://www.mql5.com/en/forum/178842/page107 and https://www.mql5.com/en/forum/178842/page11
+
 cycle-explorer
 http://forexprofitway.com/forex/free-download-dynamic-cycle-explorer-forex-mt4-indicator/
 
