@@ -4,13 +4,12 @@ Creating Indicators:
 https://www.mql5.com/en/articles/1500
 https://book.mql4.com/samples/icustom
 
-NB!!!
+NB: MQL5!!!
 Corrected double smoothed Wilder's EMA: https://www.mql5.com/en/code/24159
 Nonlinear Kalman filter - floating levels: Spikes aboves SnR - https://www.mql5.com/en/code/24031
 
 COT: https://forex-station.com/viewtopic.php?f=579496&t=8418142&p=1295384652#p1295384652
 
-kase devstop original: https://forex-station.com/viewtopic.php?p=1295370073#p1295370073
 Hama, Heiken Ashi Moving Average: https://forex-station.com/viewtopic.php?p=1295364747#p1295364747
 
 SEE WAVE THEORY(REQ, DESING AND MT5 CODE)
