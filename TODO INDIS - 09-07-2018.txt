@@ -1,5 +1,9 @@
 2019
 =============================================
+NB!!!
+Corrected double smoothed Wilder's EMA: https://www.mql5.com/en/code/24159
+Nonlinear Kalman filter - floating levels: Spikes aboves SnR - https://www.mql5.com/en/code/24031
+
 COT: https://forex-station.com/viewtopic.php?f=579496&t=8418142&p=1295384652#p1295384652
 
 kase devstop original: https://forex-station.com/viewtopic.php?p=1295370073#p1295370073
