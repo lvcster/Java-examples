@@ -2,6 +2,7 @@
 =============================================
 Creating Indicators:
 https://www.mql5.com/en/articles/1500
+https://book.mql4.com/samples/icustom
 
 NB!!!
 Corrected double smoothed Wilder's EMA: https://www.mql5.com/en/code/24159
