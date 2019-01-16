@@ -4,7 +4,12 @@ Creating Indicators:
 https://www.mql5.com/en/articles/1500
 https://book.mql4.com/samples/icustom
 
+ZIG ZAG + ABCD + Divergence cheat sheet
+https://forex-station.com/viewtopic.php?p=1295349704&t=8415735&sid=18ce08a71d90718d2760f5556241ed1f or https://www.mql5.com/en/code/9166 or https://www.mql5.com/en/code/15616
+and Swing_ZZ -> https://forextradingstrategies4u.com/swing-high-swing-low-indicator-mt4/
+
 QUICK CHECK
+http://forexwinners.ru/forex/free-double-topbottom-indicator-extremely-good-edge/
 Fit in? Trend Direction Force Index Indicators and https://forex-station.com/viewtopic.php?p=1295367842#p1295367842?
 https://forex-station.com/viewtopic.php?p=1295384612#p1295384612
 What Indis? https://forex-station.com/viewtopic.php?t=8418946 and here? https://forex-station.com/viewtopic.php?p=1295381856#p1295381856
