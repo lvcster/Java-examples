@@ -4,6 +4,11 @@ NB: Today - 17/01/2019
 ATR CCI 2: https://forex-station.com/viewtopic.php?f=579496&t=8414305
 ozymandias_v2: https://forex-station.com/viewtopic.php?f=579496&t=8414305&start=10
 ema variation + filter 3.01 mtf: https://forex-station.com/viewtopic.php?f=579496&t=8414305&start=40
+Heiken ashi smoothed 3: https://forex-station.com/viewtopic.php?f=579496&t=8414305&start=50
+Trend direction & force index 1.01: https://forex-station.com/viewtopic.php?f=579496&t=8414305&start=50
+Linear Regression Multi Time Frame: https://forex-station.com/viewtopic.php?f=579496&t=8414305&start=120
+Chalkin Money Flow on jurik-2 nmc: https://forex-station.com/viewtopic.php?f=579496&t=8414305&start=60
+
 
 BASIC MQL:
 Indis: https://www.mql5.com/en/articles/1500
