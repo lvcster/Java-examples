@@ -10,6 +10,10 @@ Linear Regression Multi Time Frame: https://forex-station.com/viewtopic.php?f=57
 Chalkin Money Flow on jurik-2 nmc: https://forex-station.com/viewtopic.php?f=579496&t=8414305&start=60
 StepMA averages nmc 3.142 + arrows(Check out new version - I think 1.11): https://forex-station.com/viewtopic.php?f=579496&t=8414305&start=130
 
+THIS CAN FORM A STRATEGY
+https://forex-station.com/viewtopic.php?f=579496&t=8414305&start=220
+Latest: https://forex-station.com/viewtopic.php?f=579496&t=8414305&start=230
+
 
 BASIC MQL:
 Indis: https://www.mql5.com/en/articles/1500
