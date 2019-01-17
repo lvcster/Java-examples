@@ -8,6 +8,7 @@ Heiken ashi smoothed 3: https://forex-station.com/viewtopic.php?f=579496&t=84143
 Trend direction & force index 1.01: https://forex-station.com/viewtopic.php?f=579496&t=8414305&start=50
 Linear Regression Multi Time Frame: https://forex-station.com/viewtopic.php?f=579496&t=8414305&start=120
 Chalkin Money Flow on jurik-2 nmc: https://forex-station.com/viewtopic.php?f=579496&t=8414305&start=60
+StepMA averages nmc 3.142 + arrows(Check out new version - I think 1.11): https://forex-station.com/viewtopic.php?f=579496&t=8414305&start=130
 
 
 BASIC MQL:
