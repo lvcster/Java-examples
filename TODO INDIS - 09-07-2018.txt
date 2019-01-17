@@ -4,6 +4,10 @@ Creating Indicators:
 https://www.mql5.com/en/articles/1500
 https://book.mql4.com/samples/icustom
 
+New From Mladen:
+https://forex-station.com/viewtopic.php?f=579496&t=8418142&start=5060
+Also check https://www.forexstrategiesresources.com/metatrader-4-trading-systems-v/727-double-stop-reversal/
+
 ZIG ZAG + ABCD + Divergence cheat sheet
 https://forex-station.com/viewtopic.php?p=1295349704&t=8415735&sid=18ce08a71d90718d2760f5556241ed1f or https://www.mql5.com/en/code/9166 or https://www.mql5.com/en/code/15616
 and Swing_ZZ -> https://forextradingstrategies4u.com/swing-high-swing-low-indicator-mt4/
