@@ -113,3 +113,6 @@ https://www.codingdojo.com/what-is-the-mean-stack
 https://www.academind.com/learn/our-courses/
 https://www.udemy.com/learn-mean-stack/?utm_source=adwords-learn&utm_medium=udemyads&utm_campaign=NEW-AW-PROS-TECH-ROW-DSA-1-EN-EURO_._ci__._sl_ENG_._vi_TECH_._sd_All_._la_EN_._&utm_content=deal4584&utm_term=_._ag_57696320791_._ad_267562974378_._de_c_._dm__._pl__._ti_aud-304639795583:dsa-304639795623_._li_1028684_._pd__._&gclid=Cj0KCQjw5NnbBRDaARIsAJP-YR9fA1ivpg-lS1K3d7TPlvxmjp_wwqCABzw9QCo4FI8pH4mlRISJmRwaAvssEALw_wcB
 https://picular.co/
+
+AI
+ - TensorFlow on the web: https://www.youtube.com/watch?v=M4YsClyTMzg&ab_channel=CodingTheSmartWay.com
