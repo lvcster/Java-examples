@@ -1,3 +1,9 @@
+https://www.quantopian.com/tutorials/getting-started
+http://www.wildml.com/
+https://www.quantstart.com/articles
+http://colah.github.io/posts/2015-08-Understanding-LSTMs/
+
+
 Machine Learning = Pattern reg
 ==============================
 https://github.com/topics/pattern-recognition?l=python
@@ -36,8 +42,9 @@ Research source
 http://alo.mit.edu/research/
 
 
-
-
-
 https://quantra.quantinsti.com/courses
 www.datacamp.com
+
+
+Python-based framework for backtesting trading strategies & analyzing financial markets 
+https://github.com/constverum/Quantdom
