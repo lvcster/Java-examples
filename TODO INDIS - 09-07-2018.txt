@@ -1074,9 +1074,10 @@ https://forex-station.com/viewtopic.php?f=578480&t=8416995&start=450
 Dynamic zone rsiv
 Dynamic zone rsiv - smoothed
 
-ACADEMIC RESOURCES
+ACADEMIC RESOURCES/ RESEARCH
 https://www.semanticscholar.org/paper/Risk-Assessment-for-Banking-Systems-Elsinger-Lehar/43f361ff7de6501c2bcffcd358fd3a8ba83bfd04
 https://www.math.kth.se/matstat/seminarier/reports/
+https://pdfs.semanticscholar.org/a2c3/9c0fff06593f92dac055be7456177c0e1aa8.pdf
 
 Singular Spectrum Analysis
 ==========================
