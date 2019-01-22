@@ -1,6 +1,12 @@
 2019
 =============================================
+===================2019-01-22================
 Waddah Attar Explosion: https://www.mql5.com/en/forum/176253/page16 - settings: https://forex-station.com/viewtopic.php?t=8416798&start=2140
+Elliot Waves:
+https://www.forexstrategiesresources.com/metatrader-indicator-mt4/elliott-wave-metatrader-indicator/
+https://www.mql5.com/en/code/15941
+https://forex-station.com/viewtopic.php?t=8472516
+===================2019-01-22================
 
 NB: Today - 17/01/2019
 HalfTrend MTF with alerts: https://forex-station.com/viewtopic.php?f=579496&t=8414305&start=360
