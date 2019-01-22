@@ -3,6 +3,9 @@ http://www.wildml.com/
 https://www.quantstart.com/articles
 http://colah.github.io/posts/2015-08-Understanding-LSTMs/
 
+HANDS ON AI + Python
+https://medium.com/@alexrachnog
+
 
 Machine Learning = Pattern reg
 ==============================
