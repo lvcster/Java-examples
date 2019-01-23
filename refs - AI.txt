@@ -16,8 +16,10 @@ https://elitedatascience.com/
 https://gym.openai.com/docs/
 https://doctorj.gitlab.io/sairen/
 https://elitedatascience.com/
+https://www.kaggle.com/crawford/predicting-stock-prices
 
 Code
+Web based - https://github.com/llSourcell/Convolutional_neural_network 
 https://github.com/llSourcell/AI_in_Finance
 https://github.com/llSourcell/Reinforcement_Learning_for_Stock_Prediction
 https://github.com/llSourcell/Stock_Market_Prediction
