@@ -2,7 +2,27 @@ https://machinelearningmastery.com/machine-learning-in-python-step-by-step/
 CNN: https://medium.com/the-andela-way/deep-learning-hello-world-e1fc53ea888
 TensorFlow: https://towardsdatascience.com/hello-world-in-tensorflow-973e6c38e8ed
 
-Time Series: https://blog.statsbot.co/time-series-prediction-using-recurrent-neural-networks-lstms-807fa6ca7f
+Time Series: 
+https://blog.statsbot.co/time-series-prediction-using-recurrent-neural-networks-lstms-807fa6ca7f
+https://www.analyticsvidhya.com/blog/2016/02/time-series-forecasting-codes-python/, more notes here: https://www.analyticsvidhya.com/blog/2015/12/complete-tutorial-time-series-modeling/
+
+Time Series Anomaly Detection Algorithms
+https://blog.statsbot.co/time-series-anomaly-detection-algorithms-1cef5519aef2
+
 
 NB: On Testing Models
 https://towardsdatascience.com/how-not-to-use-machine-learning-for-time-series-forecasting-avoiding-the-pitfalls-19f9d7adf424
+
+Testing Parameter tuning
+https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/
+
+
+Search "deep learning for time series forecasting pdf"
+
+
+MUST READ(Machine Learning vs Pattern Recognition)
+https://dzone.com/articles/machine-learning-and-pattern-recognition
+
+Extra
+https://www.kaggle.com/niyamatalmass/machine-learning-for-time-series-analysis
+https://www.analyticsvidhya.com/blog/2018/08/a-simple-introduction-to-facial-recognition-with-python-codes/
