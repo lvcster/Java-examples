@@ -2,6 +2,7 @@ Python library of various financial technical indicators: https://pypi.org/proje
 
 TA-Lib : Technical Analysis Library
 http://ta-lib.org/
+https://pypi.org/project/pyti/
 
 An introduction to parallel programming using Python's multiprocessing module
 https://sebastianraschka.com/Articles/2014_multiprocessing.html
