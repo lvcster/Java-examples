@@ -1,1 +1,3 @@
 https://www.dukascopy.com/wiki/en/development/strategy-api/historical-data
+
+https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=JOH&apikey=CNFP17MQU340FIQV
