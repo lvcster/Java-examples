@@ -1,3 +1,11 @@
 https://www.dukascopy.com/wiki/en/development/strategy-api/historical-data
 
 https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=JOH&apikey=CNFP17MQU340FIQV
+https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=DSY.JOH&apikey=CNFP17MQU340FIQV
+https://www.alphavantage.co/documentation/
+https://www.alphavantage.co/
+
+https://www.quandl.com/
+https://www.morningstar.com/
+https://iextrading.com/developer/
+https://www.fmlabs.com/reference/default.htm
