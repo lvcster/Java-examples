@@ -1,3 +1,7 @@
 https://www.youtube.com/playlist?list=PLQVvvaa0QuDcR-u9O8LyLR7URiKuW-XZq
 
 http://thepatternsite.com/
+
+https://plot.ly/javascript/getting-started/
+https://plot.ly/python/embedding-plotly-graphs-in-HTML/
+https://plot.ly/python/html-reports/
