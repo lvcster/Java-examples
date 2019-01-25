@@ -17,8 +17,12 @@ https://medium.com/@alexrachnog
 Machine Learning = Pattern reg
 ==============================
 CLEAR THEORY: https://towardsdatascience.com/intro-to-deep-learning-c025efd92535
+https://medium.com/mlreview/a-simple-deep-learning-model-for-stock-price-prediction-using-tensorflow-30505541d877
 Creating my neural network: https://towardsdatascience.com/first-neural-network-for-beginners-explained-with-code-4cfd37e06eaf
+https://www.statworx.com/ch/blog/deep-learning-teil-2-programmierung/
+https://medium.com/thinkgradient/automated-machine-learning-an-overview-5a3595d5c4b5
 Stock Market Prediction by Recurrent Neural Network on LSTM Model - Clear code: https://medium.com/@aniruddha.choudhury94/stock-market-prediction-by-recurrent-neural-network-on-lstm-model-56de700bff68
+https://medium.com/@TalPerry/deep-learning-the-stock-market-df853d139e02
 https://github.com/topics/pattern-recognition?l=python
 https://stackoverflow.com/questions/45797452/pattern-recognition-in-datasets-without-visualisation-for-data-analysis
 https://www.researchgate.net/post/How_do_I_do_pattern_identification_and_recognition_in_Python
