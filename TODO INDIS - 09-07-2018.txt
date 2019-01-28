@@ -1,9 +1,13 @@
 2019
 =============================================
-Daily Data Indicator
+Daily Data Indicator(Customiz and use for Promo)
 MT4: https://www.mql5.com/en/forum/178698 
 MT5: https://www.mql5.com/en/code/16635
 
+MUST Check:
+https://www.mql5.com/en/forum/179514
+
+MQL5 NB!!!
 Donchian channel - extended: https://www.mql5.com/en/code/24319
 ===================2019-01-24================
                      MACD
