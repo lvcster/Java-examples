@@ -74,4 +74,5 @@ extra
 http://www.signalprocessingsociety.org/
 
 Tools
-https://medium.com/thinkgradient/automated-machine-learning-an-overview-5a3595d5c4b5 
+https://medium.com/thinkgradient/automated-machine-learning-an-overview-5a3595d5c4b5
+  -References tsfresh: https://tsfresh.readthedocs.io/en/latest/text/forecasting.html
