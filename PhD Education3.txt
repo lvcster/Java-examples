@@ -16,7 +16,7 @@ https://medium.com/@alexrachnog
 
 Machine Learning = Pattern reg
 ==============================
-MUST READ - 3 Series(Based on http://www.deeplearningbook.org/)
+MUST READ - 3 Series(Based on http://www.deeplearningbook.org/,  https://github.com/janishar/mit-deep-learning-book-pdf/blob/master/complete-book-pdf/deeplearningbook.pdf, https://www.deeplearningbook.org/front_matter.pdf)
 https://towardsdatascience.com/a-gentle-introduction-to-deep-learning-part-1-introduction-43eb199b0b9
 https://towardsdatascience.com/a-gentle-introduction-to-deep-learning-part-2-linear-algebra-basics-7139391402c5
 https://towardsdatascience.com/a-gentle-introduction-to-deep-learning-part-3-977d0fd1ee5c
