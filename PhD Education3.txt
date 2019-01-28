@@ -20,6 +20,7 @@ MUST READ - 3 Series
 https://towardsdatascience.com/a-gentle-introduction-to-deep-learning-part-1-introduction-43eb199b0b9
 https://towardsdatascience.com/a-gentle-introduction-to-deep-learning-part-2-linear-algebra-basics-7139391402c5
 https://towardsdatascience.com/a-gentle-introduction-to-deep-learning-part-3-977d0fd1ee5c
+Maybe related to the above series- Linear regresision concepts: https://towardsdatascience.com/supervised-learning-basics-of-linear-regression-1cbab48d0eba
 
 READ HYPERPARAMETERS: https://towardsdatascience.com/artificial-intelligence-hyperparameters-48fa29daa516
 CLEAR THEORY: https://towardsdatascience.com/intro-to-deep-learning-c025efd92535
@@ -80,7 +81,6 @@ Theory
 https://towardsdatascience.com/simply-deep-learning-an-effortless-introduction-45591a1c4abb
 
 extra
-Linear regresision concepts: https://towardsdatascience.com/supervised-learning-basics-of-linear-regression-1cbab48d0eba
 http://www.signalprocessingsociety.org/
 
 Tools
