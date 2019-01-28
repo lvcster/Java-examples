@@ -70,6 +70,9 @@ www.datacamp.com
 Python-based framework for backtesting trading strategies & analyzing financial markets 
 https://github.com/constverum/Quantdom
 
+Theory
+https://towardsdatascience.com/simply-deep-learning-an-effortless-introduction-45591a1c4abb
+
 extra
 http://www.signalprocessingsociety.org/
 
