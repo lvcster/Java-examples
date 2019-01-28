@@ -75,6 +75,7 @@ Theory
 https://towardsdatascience.com/simply-deep-learning-an-effortless-introduction-45591a1c4abb
 
 extra
+Linear regresision concepts: https://towardsdatascience.com/supervised-learning-basics-of-linear-regression-1cbab48d0eba
 http://www.signalprocessingsociety.org/
 
 Tools
