@@ -80,3 +80,4 @@ https://www.automl.org/
 https://medium.com/analytics-vidhya/automated-time-series-rstudio-release-avbytes-ml-ai-3e16d6364b58
 Prophet: https://www.analyticsvidhya.com/blog/2018/05/generate-accurate-forecasts-facebook-prophet-python-r/ or https://facebook.github.io/prophet/docs/quick_start.html
 H2O AutoML vs auto-sklearn: https://www.r-bloggers.com/a-performance-benchmark-of-different-automl-frameworks/
+https://www.datasciencecentral.com/profiles/blogs/automated-machine-learning-for-professionals
