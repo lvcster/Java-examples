@@ -85,3 +85,4 @@ Prophet: https://www.analyticsvidhya.com/blog/2018/05/generate-accurate-forecast
 H2O AutoML vs auto-sklearn: https://www.r-bloggers.com/a-performance-benchmark-of-different-automl-frameworks/
 https://www.datasciencecentral.com/profiles/blogs/automated-machine-learning-for-professionals
 https://towardsdatascience.com/how-to-beat-automl-hyperparameter-optimisation-with-flair-3b2f5092d9f5
+https://towardsdatascience.com/implementing-a-corporate-ai-strategy-a64e641384c8
