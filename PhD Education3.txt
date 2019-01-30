@@ -1,3 +1,4 @@
+https://news.efinancialcareers.com/uk-en/285249/machine-learning-and-big-data-j-p-morgan
 https://machinelearningmastery.com/how-to-get-started-with-deep-learning-for-time-series-forecasting-7-day-mini-course/
 https://machinelearningmastery.com/how-to-develop-convolutional-neural-network-models-for-time-series-forecasting/
 https://machinelearningmastery.com/how-to-develop-convolutional-neural-networks-for-multi-step-time-series-forecasting/
