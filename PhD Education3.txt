@@ -16,6 +16,7 @@ https://medium.com/@alexrachnog
 
 Machine Learning = Pattern reg
 ==============================
+Internet Book: NB NB NB http://neuralnetworksanddeeplearning.com/index.html
 TIME SERIES
 http://www.seanabu.com/2016/03/22/time-series-seasonal-ARIMA-model-in-python/
 MUST DO
