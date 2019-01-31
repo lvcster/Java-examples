@@ -1,6 +1,11 @@
 2019
 =============================================
+http://asgharfx.com/zone-indicator-mt4/
+http://asgharfx.com/stepma-bands-indicators-mt4/
+
 SYSTEMS(See template): https://www.mql5.com/en/forum/172819
+http://asgharfx.com/zone-indicator-mt4/
+DEMA_Range_Channel_HTF: https://www.mql5.com/en/code/21364 and https://www.mql5.com/en/code/21391
 
 Daily Data Indicator(Customiz and use for Promo)
 MT4: https://www.mql5.com/en/forum/178698 
