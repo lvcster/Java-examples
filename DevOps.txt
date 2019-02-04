@@ -4,3 +4,18 @@ https://www.sonarqube.org/
 https://docs.sonarqube.org/display/SONAR/Analyzing+Source+Code
 https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner
 https://www.sonarqube.org/downloads/
+
+
+
+Monitoring tools
+https://alternativeto.net/software/errormator/
+http://blog.scoutapp.com/articles/2018/01/16/a-tour-of-python-monitoring-tools
+
+https://opensource.com/article/18/4/metrics-monitoring-and-python
+
+https://opensource.com/article/18/4/metrics-monitoring-and-python
+
+AppEnlight: https://getappenlight.com/ or https://getappenlight.com/ 
+-> Reviews: https://stackshare.io/app-enlight
+
+https://github.com/scoutapp/scout_apm_python
