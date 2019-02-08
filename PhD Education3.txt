@@ -28,6 +28,9 @@ http://www.seanabu.com/2016/03/22/time-series-seasonal-ARIMA-model-in-python/
 MUST DO
 https://medium.com/me/list/bookmarks
 
+RESOURCES(Articles + intros)
+https://heartbeat.fritz.ai/machine-learning/home
+
 MUST READ - 3 Series(Based on http://www.deeplearningbook.org/,  https://github.com/janishar/mit-deep-learning-book-pdf/blob/master/complete-book-pdf/deeplearningbook.pdf, https://www.deeplearningbook.org/front_matter.pdf)
 https://towardsdatascience.com/a-gentle-introduction-to-deep-learning-part-1-introduction-43eb199b0b9
 https://towardsdatascience.com/a-gentle-introduction-to-deep-learning-part-2-linear-algebra-basics-7139391402c5
@@ -47,6 +50,7 @@ https://stackoverflow.com/questions/45797452/pattern-recognition-in-datasets-wit
 https://www.researchgate.net/post/How_do_I_do_pattern_identification_and_recognition_in_Python
 http://www.cs.tut.fi/kurssit/SGN-41007/slides/Lecture1.pdf
 http://www.researchpipeline.com/wordpress/2011/02/15/python-data-mining-packages/
+
 
 Machine Learning and Pattern Recognition for Stocks and Forex
 https://www.youtube.com/watch?v=2VVKW5uhZUM&list=PLQVvvaa0QuDe6ZBtkCNWNUbdaBo2vA4RO&index=11&ab_channel=sentdex
