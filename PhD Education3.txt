@@ -16,6 +16,9 @@ https://medium.com/@alexrachnog
 
 Machine Learning = Pattern reg
 ==============================
+ML Ccheat Sheet
+https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html
+
 NB NB NB: http://www.statsoft.com/textbook/time-series-analysis
 http://www.statsoft.com/textbook/time-series-analysis
 
