@@ -1179,13 +1179,14 @@ What is this? https://docs.mosek.com/8.1/pythonfusion/case-studies-portfolio.htm
 THREADS
 Waddah Attar Explosion Indicator:  https://www.mql5.com/en/forum/176253
 
-JOURNALS
-https://ifta.org/publications/journal/
+JOURNALS. NB NB NB - Where Mladen gets his indicator ideas
+IFTA: https://ifta.org/publications/journal/
 
-RESEARCH PAPERS
-TIME SERIES/FOCASTING: https://www.researchgate.net/publication/325915308_Using_support_vector_machine_in_FoRex_predicting
+RESEARCH PAPERS. NB NB NB
+TIME SERIES/FOCASTING: https://www.researchgate.net/publication/325915308_Using_support_vector_machine_in_FoRex_predicting, 
+https://www.researchgate.net/publication/327682784_Supervised_Support_Vector_Machine_in_Predicting_Foreign_Exchange_Trading
 www.semanticscholar.org
 https://www.researchgate.net/publication/228204014_A_New_Anomaly_The_Cross-Sectional_Profitability_of_Technical_Analysis
 
-TRADING VIDEOS AND SYSTEMS - NB NB NB
+TRADING VIDEOS AND SYSTEMS. NB NB NB
 http://winners825.rssing.com/chan-26048945/latest.php#item8
