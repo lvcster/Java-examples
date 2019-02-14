@@ -1,0 +1,129 @@
+Python library of various financial technical indicators: https://pypi.org/project/pyti/
+https://github.com/topics/technical-analysis?l=python
+https://github.com/RomelTorres/alpha_vantage
+
+TA-Lib : Technical Analysis Library
+http://ta-lib.org/
+https://pypi.org/project/pyti/
+
+An introduction to parallel programming using Python's multiprocessing module
+https://sebastianraschka.com/Articles/2014_multiprocessing.html
+
+DJANGO
+https://docs.djangoproject.com/en/2.1/
+
+PhD ENGINEERING
+https://pypi.org/project/webcam-streamer/
+
+WEB SERVICES
+https://www.django-rest-framework.org/
+https://opensource.com/article/17/3/writing-web-service-using-python-flask
+https://www.codementor.io/sagaragarwal94/building-a-basic-restful-api-in-python-58k02xsiq
+https://www.pythonforbeginners.com/python-on-the-web/how-to-access-various-web-services-in-python
+https://www.bogotobogo.com/python/python_http_web_services.php
+https://dzone.com/articles/restful-web-services-with-python-flask
+https://technology.amis.nl/2018/01/26/automate-batch-calls-to-soap-and-rest-webservices-using-simple-python-scripts/
+
+FLASK
+Organizing your project: http://exploreflask.com/en/latest/organizing.html
+Blueprints: http://flask.pocoo.org/docs/0.12/blueprints/
+
+ORM
+https://www.fullstackpython.com/object-relational-mappers-orms.html
+https://www.sqlalchemy.org/
+https://ponyorm.com/
+
+
+PROJECT/LIBS
+https://pypi.org/
+
+
+CONDA
+Creating new project virtual env: (Recommendated for self contained - and not to run into issus with packages)
+conda create --MyDjangoProjectEnv django
+activate MyDjangoProjectEnv
+
+Working with DJagno
+conda install django / pip install django
+django-admin startproject first_project
+
+Run server
+cd first_project\
+python manage.py runserver
+
+Creating the app
+C:\..\first_project> python manage.py startup first_app
+Open settings.py and add first_app in INSTALLED_APPS
+
+=============================
+Python For Finance
+
+https://stackoverflow.com/questions/44810875/how-to-draw-a-classic-stock-chart-with-matplotlib
+https://www.quora.com/What-are-some-Python-libraries-for-building-chart-patterns-for-stocks-data
+https://blog.modeanalytics.com/python-interactive-plot-libraries/
+https://towardsdatascience.com/stock-analysis-in-python-a0054e2c1a4c
+https://ntguardian.wordpress.com/2016/09/19/introduction-stock-market-data-python-1/
+https://www.datacamp.com/courses
+https://plot.ly/python/candlestick-charts/
+https://facebook.github.io/prophet/docs/quick_start.html
+https://www.quandl.com/tools/python
+https://pythonprogramming.net/last-price-stock-chart-matplotlib-tutorial/
+https://www.datacamp.com/community/tutorials/finance-python-trading
+=============================
+
+CHATBOT
+https://www.datacamp.com/courses/building-chatbots-in-python?utm_source=adwords_ppc&utm_campaignid=1450639170&utm_adgroupid=56780053416&utm_device=c&utm_keyword=&utm_matchtype=&utm_network=d&utm_adpostion=none&utm_creative=277434774167&utm_targetid=aud-463029047191&utm_loc_interest_ms=&utm_loc_physical_ms=1028684&gclid=EAIaIQobChMI3cjCzPX43QIVdqDtCh2eIAy4EAEYASAAEgIlgvD_BwE
+
+=============================
+INDEXING
+http://lucene.apache.org/pylucene/#news20090108
+https://pypi.org/project/Whoosh/
+https://opensourceforu.com/2016/10/file-search-with-python/
+https://stackoverflow.com/questions/532312/python-file-indexing-and-searching
+=============================
+
+
+=============================
+PYTHON VS JAVA
+http://home.wlu.edu/~lambertk/pythontojava/
+https://www.py4j.org/
+============================
+
+CMS
+http://docs.django-cms.org/en/latest/
+
+
+TOOLS
+http://www.pythontutor.com/
+https://www.datacamp.com/community/tutorials/data-science-python-ide?utm_source=adwords_ppc&utm_campaignid=1455363063&utm_adgroupid=65083631748&utm_device=c&utm_keyword=&utm_matchtype=b&utm_network=g&utm_adpostion=1t2&utm_creative=278443377077&utm_targetid=dsa-473406587035&utm_loc_interest_ms=&utm_loc_physical_ms=1028684&gclid=CjwKCAjwq57cBRBYEiwAdpx0veQsIHOfJF9QDuYiBlokYKwuwSeDHxLwzuF57ZrHWj2fZrCJkp9ErxoCQjQQAvD_BwE
+https://cookiecutter-django.readthedocs.io/en/latest/
+https://djangopackages.org/grids/g/cookiecutters/
+https://realpython.com/python-ides-code-editors-guide/#eclipse-pydev
+http://plugins.netbeans.org/plugin/61688/python
+
+BOOKS
+DJANGO BEST PRACTICES
+http://bedford-computing.co.uk/learning/wp-content/uploads/2016/08/Daniel-Roy-Greenfeld-Audrey-Roy-Greenfeld-Two-Scoops-of-Django_-Best-Practices-for-Django-1.8-Two-Scoops-Press-2015.pdf
+http://www.pallier.org/lectures/AIP2016/books/Beginning_Python_from_Novice_to_pro.pdf
+http://www.freetechbooks.com/python-f6.html
+
+JSON
+https://jsonformatter.org/
+https://www.journaldev.com/2324/jackson-json-java-parser-api-example-tutorial
+http://websystique.com/java/json/jackson-convert-java-object-to-from-json/
+http://tutorials.jenkov.com/java-json/jackson-objectmapper.html
+https://www.programcreek.com/java-api-examples/?class=com.fasterxml.jackson.databind.ObjectMapper&method=writeValueAsBytes
+https://www.baeldung.com/jackson-object-mapper-tutorial
+https://www.baeldung.com/convert-file-to-input-stream
+https://www.concretepage.com/jackson-api/read-write-json-using-jackson-objectmapper-jsonparser-jsongenerator-example
+https://medium.com/@cowtowncoder/reading-writing-java-properties-files-using-jackson-2-8-efd7a8da9d4c
+
+WEB
+http://mean.io/
+http://meanjs.org/
+https://thinkster.io/tutorials/mean-stack
+https://devcenter.heroku.com/articles/mean-apps-restful-api
+https://www.codingdojo.com/what-is-the-mean-stack
+https://www.academind.com/learn/our-courses/
+https://www.udemy.com/learn-mean-stack/?utm_source=adwords-learn&utm_medium=udemyads&utm_campaign=NEW-AW-PROS-TECH-ROW-DSA-1-EN-EURO_._ci__._sl_ENG_._vi_TECH_._sd_All_._la_EN_._&utm_content=deal4584&utm_term=_._ag_57696320791_._ad_267562974378_._de_c_._dm__._pl__._ti_aud-304639795583:dsa-304639795623_._li_1028684_._pd__._&gclid=Cj0KCQjw5NnbBRDaARIsAJP-YR9fA1ivpg-lS1K3d7TPlvxmjp_wwqCABzw9QCo4FI8pH4mlRISJmRwaAvssEALw_wcB
+https://picular.co/
