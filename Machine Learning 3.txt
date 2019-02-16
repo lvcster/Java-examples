@@ -41,3 +41,4 @@ https://courses.edx.org/asset-v1:ColumbiaX+CSMM.101x+1T2017+type@asset+block@AI_
 https://deeplearning-math.github.io/
 https://github.com/GoogleCloudPlatform/tensorflow-without-a-phd
 https://github.com/akashlevy/Deep-Learn-Oil
+https://github.com/langcog/fxs_classify
