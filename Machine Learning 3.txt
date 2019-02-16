@@ -35,3 +35,4 @@ https://www.originate.com/thinking/stories/predicting-stock-market-neural-networ
 https://hackernoon.com/forecasting-market-movements-using-tensorflow-fb73e614cd06
 https://quantdare.com/forecasting-sp-500-using-machine-learning/
 JAVA: https://github.com/IsaacChanghau
+https://github.com/timestocome
