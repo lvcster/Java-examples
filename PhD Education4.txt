@@ -7,6 +7,7 @@ https://www.datacamp.com/profile/elvishlongwane
 https://www.quantopian.com/tutorials/getting-started
 http://www.wildml.com/
 https://www.quantstart.com/articles
+courses.analyticsvidhya.com
 http://colah.github.io/posts/2015-08-Understanding-LSTMs/
 
 
