@@ -1,5 +1,14 @@
 2019
 =============================================
+
+NB NB NB !!! 18-02-2019
+=====================VAMA <FIX>===============================
+VHF adaptive VMA: MT5 -> https://www.mql5.com/en/code/22651
+Step VHF adaptive VMA: MT5 -> https://www.mql5.com/en/code/22874
+
+Did this fix the issue? https://forex-station.com/viewtopic.php?f=579496&t=8431109&start=110
+=====================VAMA <FIX>===============================
+
 https://www.mql5.com/en/articles/271
 
 https://forex-station.com/app.php/attach/file/3266149
