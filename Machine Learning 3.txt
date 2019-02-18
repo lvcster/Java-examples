@@ -36,6 +36,7 @@ https://hackernoon.com/forecasting-market-movements-using-tensorflow-fb73e614cd0
 https://quantdare.com/forecasting-sp-500-using-machine-learning/
 JAVA: https://github.com/IsaacChanghau
 CNN Long Short-Term Memory Networks: https://machinelearningmastery.com/cnn-long-short-term-memory-networks/
+Tutorials: https://adventuresinmachinelearning.com/
 
 https://github.com/timestocome
 https://courses.edx.org/asset-v1:ColumbiaX+CSMM.101x+1T2017+type@asset+block@AI_edx_ml_5.1intro.pdf
