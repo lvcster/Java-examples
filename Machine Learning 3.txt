@@ -34,7 +34,7 @@ https://www.quantinsti.com/blog/artificial-neural-network-python-using-keras-pre
 https://www.originate.com/thinking/stories/predicting-stock-market-neural-network-pds/
 https://hackernoon.com/forecasting-market-movements-using-tensorflow-fb73e614cd06
 https://quantdare.com/forecasting-sp-500-using-machine-learning/
-JAVA: https://github.com/IsaacChanghau 
+JAVA: https://github.com/IsaacChanghau, Explaination: https://isaacchanghau.github.io/post/stock_price_predict/
 JAVA(Maven, Springboot): https://www.opencodez.com/java/deeplearaning4j.htm
 CNN Long Short-Term Memory Networks: https://machinelearningmastery.com/cnn-long-short-term-memory-networks/
 Tutorials: https://adventuresinmachinelearning.com/
