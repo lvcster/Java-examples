@@ -29,6 +29,7 @@ https://www.analyticsvidhya.com/blog/2018/08/a-simple-introduction-to-facial-rec
 
 
 Time Series(with Features) 
+TUTORIAL AND CHEAT SHEETS: https://www.datacamp.com/community/tutorials/lstm-python-stock-market
 https://github.com/SC4RECOIN/LSTM-Crypto-Price-Prediction
 https://www.quantinsti.com/blog/artificial-neural-network-python-using-keras-predicting-stock-price-movement
 https://www.originate.com/thinking/stories/predicting-stock-market-neural-network-pds/
