@@ -3,6 +3,9 @@
 kalman filter 2.1 velocity
 https://forex-station.com/viewtopic.php?t=8472182&p=1295359443#p1295359443
 
+alma_v1
+https://mq4download.forexmt4indicators.net/mql4a/alma_v1-mq4.html
+
 
 NB NB NB !!! 18-02-2019
 =====================VAMA <FIX>===============================
