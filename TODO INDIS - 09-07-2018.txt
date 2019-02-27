@@ -5,6 +5,10 @@ https://www.best-metatrader-indicators.com/delta-rsi-indicator/
 https://www.mql5.com/en/forum/187072
 http://www.binaryoptionsedge.com/topic/3452-cci-delta-system-15-minutes/
 
+Linear
+With buffers: https://www.mql5.com/en/code/8016
+http://auto-forex-trading.com/en/raff-channel-indicator-en/
+
 kalman filter 2.1 velocity
 https://forex-station.com/viewtopic.php?t=8472182&p=1295359443#p1295359443
 
