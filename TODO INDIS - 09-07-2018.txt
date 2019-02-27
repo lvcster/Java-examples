@@ -25,6 +25,8 @@ Step VHF adaptive VMA: MT5 -> https://www.mql5.com/en/code/22874
 
 Did this fix the issue? https://forex-station.com/viewtopic.php?f=579496&t=8431109&start=110
 =====================VAMA <FIX>===============================
+Similar to VAMA and Looks good
+Corrected AMA: https://www.mql5.com/en/code/24819#
 
 https://www.mql5.com/en/articles/271
 
