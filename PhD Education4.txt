@@ -17,6 +17,7 @@ https://medium.com/@alexrachnog
 
 Machine Learning = Pattern reg
 ==============================
+GENERAL TIME SERIES: https://medium.com/open-machine-learning-course/open-machine-learning-course-topic-9-time-series-analysis-in-python-a270cb05e0b3
 CLEAR THEORY: https://towardsdatascience.com/intro-to-deep-learning-c025efd92535
 https://medium.com/mlreview/a-simple-deep-learning-model-for-stock-price-prediction-using-tensorflow-30505541d877
 Creating my neural network: https://towardsdatascience.com/first-neural-network-for-beginners-explained-with-code-4cfd37e06eaf
