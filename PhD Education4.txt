@@ -31,6 +31,9 @@ https://www.researchgate.net/post/How_do_I_do_pattern_identification_and_recogni
 http://www.cs.tut.fi/kurssit/SGN-41007/slides/Lecture1.pdf
 http://www.researchpipeline.com/wordpress/2011/02/15/python-data-mining-packages/
 
+MATHS Resources
+https://people.duke.edu/~rnau/411home.htm
+
 Machine Learning and Pattern Recognition for Stocks and Forex
 https://www.youtube.com/watch?v=2VVKW5uhZUM&list=PLQVvvaa0QuDe6ZBtkCNWNUbdaBo2vA4RO&index=11&ab_channel=sentdex
 
