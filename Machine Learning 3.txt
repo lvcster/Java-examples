@@ -31,7 +31,9 @@ https://www.analyticsvidhya.com/blog/2018/08/a-simple-introduction-to-facial-rec
 Time Series(with Features) 
 NICE SAMPLE USING Flust: https://github.com/SJSU272LabF17/StockPredict-ML
 COMPARING OF DIFFERENT MODELS: https://www.analyticsvidhya.com/blog/2018/10/predicting-stock-price-machine-learningnd-deep-learning-techniques-python/
+CHECK OR SKIP: https://towardsdatascience.com/trend-seasonality-moving-average-auto-regressive-model-my-journey-to-time-series-data-with-edc4c0c8284b
 Time-series-forecasting-methods: https://machinelearningmastery.com/time-series-forecasting-methods-in-python-cheat-sheet/ and https://www.analyticsvidhya.com/blog/2018/02/time-series-forecasting-methods/
+
 TUTORIAL AND CHEAT SHEETS: https://www.datacamp.com/community/tutorials/lstm-python-stock-market
 https://github.com/SC4RECOIN/LSTM-Crypto-Price-Prediction
 https://www.quantinsti.com/blog/artificial-neural-network-python-using-keras-predicting-stock-price-movement
