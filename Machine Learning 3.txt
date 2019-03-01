@@ -6,6 +6,9 @@ Time Series:
 https://blog.statsbot.co/time-series-prediction-using-recurrent-neural-networks-lstms-807fa6ca7f
 https://www.analyticsvidhya.com/blog/2016/02/time-series-forecasting-codes-python/, more notes here: https://www.analyticsvidhya.com/blog/2015/12/complete-tutorial-time-series-modeling/
 
+BLOG -TIME SERIES
+http://intelligentonlinetools.com/blog/site-map/#time_series_prediction
+
 Time Series Anomaly Detection Algorithms
 https://blog.statsbot.co/time-series-anomaly-detection-algorithms-1cef5519aef2
 
