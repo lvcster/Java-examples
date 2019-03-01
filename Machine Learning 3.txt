@@ -32,6 +32,8 @@ https://www.analyticsvidhya.com/blog/2018/08/a-simple-introduction-to-facial-rec
 
 
 Time Series(with Features) 
+http://www.seanabu.com/2016/03/22/time-series-seasonal-ARIMA-model-in-python/
+https://nbviewer.jupyter.org/github/Yorko/mlcourse_open/blob/master/jupyter_english/topic09_time_series/topic9_part1_time_series_python.ipynb
 NICE SAMPLE USING Flust: https://github.com/SJSU272LabF17/StockPredict-ML
 COMPARING OF DIFFERENT MODELS: https://www.analyticsvidhya.com/blog/2018/10/predicting-stock-price-machine-learningnd-deep-learning-techniques-python/
 CHECK OR SKIP: https://towardsdatascience.com/trend-seasonality-moving-average-auto-regressive-model-my-journey-to-time-series-data-with-edc4c0c8284b
