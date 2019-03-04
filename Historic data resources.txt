@@ -10,5 +10,8 @@ https://www.morningstar.com/
 https://iextrading.com/developer/
 https://www.fmlabs.com/reference/default.htm
 
+API 
+https://app.alpaca.markets/signup
+
 STOCK PREDICTIONS
 https://www.predictwallstreet.com/
