@@ -9,3 +9,6 @@ https://www.quandl.com/
 https://www.morningstar.com/
 https://iextrading.com/developer/
 https://www.fmlabs.com/reference/default.htm
+
+STOCK PREDICTIONS
+https://www.predictwallstreet.com/
