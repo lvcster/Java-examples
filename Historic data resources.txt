@@ -12,6 +12,8 @@ https://www.fmlabs.com/reference/default.htm
 
 API 
 https://app.alpaca.markets/signup
+https://www.quantconnect.com/data/tree
+https://docs.tradingeconomics.com/#historical
 
 STOCK PREDICTIONS
 https://www.predictwallstreet.com/
