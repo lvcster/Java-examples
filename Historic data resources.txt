@@ -17,3 +17,16 @@ https://docs.tradingeconomics.com/#historical
 
 STOCK PREDICTIONS
 https://www.predictwallstreet.com/
+
+Temp
+-------------------------------------------------------------
+investing.py: https://github.com/freenetwork/investing.com.economic-calendar
+=======================Python and Selenium===================
+import selenium
+from selenium import webdriver 
+
+driver.Chrome(executable_path=PATH_TO_CHROMEDRIVER)
+driver.get("https://www.investing.com/economic-calendar/")
+driver.find_element_by_id("timeFrame_tomorrow").click()
+html = driver.page_source
+=============================================================
