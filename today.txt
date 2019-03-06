@@ -1,5 +1,8 @@
 =================================06-03-2019==========================================
 https://machinelearningmastery.com/time-series-prediction-lstm-recurrent-neural-networks-python-keras/ or https://github.com/g3n1uss/time-series-lstm-experiments
+https://www.youtube.com/watch?v=e8Yw4alG16Q&t=1095s
+
+https://github.com/asifahmed90/Cryptocurrency_Market_Prediction
 https://www.analyticsvidhya.com/blog/2016/02/time-series-forecasting-codes-python/
 https://towardsdatascience.com/an-end-to-end-project-on-time-series-analysis-and-forecasting-with-python-4835e6bf050b
 https://www.seanabu.com/2016/03/22/time-series-seasonal-ARIMA-model-in-python/
