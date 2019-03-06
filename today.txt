@@ -6,6 +6,14 @@ The brilliant beginner’s guide to model deployment:
 https://heartbeat.fritz.ai/brilliant-beginners-guide-to-model-deployment-133e158f6717
 =================================06-03-2019==========================================
 
+TODO
+https://github.com/topics/time-series-analysis?o=asc&s=stars
+https://github.com/topics/time-series-analysis
+https://github.com/topics/time-series-analysis?o=desc&s=updated
+https://github.com/topics/arima-model?o=desc&s=updated
+https://github.com/topics/time-series-analysis?l=python&o=asc&s=stars
+https://github.com/Geo-Joy/Deep-Learning-for-Time-Series-Forecasting
+
 UDEMY DOWNLOADER
 https://github.com/FaisalUmair/udemy-downloader-gui
 
