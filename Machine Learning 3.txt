@@ -56,3 +56,8 @@ https://deeplearning-math.github.io/
 https://github.com/GoogleCloudPlatform/tensorflow-without-a-phd
 https://github.com/akashlevy/Deep-Learn-Oil
 https://github.com/langcog/fxs_classify
+
+TOOLS
+AutoKeras,
+Google’s AutoML
+Ludwig
