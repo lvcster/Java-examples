@@ -1,2 +1,11 @@
+=================================06-03-2019==========================================
+Getting Started With Google Colab: 
+https://towardsdatascience.com/getting-started-with-google-colab-f2fff97f594c
+
+The brilliant beginner’s guide to model deployment: 
+https://heartbeat.fritz.ai/brilliant-beginners-guide-to-model-deployment-133e158f6717
+=================================06-03-2019==========================================
+
 UDEMY DOWNLOADER
 https://github.com/FaisalUmair/udemy-downloader-gui
+
