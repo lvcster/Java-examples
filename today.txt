@@ -1,4 +1,11 @@
 =================================06-03-2019==========================================
+https://www.analyticsvidhya.com/blog/2016/02/time-series-forecasting-codes-python/
+https://towardsdatascience.com/an-end-to-end-project-on-time-series-analysis-and-forecasting-with-python-4835e6bf050b
+https://www.seanabu.com/2016/03/22/time-series-seasonal-ARIMA-model-in-python/
+https://www.kaggle.com/kashnitsky/topic-9-part-1-time-series-analysis-in-python
+http://dismalpy.github.io/user/_notebooks/varmax.ipynb.html
+
+
 Getting Started With Google Colab: 
 https://towardsdatascience.com/getting-started-with-google-colab-f2fff97f594c
 
