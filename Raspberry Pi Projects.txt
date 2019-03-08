@@ -1,1 +1,3 @@
 https://www.intorobotics.com/a-must-see-list-of-tensorflow-examples/
+https://www.codeproject.com/Articles/1268309/Adding-Object-Detection-with-TensorFlow-to-a-Robot
+https://hackernoon.com/iarrc2018-b93a2b63c1a6
