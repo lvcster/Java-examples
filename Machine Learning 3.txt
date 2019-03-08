@@ -1,3 +1,5 @@
+LOOKS GOOD: https://github.com/amitkaps
+
 https://machinelearningmastery.com/machine-learning-in-python-step-by-step/
 CNN: https://medium.com/the-andela-way/deep-learning-hello-world-e1fc53ea888
 TensorFlow: https://towardsdatascience.com/hello-world-in-tensorflow-973e6c38e8ed
