@@ -34,6 +34,16 @@ https://www.analyticsvidhya.com/blog/2018/08/a-simple-introduction-to-facial-rec
 
 
 Time Series(with Features) 
+**********************************************************************************************************************
+=======FIRST LOOK=====================================================================================================
+https://towardsdatascience.com/get-a-glimpse-of-future-using-time-series-forecasting-using-auto-arima-and-artificial-intelligence-273efabec6aa
+https://datafai.com/auto-arima-using-pyramid-arima-python-package/
+https://www.analyticsvidhya.com/blog/2018/10/predicting-stock-price-machine-learningnd-deep-learning-techniques-python/
+https://www.analyticsvidhya.com/blog/2018/08/auto-arima-time-series-modeling-python-r/
+Bring In Plotly
+https://towardsdatascience.com/introduction-to-interactive-time-series-visualizations-with-plotly-in-python-d3219eb7a7af
+=======FIRST LOOK=====================================================================================================
+https://towardsdatascience.com/building-a-deep-learning-model-using-keras-1548ca149d37
 http://www.seanabu.com/2016/03/22/time-series-seasonal-ARIMA-model-in-python/
 https://nbviewer.jupyter.org/github/Yorko/mlcourse_open/blob/master/jupyter_english/topic09_time_series/topic9_part1_time_series_python.ipynb
 NICE SAMPLE USING Flust: https://github.com/SJSU272LabF17/StockPredict-ML
@@ -71,3 +81,5 @@ Code and paper
 https://github.com/melodyguan/enas
 paperswithcode.com
 
+ML ALGORYTHMS
+https://blog.goodaudience.com/top-10-machine-learning-algorithms-2a9a3e1bdaff
