@@ -1,5 +1,8 @@
 2019
 =============================================
+Power Weighted Moving Average MTF:
+https://forex-station.com/viewtopic.php?f=579496&t=8414844&start=920
+
 STEP MA INDICATORS
 https://www.mql5.com/en/forum/173044/page24
 https://4xone.com/step-ma-of-cci-2-01-mtf/
