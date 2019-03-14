@@ -84,3 +84,6 @@ paperswithcode.com
 
 ML ALGORYTHMS
 https://blog.goodaudience.com/top-10-machine-learning-algorithms-2a9a3e1bdaff
+
+Extra
+https://github.com/deeplearning4j/dl4j-examples/issues/34
