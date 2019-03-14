@@ -36,6 +36,7 @@ https://www.analyticsvidhya.com/blog/2018/08/a-simple-introduction-to-facial-rec
 Time Series(with Features) 
 **********************************************************************************************************************
 =======FIRST LOOK=====================================================================================================
+https://machinelearningmastery.com/time-series-prediction-lstm-recurrent-neural-networks-python-keras/
 https://towardsdatascience.com/get-a-glimpse-of-future-using-time-series-forecasting-using-auto-arima-and-artificial-intelligence-273efabec6aa
 https://datafai.com/auto-arima-using-pyramid-arima-python-package/
 https://www.analyticsvidhya.com/blog/2018/10/predicting-stock-price-machine-learningnd-deep-learning-techniques-python/
