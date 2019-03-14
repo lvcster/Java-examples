@@ -40,6 +40,7 @@ https://towardsdatascience.com/aifortrading-2edd6fac689d and/or https://github.c
 https://stackabuse.com/time-series-analysis-with-lstm-using-pythons-keras-library/
 https://machinelearningmastery.com/time-series-prediction-lstm-recurrent-neural-networks-python-keras/
 https://blog.usejournal.com/stock-market-prediction-by-recurrent-neural-network-on-lstm-model-56de700bff68
+https://www.kdnuggets.com/2017/11/automated-feature-engineering-time-series-data.html
 https://machinelearningmastery.com/how-to-develop-lstm-models-for-multi-step-time-series-forecasting-of-household-power-consumption/
 https://github.com/aniruddhachoudhury/Stock-Market-Analysis
 
