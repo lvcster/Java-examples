@@ -1239,3 +1239,4 @@ http://winners825.rssing.com/chan-26048945/latest.php#item8
 MACHINE LEARNING - FEATURE SELECTION
 https://alphascientist.com/feature_engineering.html
 https://pdfs.semanticscholar.org/893d/0bdf90186ca2b6c7327813a240f2fd713ed5.pdf
+https://www.mql5.com/en/articles/1103
