@@ -87,6 +87,11 @@ https://github.com/Rachnog/Keras2Java-LSTM: Keras2Java-LSTM
 Boosting with AdaBoost and Gradient Boosting: Why is AdaBoost, GBM, and XGBoost
 https://github.com/blue-yonder/tsfresh
 
+MXNet[https://medium.com/apache-mxnet
+https://medium.com/apache-mxnet/apache-mxnet-1-4-0-is-here-a8b6ac0ea3a1
+https://medium.com/apache-mxnet/introducing-java-apis-for-deep-learning-inference-with-apache-mxnet-8406a698fa5a
+https://medium.com/mlreview/10-deep-learning-projects-based-on-apache-mxnet-8231109f3f64]
+
 Code and paper
 https://github.com/melodyguan/enas
 paperswithcode.com
