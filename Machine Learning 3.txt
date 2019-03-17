@@ -36,7 +36,7 @@ https://www.analyticsvidhya.com/blog/2018/08/a-simple-introduction-to-facial-rec
 Time Series(with Features) 
 **********************************************************************************************************************
 =======FIRST LOOK=====================================================================================================
-https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction
+GOOD e.g., Class, run as a standalone: https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction
 https://towardsdatascience.com/aifortrading-2edd6fac689d and/or https://github.com/borisbanushev/stockpredictionai
 https://stackabuse.com/time-series-analysis-with-lstm-using-pythons-keras-library/
 https://machinelearningmastery.com/time-series-prediction-lstm-recurrent-neural-networks-python-keras/
