@@ -27,6 +27,8 @@ https://github.com/topics/time-series-analysis?o=desc&s=updated
 https://github.com/topics/arima-model?o=desc&s=updated
 https://github.com/topics/time-series-analysis?l=python&o=asc&s=stars
 https://github.com/Geo-Joy/Deep-Learning-for-Time-Series-Forecasting
+https://github.com/jcjohnson/densecap - Neccessary for Image processing applications
+https://github.com/karpathy/arxiv-sanity-preserver - Derive some models from this application
 
 UDEMY DOWNLOADER
 https://github.com/FaisalUmair/udemy-downloader-gui
