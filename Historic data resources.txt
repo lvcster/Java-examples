@@ -6,6 +6,7 @@ https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=DSY.JOH&apikey=CN
 https://www.alphavantage.co/documentation/
 https://www.alphavantage.co/
 
+https://www.quandl.com/tools/full-list
 https://www.quandl.com/
 https://www.morningstar.com/
 https://iextrading.com/developer/
