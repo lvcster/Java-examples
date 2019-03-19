@@ -47,3 +47,7 @@ https://github.com/karpathy/arxiv-sanity-preserver - Derive some models from thi
 UDEMY DOWNLOADER
 https://github.com/FaisalUmair/udemy-downloader-gui
 
+RESOURCES
+==============
+https://pbpython.com
+
