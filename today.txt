@@ -1,7 +1,16 @@
 =================================06-03-2019==========================================
+Plotly and Dash
+https://pbpython.com/plotly-dash-intro.html
 Plotly and Angular:
 https://www.youtube.com/watch?v=5wtnKulcquA&ab_channel=DesignCourse
 https://angularfirebase.com/lessons/realtime-charts-with-plot-ly/
+
+Proven theories
+===============
+Practical Business Python: 
+  Market Basket Analysis: https://pbpython.com/market-basket-analysis.html
+                          https://www.kaggle.com/datatheque/association-rules-mining-market-basket-analysis
+                          https://www.kaggle.com/xvivancos/market-basket-analysis
 
 https://medium.com/deep-math-machine-learning-ai
 https://github.com/jackgolding/FullStackDataAnalysis
