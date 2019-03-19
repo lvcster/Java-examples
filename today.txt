@@ -1,4 +1,7 @@
 =================================06-03-2019==========================================
+Plotly and Angular:
+https://angularfirebase.com/lessons/realtime-charts-with-plot-ly/
+
 https://medium.com/deep-math-machine-learning-ai
 https://github.com/jackgolding/FullStackDataAnalysis
 https://www.dataschool.io/
