@@ -1,5 +1,6 @@
 =================================06-03-2019==========================================
 Plotly and Angular:
+https://www.youtube.com/watch?v=5wtnKulcquA&ab_channel=DesignCourse
 https://angularfirebase.com/lessons/realtime-charts-with-plot-ly/
 
 https://medium.com/deep-math-machine-learning-ai
