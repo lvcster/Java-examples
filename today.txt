@@ -3,6 +3,9 @@ ZeroMQ Connector { Python 3 to MetaTrader 4}
 https://github.com/darwinex/dwx-zeromq-connector
 http://zeromq.org/
 
+Installing Installing TA-Lib
+https://github.com/afnhsn
+
 Plotly, Dash and py-quantmod
 https://pbpython.com/plotly-dash-intro.html
 https://github.com/jackluo/py-quantmod
