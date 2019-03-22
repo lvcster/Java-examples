@@ -1,6 +1,7 @@
 =================================06-03-2019==========================================
-ZeroMQ Connector { Python 3 to MetaTrader 4}
+ZeroMQ Connector { Python 3 to MetaTrader 4} 
 https://github.com/darwinex/dwx-zeromq-connector
+http://zeromq.org/
 
 Plotly, Dash and py-quantmod
 https://pbpython.com/plotly-dash-intro.html
