@@ -1,4 +1,6 @@
 =================================06-03-2019==========================================
+TRADING: http://www.ufx-trend-scalper.com/YouTubeLive.html
+
 ZeroMQ Connector { Python 3 to MetaTrader 4} 
 https://github.com/darwinex/dwx-zeromq-connector
 http://zeromq.org/
