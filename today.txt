@@ -1,4 +1,7 @@
 =================================06-03-2019==========================================
+Creating and Instantiating a simple class in python:
+https://dev.to/ogwurujohnson/creating-and-instantiating-a-simple-class-in-python-79b
+
 TRADING: http://www.ufx-trend-scalper.com/YouTubeLive.html
 
 ZeroMQ Connector { Python 3 to MetaTrader 4} 
