@@ -1,5 +1,13 @@
 2019
 =============================================
+StepMA new 1.05: https://www.mql5.com/en/forum/178397/page241
+System: https://forex-station.com/app.php/attach/file/3311500
+https://forex-station.com/viewtopic.php?p=1295357537&fbclid=IwAR1rZwVjNuk_JH6Iex9VFisU7GiFNvqnV8KBlLWKxWgPxtiTZs9bvfBJnqw#p1295357537
+StepMA of rsi adaptive tema 1.1: https://forex-station.com/app.php/attach/file/3313160
+
+BB_Squeeze_Advanced_v2 nmc.mq4
+https://forex-station.com/viewtopic.php?t=8412977&start=160
+
 Power Weighted Moving Average MTF:
 https://forex-station.com/viewtopic.php?f=579496&t=8414844&start=920
 
