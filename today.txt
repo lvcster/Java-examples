@@ -1,6 +1,7 @@
 =================================28-03-2019==========================================
 https://www.kdnuggets.com/2018/05/deep-learning-apache-spark-part-2.html
 http://demo.caffe.berkeleyvision.org/classify_upload
+https://medium.com/@morga046/creating-an-nlp-data-set-from-youtube-subtitles-fb59c0955c2
 
 https://www.pyimagesearch.com/2017/08/21/deep-learning-with-opencv/
 https://becominghuman.ai/face-detection-with-opencv-and-deep-learning-90b84735f421
