@@ -1,4 +1,7 @@
 =================================28-03-2019==========================================
+https://www.kdnuggets.com/2018/05/deep-learning-apache-spark-part-2.html
+http://demo.caffe.berkeleyvision.org/classify_upload
+
 https://www.pyimagesearch.com/2017/08/21/deep-learning-with-opencv/
 https://becominghuman.ai/face-detection-with-opencv-and-deep-learning-90b84735f421
 http://www.jcuda.org/samples/samples.html, code https://github.com/jcuda/jcuda-samples/tree/master/JCudaSamples
