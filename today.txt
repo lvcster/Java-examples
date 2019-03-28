@@ -1,4 +1,6 @@
-=================================06-03-2019==========================================
+=================================28-03-2019==========================================
+https://stackoverflow.com/questions/22866901/using-java-with-nvidia-gpus-cuda
+
 Creating and Instantiating a simple class in python:
 https://dev.to/ogwurujohnson/creating-and-instantiating-a-simple-class-in-python-79b
 
@@ -65,4 +67,6 @@ https://github.com/FaisalUmair/udemy-downloader-gui
 RESOURCES
 ==============
 https://pbpython.com
+
+
 
