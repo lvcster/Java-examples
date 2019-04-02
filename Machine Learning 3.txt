@@ -102,3 +102,6 @@ https://blog.goodaudience.com/top-10-machine-learning-algorithms-2a9a3e1bdaff
 
 Extra
 https://github.com/deeplearning4j/dl4j-examples/issues/34
+
+TOOLS
+https://medium.com/@sadatnazrul/public-repositories-of-pre-trained-models-for-transfer-learning-d6814e028d4d
