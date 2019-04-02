@@ -98,6 +98,9 @@ https://github.com/melodyguan/enas
 paperswithcode.com
 https://github.com/gcarq/keras-timeseries-prediction
 
+NLP
+https://www.topbots.com/ai-nlp-research-pretrained-language-models/
+
 ML ALGORYTHMS
 https://blog.goodaudience.com/top-10-machine-learning-algorithms-2a9a3e1bdaff
 
