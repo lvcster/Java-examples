@@ -1,4 +1,7 @@
 =================================28-03-2019==========================================
+https://opringle.github.io/2018/01/05/deep_learning_multivariate_ts.html...
+and IDEAS->https://www.finn.ai/
+
 MQL UNIT TEST
 https://github.com/micclly/mt4-unittest
 
