@@ -96,6 +96,7 @@ https://medium.com/mlreview/10-deep-learning-projects-based-on-apache-mxnet-8231
 Code and paper
 https://github.com/melodyguan/enas
 paperswithcode.com
+https://github.com/gcarq/keras-timeseries-prediction
 
 ML ALGORYTHMS
 https://blog.goodaudience.com/top-10-machine-learning-algorithms-2a9a3e1bdaff
