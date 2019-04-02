@@ -1,6 +1,7 @@
 =================================28-03-2019==========================================
 https://github.com/gcarq/keras-timeseries-prediction
 https://www.learnopencv.com/keras-tutorial-transfer-learning-using-pre-trained-models/
+https://germain-forestier.info/src/bigdata2018/
 
 https://opringle.github.io/2018/01/05/deep_learning_multivariate_ts.html...
 and IDEAS->https://www.finn.ai/
