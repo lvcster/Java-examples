@@ -1252,8 +1252,12 @@ https://alphascientist.com/feature_engineering.html
 https://pdfs.semanticscholar.org/893d/0bdf90186ca2b6c7327813a240f2fd713ed5.pdf
 https://www.mql5.com/en/articles/1103
 
+DESIGN
 OOP
 https://github.com/dingmaotu
 
 FRAMEWORK(Supports both MT4/5)
 https://github.com/Denn1Ro/MQL_Easy
+
+MQL UNIT TEST
+https://github.com/micclly/mt4-unittest
