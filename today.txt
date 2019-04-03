@@ -3,6 +3,9 @@ https://github.com/gcarq/keras-timeseries-prediction
 https://www.learnopencv.com/keras-tutorial-transfer-learning-using-pre-trained-models/
 https://germain-forestier.info/src/bigdata2018/
 
+PRE-TRAINED MODELS
+https://www.analyticsvidhya.com/blog/2018/07/top-10-pretrained-models-get-started-deep-learning-part-1-computer-vision/
+
 https://opringle.github.io/2018/01/05/deep_learning_multivariate_ts.html...
 and IDEAS->https://www.finn.ai/
 
