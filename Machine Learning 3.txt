@@ -107,6 +107,7 @@ https://www.topbots.com/ai-nlp-research-pretrained-language-models/
 
 ML ALGORYTHMS
 https://blog.goodaudience.com/top-10-machine-learning-algorithms-2a9a3e1bdaff
+https://www.infoq.com/news/2017/06/google-mobilenets-tensorflow
 
 Extra
 https://github.com/deeplearning4j/dl4j-examples/issues/34
