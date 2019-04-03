@@ -1254,3 +1254,6 @@ https://www.mql5.com/en/articles/1103
 
 OOP
 https://github.com/dingmaotu
+
+FRAMEWORK(Supports both MT4/5)
+https://github.com/Denn1Ro/MQL_Easy
