@@ -1,4 +1,6 @@
 =================================28-03-2019==========================================
+https://www.omgubuntu.co.uk/2019/01/wine-4-0
+
 https://github.com/gcarq/keras-timeseries-prediction
 https://www.learnopencv.com/keras-tutorial-transfer-learning-using-pre-trained-models/
 https://germain-forestier.info/src/bigdata2018/
