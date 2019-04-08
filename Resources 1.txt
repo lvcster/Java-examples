@@ -21,3 +21,8 @@ http://www.algoritz.com/
 https://onnx.ai/ ONNX is a open format to represent deep learning models. 
 https://dialogflow.com/
 https://firebase.google.com/
+https://ml5js.org/
+
+https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Kendall_PoseNet_A_Convolutional_ICCV_2015_paper.pdf
+https://medium.com/tensorflow/real-time-human-pose-estimation-in-the-browser-with-tensorflow-js-7dd0bc881cd5
+https://github.com/tensorflow/tfjs-models/tree/master/posenet
