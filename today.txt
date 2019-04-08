@@ -35,6 +35,7 @@ http://zeromq.org/
 https://stackoverflow.com/questions/52975821/how-can-i-connect-java-to-mql5-preferably-using-zeromq
 https://github.com/dingmaotu/mql-zmq/tree/master/Scripts/ZeroMQGuideExamples
 https://www.mql5.com/en/code/11134
+https://github.com/OpenTrading/OTMql4AMQP/
 
 Installing Installing TA-Lib
 https://github.com/afnhsn
