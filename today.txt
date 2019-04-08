@@ -32,6 +32,8 @@ TRADING: http://www.ufx-trend-scalper.com/YouTubeLive.html
 ZeroMQ Connector { Python 3 to MetaTrader 4} 
 https://github.com/darwinex/dwx-zeromq-connector
 http://zeromq.org/
+https://stackoverflow.com/questions/52975821/how-can-i-connect-java-to-mql5-preferably-using-zeromq
+https://github.com/dingmaotu/mql-zmq/tree/master/Scripts/ZeroMQGuideExamples
 
 Installing Installing TA-Lib
 https://github.com/afnhsn
