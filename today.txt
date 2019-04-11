@@ -1,3 +1,6 @@
+START HERE
+https://towardsdatascience.com/deploying-keras-models-using-tensorflow-serving-and-flask-508ba00f1037
+And Siraj's new Vid
 =================================28-03-2019==========================================
 please upgrade to windows 7 with service pack 1 or later. Trading on financial markets requires maximum securiy and performance ubuntu
 https://www.omgubuntu.co.uk/2019/01/wine-4-0
