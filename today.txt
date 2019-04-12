@@ -1,3 +1,11 @@
+=================================12-04-2019===========================================
+https://dev.to/juni/tightvnc-too-many-authentication-failures-resolved-7m5
+https://solveoptimized.com/how-to-resolve-prevent-too-many-authentication-failures-with-vnc/
+https://www.digitalocean.com/community/questions/too-many-authentication-failures-through-vnc-after-a-day-of-having-a-droplet-run
+https://askubuntu.com/questions/973055/too-many-authentication-failures-vnc-server
+https://www.tecmint.com/fix-ssh-too-many-authentication-failures-error/
+==================================12-04-2019==========================================
+
 START HERE
 https://towardsdatascience.com/deploying-keras-models-using-tensorflow-serving-and-flask-508ba00f1037
 And Siraj's new Vid
