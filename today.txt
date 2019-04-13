@@ -41,6 +41,7 @@ https://dev.to/ogwurujohnson/creating-and-instantiating-a-simple-class-in-python
 TRADING: http://www.ufx-trend-scalper.com/YouTubeLive.html
 
 ZeroMQ Connector { Python 3 to MetaTrader 4} 
+http://zguide.zeromq.org/page:all#Ask-and-Ye-Shall-Receive
 https://github.com/darwinex/dwx-zeromq-connector
 http://zeromq.org/
 https://stackoverflow.com/questions/52975821/how-can-i-connect-java-to-mql5-preferably-using-zeromq
