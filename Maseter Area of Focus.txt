@@ -1,0 +1,12 @@
+predicting breast cancer
+========================
+predicting breast cancer using machine learning
+Predicting breast cancer survivability using data mining techniques
+https://www.curiousily.com/posts/diagnosing-breast-cancer/
+https://www.kaggle.com/junkal/breast-cancer-prediction-using-machine-learning
+https://towardsdatascience.com/building-a-simple-machine-learning-model-on-breast-cancer-data-eca4b3b99fa3
+https://www.researchgate.net/publication/309088308_Predicting_Breast_Cancer_Recurrence_Using_Machine_Learning_Techniques_A_Systematic_Review
+https://www.researchgate.net/publication/303028543_Using_Machine_Learning_Algorithms_for_Breast_Cancer_Risk_Prediction_and_Diagnosis
+https://arxiv.org/pdf/1711.07831
+https://journals.sagepub.com/doi/pdf/10.1177/117693510600200030
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
