@@ -1,0 +1,60 @@
+The Master Algorithm: 
+-https://www.academia.edu/35296081/How_tHe_Quest_for_tHe_ultimate_learning_macHine_will_remake_our_world?auto=download
+-https://github.com/tim-hub/machine-learning-books/blob/master/The%20Master%20Algorithm%20-%20How%20the%20Quest%20for%20the%20Ultimate%20Learning%20Machine%20Will%20Remake%20Our%20World%202015.pdf=
+
+The Elements of Statistical Learning
+-http://web.stanford.edu/~hastie/ElemStatLearn/
+-http://web.stanford.edu/~hastie/ElemStatLearn/printings/ESLII_print12.pdf
+-https://github.com/tpn/pdfs/blob/master/The%20Elements%20of%20Statistical%20Learning%20-%20Data%20Mining%2C%20Inference%20and%20Prediction%20-%202nd%20Edition%20(ESLII_print4).pdf
+-https://www.researchgate.net/publication/225734295_The_Elements_of_Statistical_Learning_Data_Mining_Inference_and_Prediction
+
+A First Course in Machine Learning by Simon Rogers and Mark Girolami
+-https://www.researchgate.net/publication/261804084_A_First_Course_in_Machine_Learning_by_Simon_Rogers_and_Mark_Girolami
+-https://github.com/wwkenwong/book/blob/master/Simon%20Rogers%2C%20Mark%20Girolami%20A%20First%20Course%20in%20Machine%20Learning.pdf
+
+An Introduction to Statistical Learning
+-http://www.ime.unicamp.br/~dias/Intoduction%20to%20Statistical%20Learning.pdf
+-https://www-bcf.usc.edu/~gareth/ISL/ISLR%20First%20Printing.pdf
+
+Introduction to Machine Learning with Python
+-https://perso.limsi.fr/annlor/enseignement/ensiie/Intro_ML_Python.pdf
+
+Artificial Intelligence A Modern Approach 
+-https://github.com/jack2684/cs76-ai/blob/master/Artificial%20Intelligence%20A%20Modern%20Approach%203rd%20Edition.pdf
+
+Machine Learning A Probabilistic Perspective
+-https://doc.lagout.org/science/Artificial%20Intelligence/Machine%20learning/Machine%20Learning_%20A%20Probabilistic%20Perspective%20%5BMurphy%202012-08-24%5D.pdf
+
+An introduction to neural networks for beginners
+https://adventuresinmachinelearning.com/wp-content/uploads/2017/07/An-introduction-to-neural-networks-for-beginners.pdf
+
+Neural Networks – A Visual Introduction For Beginners - (NOT FINDING A PDF HERE - LOOKS GOOD WITH MATHS)
+-https://rkbookreviews.wordpress.com/2018/06/19/neural-networks-a-visual-introduction-for-beginners/
+
+A Begginer's guide to the Mathematics of Neural Networsks
+-https://nms.kcl.ac.uk/ton.coolen/published/1998/summerschool98.pdf
+
+
+Neural Networks for Beginners
+https://arxiv.org/pdf/1703.05298.pdf
+
+An introduction to neural networks
+https://www.inf.ed.ac.uk/teaching/courses/nlu/assets/reading/Gurney_et_al.pdf
+
+Deep Learning Book
+https://www.deeplearningbook.org/front_matter.pdf
+https://www.deeplearningbook.org/
+
+
+General Resources
+https://github.com/mravendi/data-science-machine-learning-ai-resources
+https://github.com/wwkenwong/book
+http://aima.cs.berkeley.edu/
+https://www.academia.edu/30663104/heaton_j_artificial_intelligence_for_humans_volume_1_fundame.pdf
+https://www.extension.harvard.edu/
+
+
+
+https://www.brainscape.com/
+https://github.com/ossu/data-science#deep-learning
+http://datastori.es/
