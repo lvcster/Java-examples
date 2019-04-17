@@ -1,5 +1,7 @@
 ZQM AUTH/SECURED
 https://developer.ibm.com/tutorials/se-distributed-apps-zeromq-part2/
+https://www.mql5.com/en/code/13903
+https://www.mql5.com/en/forum/233139
 =====================================================================
 
 =================================12-04-2019===========================================
