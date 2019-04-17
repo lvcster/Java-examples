@@ -1,3 +1,7 @@
+ZQM AUTH/SECURED
+https://developer.ibm.com/tutorials/se-distributed-apps-zeromq-part2/
+=====================================================================
+
 =================================12-04-2019===========================================
 https://dev.to/juni/tightvnc-too-many-authentication-failures-resolved-7m5
 https://solveoptimized.com/how-to-resolve-prevent-too-many-authentication-failures-with-vnc/
