@@ -15,7 +15,7 @@ http://avsl.cct.lsu.edu/stockchart.html
 https://github.com/dannyvai/plotly_websocket_example
 https://smirnov-am.github.io/2018/11/26/flask-streaming.html
 https://github.com/usnistgov/flask-plotly-socketio
-
+https://plot.ly/~jackp/17421.embed
 
 
 http://docs.dask.org/en/latest/api.html
