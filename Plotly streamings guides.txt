@@ -1,8 +1,8 @@
+https://plot.ly/javascript/time-series/
 https://smirnov-am.github.io/2018/11/26/flask-streaming.html
 https://stackoverflow.com/questions/38965661/efficient-real-time-plotting-using-plot-ly
 https://community.plot.ly/t/live-streaming-data-using-javascript/1645
 https://plot.ly/javascript/streaming/
-https://plot.ly/javascript/time-series/
 https://github.com/plotly
 https://plot.ly/javascript/candlestick-charts/
 https://stackoverflow.com/questions/38568496/live-streaming-with-plotly-in-javascript
