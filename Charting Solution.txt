@@ -1,0 +1,16 @@
+https://www.marsja.se/pandas-dataframe-read-csv-excel-subset/
+https://pandas-docs.github.io/pandas-docs-travis/
+
+
+Charts and indicators
+https://github.com/jackluo/py-quantmod
+https://github.com/jackluo/py-quantmod/blob/master/start_here.ipynb
+
+websockets 
+https://websockets.readthedocs.io/en/stable/intro.html
+https://pypi.org/project/websockets/
+https://www.fullstackpython.com/websockets.html
+https://flask-socketio.readthedocs.io/en/latest/ 
+
+https://secdevops.ai/weekend-project-part-2-turning-flask-into-a-real-time-websocket-server-using-flask-socketio-ab6b45f1d896
+https://stackoverflow.com/questions/3142705/is-there-a-websocket-client-implemented-for-python
