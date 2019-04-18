@@ -18,6 +18,8 @@ https://smirnov-am.github.io/2018/11/26/flask-streaming.html
 https://github.com/usnistgov/flask-plotly-socketio
 https://plot.ly/~jackp/17421.embed
 
+https://medium.freecodecamp.org/an-introduction-to-plotly-js-an-open-source-graphing-library-c036a1876e2e
+
 
 http://docs.dask.org/en/latest/api.html
 https://towardsdatascience.com/trying-out-dask-dataframes-in-python-for-fast-data-analysis-in-parallel-aa960c18a915
