@@ -14,6 +14,9 @@ https://github.com/dannyvai/plotly_websocket_example
 https://smirnov-am.github.io/2018/11/26/flask-streaming.html
 https://github.com/usnistgov/flask-plotly-socketio
 
+Spring
+https://www.callicoder.com/spring-boot-websocket-chat-example/
+
 
 http://docs.dask.org/en/latest/api.html
 https://towardsdatascience.com/trying-out-dask-dataframes-in-python-for-fast-data-analysis-in-parallel-aa960c18a915
