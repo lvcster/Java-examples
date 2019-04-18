@@ -1,3 +1,4 @@
+https://codepen.io/plotly/pen/VazvBd
 https://medium.freecodecamp.org/how-and-why-i-used-plotly-instead-of-d3-to-visualize-my-lollapalooza-data-d48345e2ca68
 https://plot.ly/javascript/time-series/
 https://plot.ly/javascript/candlestick-charts/
