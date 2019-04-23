@@ -3,6 +3,8 @@ https://auth0.com/blog/real-time-charts-using-angular-d3-and-socket-io/
 https://facebook.github.io/create-react-app/docs/documentation-intro
 
 http://rrag.github.io/react-stockcharts/documentation.html or https://github.com/rrag/react-stockcharts-examples2. https://github.com/rrag/react-stockcharts/issues/666, https://github.com/mlasy/dogecoin-react
+https://github.com/lek-tin/react-d3-live-stock-price-chart
+https://hashnode.com/post/chart-the-stock-market-with-react-redux-react-vis-and-socketio-cj8pkt383005j4rwt3ua5og1t
 
 https://d3fc.io/examples/ or https://blog.scottlogic.com/2018/09/21/d3-financial-chart.html
 https://github.com/arnauddri/d3-stock
