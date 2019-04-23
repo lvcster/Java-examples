@@ -1,8 +1,15 @@
-https://www.neteye-blog.com/2017/12/how-to-create-time-based-dashboard-with-plotly/
-https://codepen.io/plotly/pen/VazvBd
-https://medium.freecodecamp.org/how-and-why-i-used-plotly-instead-of-d3-to-visualize-my-lollapalooza-data-d48345e2ca68
-https://plot.ly/javascript/time-series/
-https://plot.ly/javascript/candlestick-charts/
+https://auth0.com/blog/real-time-charts-using-angular-d3-and-socket-io/
+http://rrag.github.io/react-stockcharts/documentation.html or https://github.com/rrag/react-stockcharts-examples2
+https://d3fc.io/examples/ or https://blog.scottlogic.com/2018/09/21/d3-financial-chart.html
+https://github.com/arnauddri/d3-stock
+https://github.com/jmcilhargey/chart-stock-market
+https://itnext.io/d3-js-in-all-its-glory-7066601aa16b
+APP: https://gocharting.com/terminal/IN/CRYPTO/BTC%7CUSD/Coinbase
+https://blog.codewithdan.com/pushing-real-time-data-to-an-angular-service-using-web-sockets/
+https://www.tradingview.com/HTML5-stock-forex-bitcoin-charting-library/
+https://www.highcharts.com/
+https://codeburst.io/how-i-built-an-interactive-30-day-bitcoin-price-graph-with-react-and-an-api-6fe551c2ab1d
+
 https://smirnov-am.github.io/2018/11/26/flask-streaming.html
 https://stackoverflow.com/questions/38965661/efficient-real-time-plotting-using-plot-ly
 https://community.plot.ly/t/live-streaming-data-using-javascript/1645
@@ -15,10 +22,8 @@ https://www.fusioncharts.com/blog/visualize-real-time-data-socket-io-charts/
 https://community.plot.ly/t/live-streaming-data-using-javascript/1645
 http://avsl.cct.lsu.edu/stockchart.html
 https://github.com/dannyvai/plotly_websocket_example
+https://smirnov-am.github.io/2018/11/26/flask-streaming.html
 https://github.com/usnistgov/flask-plotly-socketio
-https://plot.ly/~jackp/17421.embed
-
-https://medium.freecodecamp.org/an-introduction-to-plotly-js-an-open-source-graphing-library-c036a1876e2e
 
 
 http://docs.dask.org/en/latest/api.html
@@ -29,4 +34,5 @@ https://www.creativebloq.com/net-magazine
 https://codepen.io/anthonydugois/full/RpYBmy/
 https://www.researchgate.net/profile/Alberto_Betella
 
-https://towardsdatascience.com/the-next-level-of-data-visualization-in-python-dd6e99039d5e
+
+https://www.quantconnect.com/
