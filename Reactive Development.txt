@@ -1,0 +1,11 @@
+https://www.concretepage.com/spring-5/spring-reactive-rest-api
+https://spring.io/guides/gs/reactive-rest-service/
+https://thepracticaldeveloper.com/2017/11/04/full-reactive-stack-with-spring-webflux-and-angularjs/
+https://www.callicoder.com/reactive-rest-apis-spring-webflux-reactive-mongo/
+https://www.baeldung.com/spring-webflux
+https://github.com/callicoder/spring-webflux-reactive-rest-api-demo
+https://dzone.com/articles/doing-stuff-with-spring-webflux
+https://medium.com/@cheron.antoine/tuto-building-a-reactive-restful-api-with-spring-webflux-java-258fd4dbae41
+https://blog.avenuecode.com/spring-webflux-a-quick-start
+https://auth0.com/blog/introduction-getting-started-with-spring-webflux-api/
+https://github.com/eugenp/tutorials
