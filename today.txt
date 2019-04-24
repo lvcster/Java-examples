@@ -1,6 +1,7 @@
 https://www.baeldung.com/spring-5-reactive-websockets
 https://howtodoinjava.com/spring-webflux/reactive-websockets/
 https://davidwalsh.name/websocket
+https://dzone.com/articles/angular-and-spring-webflux
 https://github.com/Angular2Guy/AngularAndSpring
 
 https://developer.okta.com/blog/2018/09/25/spring-webflux-websockets-react
