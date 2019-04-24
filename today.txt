@@ -1,6 +1,7 @@
 https://www.baeldung.com/spring-5-reactive-websockets
 https://howtodoinjava.com/spring-webflux/reactive-websockets/
 https://davidwalsh.name/websocket
+https://github.com/Angular2Guy/AngularAndSpring
 
 https://developer.okta.com/blog/2018/09/25/spring-webflux-websockets-react
 https://medium.com/oril/spring-boot-websockets-angular-5-f2f4b1c14cee or https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#websocket-server-handshake or https://geowarin.com/a-simple-chat-with-spring-boot-and-rethinkdb/
