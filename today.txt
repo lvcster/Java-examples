@@ -8,6 +8,7 @@ http://tadoc.org/index.htm, http://www.ta-lib.org/d_api/d_api.html, JAVA=> https
 
 https://www.jhipster.tech/
 https://github.com/jhipster
+https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-websocket
 
 ZQM AUTH/SECURED
 https://developer.ibm.com/tutorials/se-distributed-apps-zeromq-part2/
