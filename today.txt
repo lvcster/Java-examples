@@ -1,4 +1,4 @@
-https://medium.com/oril/spring-boot-websockets-angular-5-f2f4b1c14cee or https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#websocket-server-handshake
+https://medium.com/oril/spring-boot-websockets-angular-5-f2f4b1c14cee or https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#websocket-server-handshake or https://geowarin.com/a-simple-chat-with-spring-boot-and-rethinkdb/
 http://tadoc.org/index.htm, http://www.ta-lib.org/d_api/d_api.html, JAVA=> https://github.com/BYVoid/TA-Lib 
 
 ZQM AUTH/SECURED
