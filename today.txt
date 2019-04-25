@@ -26,8 +26,9 @@ https://www.mql5.com/en/forum/233139
 https://dev.to/juni/tightvnc-too-many-authentication-failures-resolved-7m5
 https://solveoptimized.com/how-to-resolve-prevent-too-many-authentication-failures-with-vnc/
 https://www.digitalocean.com/community/questions/too-many-authentication-failures-through-vnc-after-a-day-of-having-a-droplet-run
-https://askubuntu.com/questions/973055/too-many-authentication-failures-vnc-server
 https://www.tecmint.com/fix-ssh-too-many-authentication-failures-error/
+
+https://www.fail2ban.org/wiki/index.php/Main_Page
 ==================================12-04-2019==========================================
 
 START HERE
