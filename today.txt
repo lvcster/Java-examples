@@ -16,8 +16,6 @@ https://www.jhipster.tech/
 https://github.com/jhipster
 https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html#webflux-websocket
 
-https://www.npmjs.com/package/fkill-cli
-
 ZQM AUTH/SECURED
 https://developer.ibm.com/tutorials/se-distributed-apps-zeromq-part2/
 https://www.mql5.com/en/code/13903
@@ -137,3 +135,7 @@ https://jsfiddle.net/
 //SIGN LANGUAGE
 https://www.youtube.com/watch?v=sD1JKj7U7FM&ab_channel=PyData
 https://github.com/BelalC
+
+Tools
+https://www.npmjs.com/package/fkill-cli
+https://nodemon.io/
