@@ -1,3 +1,7 @@
+https://medium.com/@nithinmallya4/processing-streaming-data-with-spring-webflux-ed0fc68a14de
+https://developer.okta.com/blog/2018/09/21/reactive-programming-with-spring
+https://www.javaworld.com/article/3288219/mastering-spring-framework-5-part-2-spring-webflux.html
+
 https://www.concretepage.com/spring-5/spring-reactive-rest-api
 https://spring.io/guides/gs/reactive-rest-service/
 https://thepracticaldeveloper.com/2017/11/04/full-reactive-stack-with-spring-webflux-and-angularjs/
