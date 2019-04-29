@@ -1,9 +1,8 @@
-https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API#Libraries
-https://www.youtube.com/watch?v=vEOwgWpm3XQ&ab_channel=CurranKelleher
-https://www.youtube.com/watch?v=EO6OkltgudE&ab_channel=ChrisCourses
-https://canvasjs.com/
-https://canvasjs.com/javascript-candlestick-chart/
-https://canvasjs.com/javascript-charts/candlestick-line-chart/
 https://canvasjs.com/docs/charts/chart-types/html5-candle-stick-chart/
+https://canvasjs.com/javascript-candlestick-chart/
 https://canvasjs.com/jquery-charts/candlestick-chart/
-https://gojs.net/latest/index.html?gclid=CjwKCAjwwZrmBRA7EiwA4iMzBE4UZ2zs_4Y_HG6CIsL7T_Dx99Vm1tEZifRxUUkMG0KmRGOutD99IxoCVAEQAvD_BwE
+https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API#Libraries
+https://canvasjs.com/
+https://canvasjs.com/javascript-charts/candlestick-line-chart/
+https://gojs.net/latest/index.html
+https://www.youtube.com/watch?v=vEOwgWpm3XQ&ab_channel=CurranKelleher
