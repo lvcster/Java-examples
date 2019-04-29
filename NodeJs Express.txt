@@ -1,0 +1,7 @@
+https://www.js-tutorials.com/nodejs-tutorial/node-js-user-authentication-using-mysql-express-js/
+https://codeburst.io/build-a-rest-api-for-node-mysql-2018-jwt-6957bcfc7ac9
+https://dev.to/gm456742/building-a-nodejs-web-app-using-passportjs-for-authentication-3ge2
+https://github.com/manjeshpv/node-express-passport-mysql/tree/master/views
+https://github.com/mustafa05deniz/nodejs-mysql-login-and-signup
+https://github.com/syntithenai/react-express-oauth-login-system
+https://codeshack.io/basic-login-system-nodejs-express-mysql/
