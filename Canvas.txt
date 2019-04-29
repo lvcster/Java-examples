@@ -1,3 +1,4 @@
+https://www.sitepoint.com/15-https://www.sitepoint.com/15-best-javascript-charting-libraries/best-javascript-charting-libraries/https://www.sitepoint.com/15-best-javascript-charting-libraries/
 https://canvasjs.com/docs/charts/chart-types/html5-candle-stick-chart/
 https://canvasjs.com/javascript-candlestick-chart/
 https://canvasjs.com/jquery-charts/candlestick-chart/
