@@ -13,3 +13,18 @@ https://medium.com/@cheron.antoine/tuto-building-a-reactive-restful-api-with-spr
 https://blog.avenuecode.com/spring-webflux-a-quick-start
 https://auth0.com/blog/introduction-getting-started-with-spring-webflux-api/
 https://github.com/eugenp/tutorials
+
+
+https://r2dbc.io/
+https://github.com/reactive-streams
+https://projectreactor.io/
+http://rsocket.io/
+https://docs.spring.io/spring-data/r2dbc/docs/1.0.x/reference/html/
+https://www.slideshare.net/SpringCentral/reactive-relational-database-connectivity
+https://github.com/mirromutth/r2dbc-mysql
+https://github.com/r2dbc/r2dbc-postgresql
+https://spring.io/blog/2018/12/07/reactive-programming-and-relational-databases
+
+
+Must Do 
+https://javabeginnerstutorial.com/spring-boot/spring-boot-2-microservices-with-netflix-zuul-api-gateway/
