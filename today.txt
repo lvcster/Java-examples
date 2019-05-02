@@ -1,4 +1,4 @@
-https://tuhrig.de/generating-pdfs-with-java-flying-saucer-and-thymeleaf/
+https://tuhrig.de/generating-pdfs-with-java-flying-saucer-and-thymeleaf/ and https://flyingsaucerproject.github.io/flyingsaucer/r8/guide/users-guide-R8.html
 https://github.com/handsfreejs
 
 Reactive Development, and fit into spring-webflux-example(https://howtodoinjava.com/spring-webflux/reactive-websockets/)
