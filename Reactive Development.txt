@@ -1,7 +1,7 @@
 Angular and WebFlux: https://thepracticaldeveloper.com/2017/11/04/full-reactive-stack-ii-the-angularjs-client/
+https://thepracticaldeveloper.com/2017/11/04/full-reactive-stack-with-spring-webflux-and-angularjs/
 Angular and SpringBoot: https://itnext.io/event-source-with-angular-c9f7f5369082
 REACT and Node: https://auth0.com/blog/developing-real-time-web-applications-with-server-sent-events/
-
 
 https://medium.com/@nithinmallya4/processing-streaming-data-with-spring-webflux-ed0fc68a14de
 https://www.javaworld.com/article/2078034/spring-framework-mastering-spring-mvc.html
@@ -10,7 +10,6 @@ https://developer.okta.com/blog/2018/09/21/reactive-programming-with-spring
 https://www.concretepage.com/spring-5/spring-reactive-rest-api
 
 https://spring.io/guides/gs/reactive-rest-service/
-https://thepracticaldeveloper.com/2017/11/04/full-reactive-stack-with-spring-webflux-and-angularjs/
 https://www.callicoder.com/reactive-rest-apis-spring-webflux-reactive-mongo/
 https://www.baeldung.com/spring-webflux
 https://github.com/callicoder/spring-webflux-reactive-rest-api-demo
