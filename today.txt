@@ -137,6 +137,7 @@ RESOURCES
 ==============
 https://pbpython.com
 https://jsfiddle.net/
+https://ossu.firebaseapp.com/#/curriculum :EDUCATION
 
 //SIGN LANGUAGE
 https://www.youtube.com/watch?v=sD1JKj7U7FM&ab_channel=PyData
