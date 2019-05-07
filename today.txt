@@ -1,3 +1,5 @@
+https://www.toptal.com/angular/angular-6-jwt-authentication
+
 n3-charts: https://www.sitepoint.com/15-best-javascript-charting-libraries/
 https://blog.fullstacktraining.com/display-real-time-data-in-angular/
 https://www.chartiq.com/
