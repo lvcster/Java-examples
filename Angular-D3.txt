@@ -1,3 +1,4 @@
+https://github.com/andredumas/techan.js
 https://github.com/datencia
 https://github.com/amanjain325/angular-d3-charts
 https://github.com/ackuser/ng2-nvd3-examples
