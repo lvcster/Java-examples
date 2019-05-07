@@ -1,6 +1,5 @@
 http://www.shanegibney.com/shanegibney/angular-4-d3-js/
 https://medium.com/@balramchavan/integrating-d3js-with-angular-5-0-848ed45a8e19
-https://github.com/ultrasonicsoft/d3-ng5-demo
 https://medium.com/@dhormale/dynamic-interactive-data-visualizations-using-d3-js-and-angular-41770d7c66f7
 
 https://github.com/andredumas/techan.js and https://www.npmjs.com/package/techan
