@@ -139,6 +139,10 @@ https://pbpython.com
 https://jsfiddle.net/
 https://github.com/ossu/computer-science and https://ossu.firebaseapp.com/#/curriculum :EDUCATION
 
+PYTHIN RESOURCES
+================
+https://pythoninstitute.org/certification/pcap-certification-associate/
+
 JWT:
 https://www.toptal.com/angular/angular-6-jwt-authentication
 
