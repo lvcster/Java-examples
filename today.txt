@@ -1,3 +1,5 @@
+n3-charts: https://www.sitepoint.com/15-best-javascript-charting-libraries/
+
 React Developer tools
 https://github.com/dleitee/service-worker-sandbox - LATER
 https://tuhrig.de/generating-pdfs-with-java-flying-saucer-and-thymeleaf/ and https://flyingsaucerproject.github.io/flyingsaucer/r8/guide/users-guide-R8.html
