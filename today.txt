@@ -143,6 +143,10 @@ PYTHIN RESOURCES
 ================
 https://pythoninstitute.org/certification/pcap-certification-associate/
 
+MATHS
+=====
+https://simplystatistics.org/courses/
+
 JWT:
 https://www.toptal.com/angular/angular-6-jwt-authentication
 
