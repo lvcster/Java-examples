@@ -1,4 +1,6 @@
 n3-charts: https://www.sitepoint.com/15-best-javascript-charting-libraries/
+https://blog.fullstacktraining.com/display-real-time-data-in-angular/
+https://www.chartiq.com/
 
 React Developer tools
 https://github.com/dleitee/service-worker-sandbox - LATER
