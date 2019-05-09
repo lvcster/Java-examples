@@ -1,4 +1,6 @@
+Plain D3 - https://scrimba.com/g/gd3js with e.g. of BitCoin Line chart.
 Plain D3 - Must do: 
+
 https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
 https://pusher.com/tutorials/live-graph-d3
 https://anmolkoul.wordpress.com/2015/06/05/interactive-data-visualization-using-d3-js-dc-js-nodejs-and-mongodb/
