@@ -1,6 +1,12 @@
 Plain D3 - Must do: 
 https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
+https://pusher.com/tutorials/live-graph-d3
 https://anmolkoul.wordpress.com/2015/06/05/interactive-data-visualization-using-d3-js-dc-js-nodejs-and-mongodb/
+https://medium.com/@anilnairxyz/candlestick-chart-using-d3-a7f978578cd7
+https://moderndata.plot.ly/d3-js-candlestick-and-ohlc-charts-with-quandl-data/
+https://bl.ocks.org/ColinEberhardt/485ad09b7967e2a0f9bfe6e10192c26a
+
+Include on how to retrieve JSON response: http://www.bytemuse.com/post/open-high-low-close-chart-d3-js, referenced in 
 
 https://d3fc.io/examples/
 
