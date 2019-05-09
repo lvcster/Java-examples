@@ -2,6 +2,8 @@ Plain D3 - Must do:
 https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
 https://anmolkoul.wordpress.com/2015/06/05/interactive-data-visualization-using-d3-js-dc-js-nodejs-and-mongodb/
 
+https://d3fc.io/examples/
+
 http://www.shanegibney.com/shanegibney/angular-4-d3-js/
 https://medium.com/@balramchavan/integrating-d3js-with-angular-5-0-848ed45a8e19
 https://medium.com/@dhormale/dynamic-interactive-data-visualizations-using-d3-js-and-angular-41770d7c66f7
