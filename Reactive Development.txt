@@ -1,3 +1,5 @@
+Check: https://www.playframework.com/
+
 Angular and WebFlux: https://thepracticaldeveloper.com/2017/11/04/full-reactive-stack-ii-the-angularjs-client/ - Source: https://github.com/mechero/full-reactive-stack
 https://thepracticaldeveloper.com/2017/11/04/full-reactive-stack-with-spring-webflux-and-angularjs/
 Angular and SpringBoot: https://itnext.io/event-source-with-angular-c9f7f5369082
