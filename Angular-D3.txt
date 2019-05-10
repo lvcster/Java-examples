@@ -1,5 +1,9 @@
 https://medium.com/@sylvia.onwukwe/how-to-create-a-quick-chart-with-react-js-for-beginners-baba62b2851b
-https://github.com/rrag/react-stockcharts, example: https://codesandbox.io/s/github/rrag/react-stockcharts-examples2/tree/master/examples/HeikinAshi
+https://github.com/rrag/react-stockcharts, 
+examples: 
+          1. https://codesandbox.io/s/github/rrag/react-stockcharts-examples2/tree/master/examples/HeikinAshi
+          2. https://codesandbox.io/s/github/rrag/react-stockcharts-examples2/tree/master/examples/Kagi
+
 https://github.com/sentisis/charts-in-react, presentation: https://www.youtube.com/watch?v=J3B8Xp5kTA0
 
 With Node, https://github.com/d3-node/d3-node, Line chart example
