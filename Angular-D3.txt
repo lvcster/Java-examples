@@ -4,7 +4,7 @@ examples:
           1. https://codesandbox.io/s/github/rrag/react-stockcharts-examples2/tree/master/examples/HeikinAshi
           2. https://codesandbox.io/s/github/rrag/react-stockcharts-examples2/tree/master/examples/Kagi
 
-https://github.com/sentisis/charts-in-react, presentation: https://www.youtube.com/watch?v=J3B8Xp5kTA0
+More react-stockcharts examples: https://bl.ocks.org/rrag
 
 With Node, https://github.com/d3-node/d3-node, Line chart example
 https://pusher.com/tutorials/live-graph-d3
