@@ -1,4 +1,4 @@
-https://github.com/sentisis/charts-in-react
+https://github.com/sentisis/charts-in-react, example: https://codesandbox.io/s/github/rrag/react-stockcharts-examples2/tree/master/examples/HeikinAshi
 https://github.com/rrag/react-stockcharts, presentation: https://www.youtube.com/watch?v=J3B8Xp5kTA0
 
 With Node, https://github.com/d3-node/d3-node, Line chart example
