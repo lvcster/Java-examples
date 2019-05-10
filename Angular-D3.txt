@@ -1,6 +1,10 @@
 With Node, https://github.com/d3-node/d3-node, Line chart example
 Plain D3 - https://scrimba.com/g/gd3js with e.g. of BitCoin Line chart.
-ALL D3 Libs: https://github.com/wbkd/awesome-d3
+
+Look: https://dzone.com/articles/building-dynamic-d3js-apps-with-database-data
+
+ALL D3 Libs: NB NB NB
+https://github.com/wbkd/awesome-d3
 
 Plain D3 - Must do: 
 https://blog.risingstack.com/d3-js-tutorial-bar-charts-with-javascript/
