@@ -1,3 +1,10 @@
+--Extras
+https://github.com/shawnaxsom/stockcharts
+https://lightstreamer.com/
+https://github.com/xunxdd/financial-charts-vue
+https://ej2.syncfusion.com/react/demos/#/material/stock-chart/stock-events
+--Extras
+
 https://medium.com/@sylvia.onwukwe/how-to-create-a-quick-chart-with-react-js-for-beginners-baba62b2851b
 https://github.com/rrag/react-stockcharts, 
 examples: 
