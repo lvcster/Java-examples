@@ -1,4 +1,4 @@
-
+With Node, https://github.com/d3-node/d3-node, Line chart example
 Plain D3 - https://scrimba.com/g/gd3js with e.g. of BitCoin Line chart.
 ALL D3 Libs: https://github.com/wbkd/awesome-d3
 
