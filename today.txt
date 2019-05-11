@@ -1,6 +1,6 @@
 ===================================
 D3.js
-https://github.com/dong-y/D3.js_tutorial from https://github.com/search?q=d3Vienno&ref=opensearch
+https://github.com/dong-y/D3.js_tutorial(Angular version) from https://github.com/search?q=d3Vienno&ref=opensearch...for Vieno YT vid: https://www.youtube.com/playlist?list=PL6il2r9i3BqH9PmbOf5wA5E1wOG3FT22p
 https://medium.com/@c_behrens/enter-update-exit-6cafc6014c36 - Demo: https://rawgit.com/niceone/d3-introduction/master/index.html
 http://bl.ocks.org/alansmithy/e984477a741bc56db5a5
 D3.js
