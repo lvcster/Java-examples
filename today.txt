@@ -1,4 +1,4 @@
-Server Side Event
+Server Side Event(Event sourcing)
 https://auth0.com/blog/developing-real-time-web-applications-with-server-sent-events/?utm_source=dev&utm_medium=sc&utm_campaign=sse_app
 Server Side Event
 
