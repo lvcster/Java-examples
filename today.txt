@@ -1,4 +1,11 @@
 ===================================
+D3.js
+https://medium.com/@c_behrens/enter-update-exit-6cafc6014c36 - Demo: https://rawgit.com/niceone/d3-introduction/master/index.html
+http://bl.ocks.org/alansmithy/e984477a741bc56db5a5
+D3.js
+===================================
+
+===================================
 Server Side Event(Event sourcing)
 ---------------------------------
 https://auth0.com/blog/developing-real-time-web-applications-with-server-sent-events/?utm_source=dev&utm_medium=sc&utm_campaign=sse_app
