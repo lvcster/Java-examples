@@ -1,3 +1,7 @@
+Server Side Event
+https://auth0.com/blog/developing-real-time-web-applications-with-server-sent-events/?utm_source=dev&utm_medium=sc&utm_campaign=sse_app
+Server Side Event
+
 https://www.toptal.com/angular/angular-6-jwt-authentication
 
 n3-charts: https://www.sitepoint.com/15-best-javascript-charting-libraries/
