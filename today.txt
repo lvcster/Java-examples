@@ -7,6 +7,10 @@ https://eventuate.io/whyeventsourcing.html
 
 https://medium.com/@ashish.garg007/server-sent-events-with-node-js-and-react-js-3283e973bb3d
 
+https://medium.com/@moinism/using-nodejs-for-uni-directional-event-streaming-sse-c80538e6e82e
+
+Add SSE Paper, then info should be enough. TODO WebSocket!
+
 Related: https://microservices.io/
 ---------------------------------
 
