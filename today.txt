@@ -5,6 +5,7 @@ https://auth0.com/blog/developing-real-time-web-applications-with-server-sent-ev
 https://www.jsdiaries.com/dynamic-website-design-with-event-source/
 https://eventuate.io/whyeventsourcing.html
 
+https://medium.com/@ashish.garg007/server-sent-events-with-node-js-and-react-js-3283e973bb3d
 
 Related: https://microservices.io/
 ---------------------------------
