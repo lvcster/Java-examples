@@ -1044,6 +1044,9 @@ https://www.mql5.com/en/code/21516
 OMA
 https://www.mql5.com/en/forum/179662/page8
 
+MT4 - MISC
+https://www.mql5.com/en/forum/183798
+
 BOOKS
 https://federaldata.io/downloads/stochastic-processes-finance-and-control-a-festschrift-in-honor-of-robert-j-elliott-1-advances-in-statistics-probability-and-actuarial-science.pdf
 https://ebooktop.website/download/Stochastic%20Processes%20%20and%20Applications%20to%20Mathematical%20Finance%20Akahori%20Jiro%20Ogawa%20Shigeyoshi%20Watanabe%20Shinzo
