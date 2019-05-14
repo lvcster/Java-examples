@@ -1,4 +1,13 @@
 ===================================
+SPring:
+Building Microservices with Spring Cloud: (Include Zipkin - distributed tracing system)
+https://www.youtube.com/watch?v=ZyK5QrKCbwM&list=PLrYB4Bn08qYg8C9Z2kb5-IbrxcjYPrpTI&index=2&ab_channel=InfoQ
+	-https://zipkin.io/ based on: https://storage.googleapis.com/pub-tools-public-publication-data/pdf/36356.pdf
+  
+Business Process Management: Flowable  
+===================================
+
+===================================
 D3.js
 https://github.com/dong-y/D3.js_tutorial(Angular version) from https://github.com/search?q=d3Vienno&ref=opensearch...for Vieno YT vid: https://www.youtube.com/playlist?list=PL6il2r9i3BqH9PmbOf5wA5E1wOG3FT22p. Also Web based demos and code: https://topheman.github.io/d3-first-steps/ or(https://github.com/topheman/d3-first-steps)
 https://medium.com/@c_behrens/enter-update-exit-6cafc6014c36 - Demo: https://rawgit.com/niceone/d3-introduction/master/index.html
