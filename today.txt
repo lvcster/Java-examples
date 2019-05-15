@@ -16,6 +16,8 @@ http://bl.ocks.org/alansmithy/e984477a741bc56db5a5
 How to get started with D3 and React
 https://medium.freecodecamp.org/how-to-get-started-with-d3-and-react-c7da74a5bd9f
 D3.js
+
+Visualization Lab: http://vis.berkeley.edu/papers/animated_transitions/
 ===================================
 
 ===================================
