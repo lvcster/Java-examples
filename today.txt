@@ -18,6 +18,7 @@ https://medium.freecodecamp.org/how-to-get-started-with-d3-and-react-c7da74a5bd9
 D3.js
 
 Visualization Lab: http://vis.berkeley.edu/papers/animated_transitions/
+https://www.smashingmagazine.com/2018/02/react-d3-ecosystem/
 ===================================
 
 ===================================
