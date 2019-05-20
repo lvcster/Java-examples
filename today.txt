@@ -207,3 +207,6 @@ https://github.com/BelalC
 Tools
 https://www.npmjs.com/package/fkill-cli
 https://nodemon.io/
+
+AI - MODELS
+https://stanfordmlgroup.github.io/
