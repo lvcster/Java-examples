@@ -10,6 +10,7 @@ Drag and Drop Lib:
 https://www.dropzonejs.com/bootstrap.html
 
 CMS:
+https://jamstack.org/
 https://headlesscms.org/, also check vid: https://www.youtube.com/watch?v=hhX8nCnaNFM
 https://strapi.io/
 https://flintcms.co/
