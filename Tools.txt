@@ -4,3 +4,7 @@ https://www.objectaid.com/home
 https://pdftotext.com/
 
 https://www.draw.io/
+
+JS
+Drag and Drop Lib:
+https://www.dropzonejs.com/bootstrap.html
