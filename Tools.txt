@@ -8,7 +8,9 @@ https://www.draw.io/
 JS
 Drag and Drop Lib:
 https://www.dropzonejs.com/bootstrap.html
+
 CMS: https://flintcms.co/
+https://strapi.io/
 
 Mail System
 https://nodemailer.com/about/
