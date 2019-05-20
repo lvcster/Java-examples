@@ -9,8 +9,10 @@ JS
 Drag and Drop Lib:
 https://www.dropzonejs.com/bootstrap.html
 
-CMS: https://flintcms.co/
+CMS:
+https://headlesscms.org/, also check vid: https://www.youtube.com/watch?v=hhX8nCnaNFM
 https://strapi.io/
+https://flintcms.co/
 https://snipcart.com/blog/node-js-react-strapi-tutorial
 
 Mail System
