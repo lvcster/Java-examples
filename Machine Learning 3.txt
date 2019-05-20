@@ -120,3 +120,6 @@ https://deepcognition.ai/products/
 http://www.arxiv-sanity.com/toptwtr
 https://www.fast.ai/
 https://databricks.com
+
+AI - Pre-Built MODELS
+https://stanfordmlgroup.github.io/
