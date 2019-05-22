@@ -1,3 +1,8 @@
+/*
+ *https://www.javacodex.com/Strings/Find-Special-Characters-In-A-String
+ *https://www.regular-expressions.info/java.html
+ */
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
  
