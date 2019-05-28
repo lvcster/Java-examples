@@ -1,3 +1,5 @@
+https://github.com/lvcster/Java-examples/blob/master/Data%20Science%20-%20data%20sources.txt, plus Create 'ML Tools' file and add https://jasp-stats.org/ (Statistics tool)
+
 https://medium.freecodecamp.org/how-to-build-a-blazing-fast-graphql-api-with-node-js-mongodb-and-fastify-77fd5acd2998
 
 Strapi, GraphQL, ...
