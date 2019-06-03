@@ -3,3 +3,5 @@ starfish-pbx
 https://www.freepbx.org/
 https://wiki.asterisk.org/wiki/display/AST/Beginning+Asterisk
 https://www.mizu-voip.com/Portals/0/Files/JVoIP.pdf
+https://github.com/usnistgov/jsip
+http://www.mjsip.org/
