@@ -1,0 +1,14 @@
+The Elements of Statistical Learning: http://web.stanford.edu/~hastie/ElemStatLearn/
+https://kyumesa.files.wordpress.com/2016/01/download-advanced-engineering-mathematics-4th-ed-k-stroud-signed.pdf
+https://www.zuj.edu.jo/download/stroud-engineering-mathematics-5e-pdf/
+
+Advances in Financial Machine Learning by Marcos Lopez De Prado
+
+http://www.quantresearch.info/Lectures.htm 
+https://papers.ssrn.com/sol3/Results.cfm?RequestTimeout=50000000
+ Code: https://github.com/BlackArbsCEO/Adv_Fin_ML_Exercises
+
+
+thinkpython2.com
+https://greenteapress.com/wp/think-python-2e/
+
