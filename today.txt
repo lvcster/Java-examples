@@ -1,3 +1,5 @@
+https://www.gatsbyjs.org/ React Framework
+
 Open Broadcaster Software: https://obsproject.com/docs/scripting.html or https://github.com/obsproject/obs-studio
 
 https://github.com/lvcster/Java-examples/blob/master/Data%20Science%20-%20data%20sources.txt, plus Create 'ML Tools' file and add https://jasp-stats.org/ (Statistics tool)
