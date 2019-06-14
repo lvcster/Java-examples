@@ -1,0 +1,4 @@
+http://www.developer-cheatsheets.com/
+https://reactcheatsheet.com/
+https://devhints.io/react
+https://ihatetomatoes.net/wp-content/uploads/2017/01/react-cheat-sheet.pdf
