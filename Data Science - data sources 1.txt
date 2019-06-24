@@ -1,0 +1,13 @@
+Data sets: 
+https://piktochart.com/blog/100-data-sets/#finance
+https://www.globalfinancialdata.com/
+
+https://www.kdnuggets.com/2019/02/essential-data-science-venn-diagram.html or https://towardsdatascience.com/the-essential-data-science-venn-diagram-35800c3bef40
+
+https://www.gov.za/services/information-government/access-information
+https://www.data.gov/
+https://public.resource.org/8_principles.html
+http://opendatahandbook.org/value-stories/en/improving-gov-access/
+https://www.kdnuggets.com/datasets/government-local-public.html
+https://www.forbes.com/sites/bernardmarr/2016/02/12/big-data-35-brilliant-and-free-data-sources-for-2016/#cd8a6c6b54db
+https://www.data.gov/
