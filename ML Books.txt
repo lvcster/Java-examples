@@ -1,3 +1,8 @@
+Siraj Top 10 books:
+	https://www.youtube.com/watch?v=1lxHH1UBTBU&t=615s 
+	Points to https://github.com/SayantanMitra87/Data-Science-Books-1
+
+
 The Master Algorithm: 
 -https://www.academia.edu/35296081/How_tHe_Quest_for_tHe_ultimate_learning_macHine_will_remake_our_world?auto=download
 -https://github.com/tim-hub/machine-learning-books/blob/master/The%20Master%20Algorithm%20-%20How%20the%20Quest%20for%20the%20Ultimate%20Learning%20Machine%20Will%20Remake%20Our%20World%202015.pdf=
