@@ -1,5 +1,4 @@
-LOOKS GOOD: https://github.com/amitkaps
-
+https://datasciencedata.com/machine-learning/
 https://machinelearningmastery.com/machine-learning-in-python-step-by-step/
 CNN: https://medium.com/the-andela-way/deep-learning-hello-world-e1fc53ea888
 TensorFlow: https://towardsdatascience.com/hello-world-in-tensorflow-973e6c38e8ed
@@ -7,9 +6,6 @@ TensorFlow: https://towardsdatascience.com/hello-world-in-tensorflow-973e6c38e8e
 Time Series: 
 https://blog.statsbot.co/time-series-prediction-using-recurrent-neural-networks-lstms-807fa6ca7f
 https://www.analyticsvidhya.com/blog/2016/02/time-series-forecasting-codes-python/, more notes here: https://www.analyticsvidhya.com/blog/2015/12/complete-tutorial-time-series-modeling/
-
-BLOG -TIME SERIES
-http://intelligentonlinetools.com/blog/site-map/#time_series_prediction
 
 Time Series Anomaly Detection Algorithms
 https://blog.statsbot.co/time-series-anomaly-detection-algorithms-1cef5519aef2
@@ -34,95 +30,10 @@ https://www.analyticsvidhya.com/blog/2018/08/a-simple-introduction-to-facial-rec
 
 
 Time Series(with Features) 
-**********************************************************************************************************************
-=======FIRST LOOK=====================================================================================================
-GOOD e.g., Class, run as a standalone: https://github.com/jaungiers/LSTM-Neural-Network-for-Time-Series-Prediction
-https://towardsdatascience.com/aifortrading-2edd6fac689d and/or https://github.com/borisbanushev/stockpredictionai
-https://stackabuse.com/time-series-analysis-with-lstm-using-pythons-keras-library/
-https://machinelearningmastery.com/time-series-prediction-lstm-recurrent-neural-networks-python-keras/
-https://blog.usejournal.com/stock-market-prediction-by-recurrent-neural-network-on-lstm-model-56de700bff68
-https://www.kdnuggets.com/2017/11/automated-feature-engineering-time-series-data.html
-https://machinelearningmastery.com/how-to-develop-lstm-models-for-multi-step-time-series-forecasting-of-household-power-consumption/
-https://github.com/aniruddhachoudhury/Stock-Market-Analysis
-
-https://towardsdatascience.com/get-a-glimpse-of-future-using-time-series-forecasting-using-auto-arima-and-artificial-intelligence-273efabec6aa
-https://datafai.com/auto-arima-using-pyramid-arima-python-package/
-https://www.analyticsvidhya.com/blog/2018/10/predicting-stock-price-machine-learningnd-deep-learning-techniques-python/
-https://www.analyticsvidhya.com/blog/2018/08/auto-arima-time-series-modeling-python-r/
-Bring In Plotly
-https://towardsdatascience.com/introduction-to-interactive-time-series-visualizations-with-plotly-in-python-d3219eb7a7af
-=======FIRST LOOK=====================================================================================================
-https://towardsdatascience.com/building-a-deep-learning-model-using-keras-1548ca149d37
-http://www.seanabu.com/2016/03/22/time-series-seasonal-ARIMA-model-in-python/
-https://nbviewer.jupyter.org/github/Yorko/mlcourse_open/blob/master/jupyter_english/topic09_time_series/topic9_part1_time_series_python.ipynb
-NICE SAMPLE USING Flust: https://github.com/SJSU272LabF17/StockPredict-ML
-COMPARING OF DIFFERENT MODELS: https://www.analyticsvidhya.com/blog/2018/10/predicting-stock-price-machine-learningnd-deep-learning-techniques-python/
-CHECK OR SKIP: https://towardsdatascience.com/trend-seasonality-moving-average-auto-regressive-model-my-journey-to-time-series-data-with-edc4c0c8284b
-Time-series-forecasting-methods: https://machinelearningmastery.com/time-series-forecasting-methods-in-python-cheat-sheet/ and https://www.analyticsvidhya.com/blog/2018/02/time-series-forecasting-methods/
-
-TUTORIAL AND CHEAT SHEETS: https://www.datacamp.com/community/tutorials/lstm-python-stock-market
 https://github.com/SC4RECOIN/LSTM-Crypto-Price-Prediction
 https://www.quantinsti.com/blog/artificial-neural-network-python-using-keras-predicting-stock-price-movement
 https://www.originate.com/thinking/stories/predicting-stock-market-neural-network-pds/
 https://hackernoon.com/forecasting-market-movements-using-tensorflow-fb73e614cd06
 https://quantdare.com/forecasting-sp-500-using-machine-learning/
-JAVA: https://github.com/IsaacChanghau, Explaination: https://isaacchanghau.github.io/post/stock_price_predict/
-JAVA(Maven, Springboot): https://www.opencodez.com/java/deeplearaning4j.htm
-CNN Long Short-Term Memory Networks: https://machinelearningmastery.com/cnn-long-short-term-memory-networks/
-Tutorials: https://adventuresinmachinelearning.com/
+JAVA: https://github.com/IsaacChanghau
 
-https://github.com/timestocome
-https://courses.edx.org/asset-v1:ColumbiaX+CSMM.101x+1T2017+type@asset+block@AI_edx_ml_5.1intro.pdf
-https://deeplearning-math.github.io/
-https://github.com/GoogleCloudPlatform/tensorflow-without-a-phd
-https://github.com/akashlevy/Deep-Learn-Oil
-https://github.com/langcog/fxs_classify
-
-TOOLS
-https://github.com/deeplearning4j/dl4j-examples/
-The 6 most useful Machine Learning projects of the past year (2018): https://towardsdatascience.com/the-10-most-useful-machine-learning-projects-of-the-past-year-2018-5378bbd4919f
-AutoKeras,
-Google’s AutoML
-Ludwig
-https://github.com/Rachnog/Keras2Java-LSTM: Keras2Java-LSTM
-Boosting with AdaBoost and Gradient Boosting: Why is AdaBoost, GBM, and XGBoost
-https://github.com/blue-yonder/tsfresh
-
-MXNet[https://medium.com/apache-mxnet
-https://medium.com/apache-mxnet/apache-mxnet-1-4-0-is-here-a8b6ac0ea3a1
-https://medium.com/apache-mxnet/introducing-java-apis-for-deep-learning-inference-with-apache-mxnet-8406a698fa5a
-https://medium.com/mlreview/10-deep-learning-projects-based-on-apache-mxnet-8231109f3f64]
-
-Code and paper
-https://github.com/melodyguan/enas
-paperswithcode.com
-https://github.com/gcarq/keras-timeseries-prediction
-https://github.com/BVLC/caffe/wiki/Model-Zoo
-
-PRE-TRAINED MODELS
-https://www.analyticsvidhya.com/blog/2018/07/top-10-pretrained-models-get-started-deep-learning-part-1-computer-vision/
-
-NLP
-https://www.topbots.com/ai-nlp-research-pretrained-language-models/
-
-ML ALGORYTHMS
-https://blog.goodaudience.com/top-10-machine-learning-algorithms-2a9a3e1bdaff
-https://www.infoq.com/news/2017/06/google-mobilenets-tensorflow
-
-Extra
-https://github.com/deeplearning4j/dl4j-examples/issues/34
-
-TOOLS
-https://ai.google/education/
-https://medium.com/@sadatnazrul/public-repositories-of-pre-trained-models-for-transfer-learning-d6814e028d4d
-https://mxnet.apache.org/
-https://deepcognition.ai/products/
-http://www.arxiv-sanity.com/toptwtr
-https://www.fast.ai/
-https://databricks.com
-
-AI - Pre-Built MODELS
-https://stanfordmlgroup.github.io/
-
-ONNX is a open format to represent deep learning models:
-https://onnx.ai/
