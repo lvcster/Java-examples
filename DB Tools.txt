@@ -1,1 +1,13 @@
 https://blog.panoply.io/cassandra-vs-mongodb
+
+https://www.influxdata.com/ or http://opentsdb.net/
+https://grafana.com/
+https://graphiteapp.org/
+
+https://www.influxdata.com/blog/influxdb-markedly-outperforms-opentsdb-in-time-series-data-metrics-benchmark/
+
+https://www.forexfactory.com/showthread.php?t=633109
+https://db-engines.com/en/ranking/time+series+dbms
+
+https://www.influxdata.com/blog/getting-started-streaming-data-into-influxdb/
+
