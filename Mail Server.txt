@@ -1,0 +1,6 @@
+https://www.npmjs.com/package/smtp-server
+https://github.com/nodemailer
+https://haraka.github.io/
+
+https://www.google.com/search?q=blockchain+and+supply+chain&sa=X&rlz=1C1GGRV_enZA779ZA779&tbm=isch&source=iu&ictx=1&fir=svdLX0G9Xl3nSM%252C6MFhF4p32w3ZrM%252C_&vet=1&usg=AI4_-kQZaRGxa-_HVM0Wfe5ju2STHNJqIA&ved=2ahUKEwi5kqS8yqfjAhVZTxUIHQ9XBG8Q_h0wF3oECA0QCA&biw=1600&bih=757#imgrc=eK4bwVk2EBsrQM:&vet=1
+https://www.disruptordaily.com/blockchain-use-cases-supply-chain-management/
