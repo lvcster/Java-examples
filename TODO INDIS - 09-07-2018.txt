@@ -1,5 +1,8 @@
 2019-07
 =======
+ForexCandlestickPatterns 
+https://www.mql5.com/en/code/25002
+
 TheRumpledOne:
   https://www.kreslik.com/forums/viewtopic.php?t=2901
   https://forex-station.com/viewtopic.php?f=578267&t=8473388&start=30
