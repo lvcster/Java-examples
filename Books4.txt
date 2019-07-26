@@ -12,3 +12,5 @@ https://papers.ssrn.com/sol3/Results.cfm?RequestTimeout=50000000
 thinkpython2.com
 https://greenteapress.com/wp/think-python-2e/
 
+https://learnpythonthehardway.org/
+

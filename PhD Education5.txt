@@ -1,4 +1,5 @@
 https://greenteapress.com/wp/think-python-2e/
+https://learnpythonthehardway.org/
 
 https://datasciencedata.com
 https://machinelearningmastery.com/how-to-get-started-with-deep-learning-for-time-series-forecasting-7-day-mini-course/
