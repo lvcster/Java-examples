@@ -1,8 +1,9 @@
-https://www.snort.org/snort3
-https://github.com/mruv/Snort_Log_Server
-https://sparta.secforce.com/
-https://www.sandflysecurity.com/
 Ettercap -> https://www.ettercap-project.org/
 Wireshark -> https://www.wireshark.org/
-https://www.boost.org/doc/libs/1_52_0/doc/html/boost_asio.html
-https://think-async.com/Asio/WhoIsUsingAsio.html
+https://www.fail2ban.org/wiki/index.php/Main_Page
+https://firewalld.org/
+http://denyhosts.sourceforge.net/
+https://www.howtogeek.com/177621/the-beginners-guide-to-iptables-the-linux-firewall/
+https://www.zeek.org/
+https://suricata-ids.org/
+https://www.lifewire.com/harden-ubuntu-server-security-4178243
