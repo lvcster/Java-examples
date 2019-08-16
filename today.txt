@@ -1,3 +1,5 @@
+LINUX SERVER SECURITY: https://www.youtube.com/watch?v=kugZ_HgeiqI&ab_channel=LearnLinux.tv
+
 Build a Node.js API in Under 30 Minutes
 https://www.youtube.com/watch?v=fsCjFHuMXj0&ab_channel=freeCodeCamp.org
 https://www.freecodecamp.org/news/building-a-simple-node-js-api-in-under-30-minutes-a07ea9e390d2/
