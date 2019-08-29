@@ -1,0 +1,5 @@
+xjc execution in ant script
+https://dzone.com/articles/running-jaxb-xjc-compiler-with-openjdk-11
+https://stackoverflow.com/questions/3630474/how-to-execute-the-jaxb-compiler-from-ant
+https://svn.apache.org/repos/asf/webservices/archive/jaxme/site/apidocs/org/apache/ws/jaxme/generator/XJCTask.html
+https://www.ibm.com/support/knowledgecenter/SSAW57_9.0.5/com.ibm.websphere.nd.multiplatform.doc/ae/twbs_jaxbschema2java.html
