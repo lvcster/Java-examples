@@ -1,2 +1,5 @@
 WORKS FOR python PyPi and ...
-set https_proxy='USERNAME:PASSWORD@proxy-array.absa.co.za:80/absapac01.pac'
+set https_proxy='USERNAME:PASSWORD@proxy-array.absa.co.za:80/absapac01.pac' ###TESTED AND IT WORKS
+
+OR
+pip install --proxy http://user:password@proxyserver:port <package>
