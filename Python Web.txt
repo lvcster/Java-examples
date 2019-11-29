@@ -1,0 +1,11 @@
+https://www.fullstackpython.com/web-servers.html
+https://docs.python.org/2/library/simplehttpserver.html
+https://www.linuxjournal.com/content/tech-tip-really-simple-http-server-python
+https://www.acmesystems.it/python_http
+
+Deploying into Apache
+https://docs.djangoproject.com/en/2.1/howto/deployment/wsgi/modwsgi/
+https://www.quora.com/How-should-I-go-about-deploying-a-Python-project-on-a-web-server
+https://www.metaltoad.com/blog/hosting-django-sites-apache
+https://django.readthedocs.io/en/1.2.X/howto/deployment/modpython.html
+https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Deployment

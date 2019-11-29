@@ -1,25 +1,2 @@
-https://quickdraw.withgoogle.com/
-https://sketch.io/sketchpad/
-https://www.draw.io/
-
 https://github.com/FaisalUmair/udemy-downloader-gui
 https://www.objectaid.com/home
-
-https://pdftotext.com/
-
-
-
-JS
-Drag and Drop Lib:
-https://www.dropzonejs.com/bootstrap.html
-
-CMS:
-https://jamstack.org/
-https://www.gatsbyjs.org/
-https://headlesscms.org/, also check vid: https://www.youtube.com/watch?v=hhX8nCnaNFM
-https://strapi.io/
-https://flintcms.co/
-https://snipcart.com/blog/node-js-react-strapi-tutorial
-
-Mail System
-https://nodemailer.com/about/
